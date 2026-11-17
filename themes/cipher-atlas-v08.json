@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Cipher Atlas / Approved Foundations Theme",
+  "version": "0.8",
+  "status": "approved for initial GitHub checkpoint",
+  "source": "User screenshot review, 2026-11-17",
+  "presentation": {
+    "globalTransition": "zoom",
+    "slideEntryTransitions": {
+      "00": "ripple",
+      "01": "ripple",
+      "02": "cube",
+      "03": "fade",
+      "04": "pulse"
+    },
+    "innerOperations": "inherit",
+    "durationMs": 420
+  },
+  "cube": {
+    "preset": "xyz",
+    "ratesDegPerSec": {
+      "x": 10,
+      "y": 16,
+      "z": 4
+    },
+    "automaticRotation": true,
+    "rateNote": "Only X was visible in the screenshots; Y/Z retain existing application defaults"
+  },
+  "appearance": {
+    "spotlightEnabled": true,
+    "spotlightStrength": 0.65,
+    "glassSliderEnabled": true,
+    "glassSliderLensOpacity": 0.12,
+    "glassSliderVelocityStretch": 0.22,
+    "glassSliderHoldExpansion": 1.3,
+    "backgroundMotion": true,
+    "liquidGlassEnabled": true
+  },
+  "palette": {
+    "background": "#030b1b",
+    "text": "#e5edf8",
+    "muted": "#aabdd3",
+    "accent": "#91b9cb",
+    "glass": "rgba(11,29,57,.74)",
+    "stroke": "rgba(216,234,255,.19)"
+  },
+  "storageKey": "cipher-atlas:theme:v08",
+  "notes": "The presentation embeds these defaults and persists later browser customizations. This JSON is the portable approved baseline; it is not automatically loaded at runtime."
+}
