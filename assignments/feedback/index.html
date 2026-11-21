@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark"><title>Feedback & QA | Security Engineering</title>
+<style>
+:root{color-scheme:dark;--bg:#061427;--ink:#e5eff9;--soft:#b5c9dc;--muted:#87a5bb;--line:#adc9dc30;--accent:#a9d4e8;--gold:#e9cf8a;--ok:#83ccb1}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 27% -12%,#17355288,transparent 48%),radial-gradient(circle at 96% 80%,#29264833,transparent 50%),var(--bg);color:var(--ink);font:15px/1.55 Inter,'Segoe UI',Arial,sans-serif}
+h1,h2,h3,p{margin-top:0}h1,h2{font-family:Georgia,serif;letter-spacing:-.03em;font-weight:400}h1{font-size:clamp(40px,5vw,66px);line-height:1.1;margin:10px 0 16px}h2{font-size:clamp(24px,2.5vw,34px)}h3{font-size:18px}p{color:var(--soft)}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header{min-height:62px;position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:20px;padding:0 clamp(13px,3vw,48px);border-bottom:1px solid var(--line);background:#091c31ed;backdrop-filter:blur(18px)}
+.brand{font:21px Georgia,serif;white-space:nowrap}.brand span{color:var(--accent)}nav{display:flex;gap:22px;align-items:center;margin-left:auto}.navlink{color:var(--soft);font-size:13px}.navlink.active,.navlink:hover{color:var(--accent)}
+main{max-width:1390px;margin:auto;padding:clamp(25px,4vw,59px) clamp(15px,3vw,42px) 82px}.eyebrow,.micro{font-size:10px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-weight:800}.micro{color:var(--muted)}
+.hero{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:end;margin-bottom:25px}.hero p{font-size:16px;max-width:720px}.intro-line{color:var(--muted);font-size:12px}
+.surface{border:1px solid var(--line);background:linear-gradient(150deg,#b5d7f20d,#07162929 82%);border-radius:17px;box-shadow:inset 0 1px #fff1;padding:21px;min-width:0}
+.stats{display:grid;grid-template-columns:repeat(3,130px);gap:8px}.stat{padding:15px;background:#abcde80c;border:1px solid var(--line);border-radius:11px}.stat strong{display:block;font:31px Georgia,serif;color:var(--accent)}.stat span{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.65fr);align-items:start;gap:17px}
+.section-top{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap;margin-bottom:17px}.section-top h2{margin:0}.section-top p{font-size:13px;margin:4px 0 0}
+.selectors{display:flex;flex-wrap:wrap;gap:8px}.field{color:var(--ink);background:#091f34;border:1px solid var(--line);padding:9px 11px;border-radius:9px;min-width:0}.field::placeholder{color:var(--muted)}.selectors .field{font-size:12px}#search{width:175px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.badge{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 8px}.badge.p0{color:var(--gold);border-color:#e9cf8a50}.badge.done{color:var(--ok);border-color:#83ccb158}.badge.p1{color:var(--accent)}
+.issue-list{display:grid;gap:9px}.issue{border:1px solid var(--line);border-radius:12px;background:#a9d4e808;padding:15px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 14px}.issue h3{font:17px/1.4 Georgia,serif;margin:2px 0 8px}.issue h3 a:hover{color:var(--accent)}.issue p{font-size:12px;line-height:1.5;margin:0;max-width:760px}.issue .tiny{font-size:11px;color:var(--muted)}.issue-link{display:inline-flex;gap:5px;align-self:center;border:1px solid var(--line);padding:7px 10px;border-radius:8px;font-size:11px;white-space:nowrap}.issue-link:hover{background:#a9d4e81a}
+.progress{height:4px;background:#314558;border-radius:9px;overflow:hidden;margin-top:10px;max-width:260px}.progress span{height:100%;display:block;background:var(--ok)}
+.form-area{position:sticky;top:81px}.form-area h2{margin:0 0 7px}.help{font-size:12px;color:var(--muted);margin-bottom:17px}.form{display:grid;gap:11px}.form label{display:grid;gap:6px;font-size:12px;color:var(--soft)}textarea.field{resize:vertical;min-height:180px;line-height:1.65;font-size:13px}.form .field{width:100%;font-size:13px}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:3px}.btn{border:1px solid #a9d4e87b;border-radius:9px;background:#a9d4e815;padding:9px 13px;font-size:12px;font-weight:650}.btn:hover{background:#a9d4e82f}.btn.ghost{background:transparent;border-color:var(--line);color:var(--soft)}
+.status{font-size:12px;color:var(--ok);min-height:20px}.note{border-left:2px solid #a9d4e88b;padding:9px 12px;background:#a9d4e80a;color:var(--soft);font-size:12px;line-height:1.65;margin-top:17px}
+.templates{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}.template{border:1px solid var(--line);border-radius:20px;background:none;color:var(--soft);padding:5px 9px;font-size:11px}.template:hover{background:#abcde815}
+footer{padding:18px;text-align:center;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+@media(max-width:1150px){.columns{grid-template-columns:1fr}.form-area{position:static}.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){header{flex-wrap:wrap;gap:4px 13px;padding:11px 15px}.brand{font-size:17px}nav{gap:10px;margin-left:0}.navlink{font-size:11px}main{padding:25px 12px 55px}.hero{gap:12px}.hero p{font-size:14px}.stats{grid-template-columns:repeat(3,1fr)}.stat{padding:9px}.stat strong{font-size:25px}.surface{padding:15px}.issue{grid-template-columns:1fr}.issue-link{justify-self:start}.selectors{width:100%}#search{width:min(100%,200px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head>
+<body><header><a class="brand" href="../../index.html">⌬ Security <span>Engineering</span></a><nav aria-label="Navigation"><a class="navlink" href="../index.html">Assignments</a><a class="navlink" href="../network-security/index.html">Network Atlas</a><a class="navlink active" href="./index.html" aria-current="page">Feedback &amp; QA</a></nav></header>
+<main><section class="hero"><div><div class="eyebrow">Assignment 04 · Continuous Quality Review</div><h1>Feedback <span style="color:var(--accent)">&amp; QA.</span></h1><p>Capture an observation before it disappears. Follow bugs, animation work, layout decisions and teaching demos from <strong>Open</strong> to <strong>Done</strong>.</p><div class="intro-line">Source of truth: GitHub Issues · Drafts autosave locally on this device.</div></div><div class="stats" aria-live="polite"><div class="stat"><strong id="total">10</strong><span>Tracked</span></div><div class="stat"><strong id="open">10</strong><span>Open</span></div><div class="stat"><strong id="done">0</strong><span>Done</span></div></div></section>
+<div class="columns">
+<section class="surface" aria-labelledby="backlogTitle"><div class="section-top"><div><div class="eyebrow">Engineering backlog</div><h2 id="backlogTitle">What needs attention?</h2><p>Open an issue to add evidence, update the checklist or mark it done.</p></div></div>
+<div class="selectors"><input class="field" type="search" id="search" aria-label="Search feedback" placeholder="Search topics…"><select class="field" id="priority" aria-label="Filter priority"><option value="all">All priorities</option><option value="P0">P0 · Must fix</option><option value="P1">P1 · Next</option></select><select class="field" id="state" aria-label="Filter status"><option value="all">Any status</option><option value="open">Open</option><option value="closed">Done</option></select><button class="btn ghost" id="reload" type="button">↻ Refresh</button></div>
+<p class="help" id="syncStatus" role="status">Loading issue progress…</p><div id="issues" class="issue-list"></div></section>
+<aside class="surface form-area" aria-labelledby="feedbackTitle"><div class="eyebrow">Autosaving scratchpad</div><h2 id="feedbackTitle">Leave a note.</h2><p class="help">Write freely, even if incomplete. Your draft is stored as you type in this browser. Export a copy for extra safety.</p>
+<div class="templates" role="group" aria-label="Quick feedback categories"><button class="template" data-kind="Animation">Animation</button><button class="template" data-kind="Transition">Transition</button><button class="template" data-kind="Visual demo">Visual demo</button><button class="template" data-kind="Layout">Layout</button><button class="template" data-kind="Content accuracy">Accuracy</button></div>
+<div class="form"><label>Slide / area<select id="area" class="field"><option>Slide 00 · Prologue</option><option>Slide 01 · Journey</option><option>Slide 02 · Security Goals</option><option>Slide 03 · Network Map</option><option>Course Library</option><option>General / Navigation</option></select></label><label>Short title<input class="field" id="title" placeholder="e.g. DHCP has no broadcast animation" maxlength="180"></label><label>Details / thoughts<textarea class="field" id="details" placeholder="Expected:&#10;&#10;Observed:&#10;&#10;Desired animation or explanation:"></textarea></label>
+<div class="status" id="saved" role="status">Draft ready.</div><div class="buttons"><button class="btn" type="button" id="openNew">Create GitHub issue ↗</button><button class="btn ghost" id="copy" type="button">Copy draft</button><button class="btn ghost" id="export" type="button">Export .md</button><button class="btn ghost" id="clear" type="button">Clear draft</button></div></div>
+<div class="note"><strong>Save model:</strong> the page does not automatically publish messages. The draft remains in this browser; clicking Create GitHub issue opens a prefilled GitHub form, where you must submit. To comment on an existing item, open its issue. GitHub is what syncs across devices.</div></aside>
+</div></main><footer>Security Engineering · Feedback &amp; QA · Track real progress, not promises.</footer>
+<script>
+"use strict";
+const repo="DorManDel/Security_Engineering",$=id=>document.getElementById(id);
+const fallback=[
+[2,"Cube rotation stops after touch drag","P0"],[3,"Build a living 3D traffic graph inside the intro cube","P0"],[4,"Redesign presentation layout for actual presentation screens","P0"],[5,"Animate every step of the website journey","P0"],[6,"Add cinematic but restrained slide transitions and progressive reveals","P0"],[7,"Replace placeholder Searchly with safe integration of notGoogle","P0"],[8,"Packet Inspector: animated encapsulation and changing network fields","P1"],[9,"Animate CIA and HTTP/HTTPS visibility comparison","P1"],[10,"Network Map: micro-simulations and jump to real incidents","P1"],[11,"Presentation QA controls and repeatable visual test checklist","P1"]
+].map(([number,title,priority])=>({number,title:"[Atlas]["+priority+"] "+title,state:"open",html_url:"https://github.com/"+repo+"/issues/"+number,body:"See GitHub for the full acceptance checklist."}));
+let issues=fallback;
+const priorityOf=x=>x.title.includes("[P0]")?"P0":x.title.includes("[P1]")?"P1":"Other";
+const titleOf=x=>x.title.replace(/^\[Atlas\](\[(?:P0|P1)\])?\s*/,"");
+function render(){
+ const query=$("search").value.toLowerCase().trim(),p=$("priority").value,state=$("state").value;
+ $("total").textContent=issues.length;$("open").textContent=issues.filter(x=>x.state==="open").length;$("done").textContent=issues.filter(x=>x.state==="closed").length;
+ $("issues").replaceChildren();
+ const rows=issues.filter(x=>(p==="all"||priorityOf(x)===p)&&(state==="all"||x.state===state)&&((x.title+" "+x.body).toLowerCase().includes(query))).sort((a,b)=>Number(a.state==="closed")-Number(b.state==="closed")||Number(priorityOf(a)==="P1")-Number(priorityOf(b)==="P1")||a.number-b.number);
+ if(!rows.length){const el=document.createElement("p");el.className="help";el.textContent="No issues match your filters.";$("issues").append(el);return}
+ rows.forEach(x=>{
+  const row=document.createElement("article");row.className="issue";const left=document.createElement("div"),badges=document.createElement("div");badges.className="badges";
+  [[priorityOf(x),priorityOf(x).toLowerCase()],[x.state==="closed"?"✓ Done":"○ Open",x.state==="closed"?"done":""],["#"+x.number,""]].forEach(([v,c])=>{const s=document.createElement("span");s.className="badge "+c;s.textContent=v;badges.append(s)});left.append(badges);
+  const heading=document.createElement("h3"),link=document.createElement("a");link.textContent=titleOf(x);link.href=x.html_url;link.target="_blank";link.rel="noopener noreferrer";heading.append(link);left.append(heading);
+  const desc=document.createElement("p"),section=x.body.match(/## (?:Problem|Observation)\s*\n([\s\S]*?)(?:\n## |$)/i);
+  desc.textContent=(section?.[1]||x.body||"Open the GitHub issue for full details.").replace(/[\\*#]/g,"").trim().slice(0,275);left.append(desc);
+  const total=(x.body.match(/^- \[[ xX]\]/gm)||[]).length,done=(x.body.match(/^- \[[xX]\]/gm)||[]).length;
+  if(total){const tiny=document.createElement("div");tiny.className="tiny";tiny.style.marginTop="10px";tiny.textContent=done+" / "+total+" checklist items checked";left.append(tiny);const bar=document.createElement("div");bar.className="progress";const fill=document.createElement("span");fill.style.width=(100*done/total)+"%";bar.append(fill);left.append(bar)}
+  const open=document.createElement("a");open.className="issue-link";open.href=x.html_url;open.target="_blank";open.rel="noopener noreferrer";open.textContent="Open in GitHub ↗";row.append(left,open);$("issues").append(row);
+ });
+}
+async function refresh(){
+ $("syncStatus").textContent="Checking GitHub Issues…";
+ const c=new AbortController(),timeout=setTimeout(()=>c.abort(),9000);
+ try{const res=await fetch("https://api.github.com/repos/"+repo+"/issues?state=all&per_page=100",{headers:{Accept:"application/vnd.github+json"},signal:c.signal});if(!res.ok)throw Error("GitHub "+res.status);
+  const raw=await res.json(),found=raw.filter(x=>!x.pull_request&&x.title?.startsWith("[Atlas]")).map(x=>({number:x.number,title:x.title,state:x.state,html_url:x.html_url,body:x.body||""}));
+  if(!found.length)throw Error("No matching issues");issues=found;$("syncStatus").textContent="✓ Live GitHub status · "+new Date().toLocaleTimeString();
+ }catch{issues=fallback;$("syncStatus").textContent="Live status unavailable. Showing an initial snapshot; autosaved drafts still work."}finally{clearTimeout(timeout);render()}
+}
+["search","priority","state"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",render));$("reload").addEventListener("click",refresh);
+const storageKey="security-engineering-atlas-feedback-draft-v1";
+function draft(){return{area:$("area").value,title:$("title").value,details:$("details").value,updatedAt:new Date().toISOString()}}
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(draft()));$("saved").textContent="✓ Saved locally · "+new Date().toLocaleTimeString()}catch{$("saved").textContent="Storage unavailable: use Copy or Export to keep the note."}}
+try{const d=JSON.parse(localStorage.getItem(storageKey)||"null");if(d){if(d.area)$("area").value=d.area;$("title").value=d.title||"";$("details").value=d.details||"";$("saved").textContent="✓ Restored unsent draft from this browser."}}catch{}
+["area","title","details"].forEach(id=>$(id).addEventListener(id==="area"?"change":"input",save));
+document.querySelectorAll("[data-kind]").forEach(b=>b.addEventListener("click",()=>{const k=b.dataset.kind;if(!$("title").value.startsWith("["+k+"]"))$("title").value="["+k+"] "+$("title").value;if(!$("details").value.trim())$("details").value="Expected:\n\nObserved:\n\nDesired visual behavior:\n";save();$("details").focus()}));
+function report(){const d=draft();return"## Area\n"+d.area+"\n\n## Observation and desired result\n"+(d.details.trim()||"(Add details)")+"\n\n## Testing context\nDevice/browser: (add details)\n\n---\nFrom Security Engineering feedback scratchpad."}
+$("openNew").onclick=()=>{const d=draft();if(!d.title.trim()&&!d.details.trim()){$("saved").textContent="Please add a title or note first.";$("details").focus();return}save();
+ const url="https://github.com/"+repo+"/issues/new?"+new URLSearchParams({title:"[Atlas][Feedback] "+(d.title.trim()||d.area),body:report()}).toString();
+ const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";document.body.append(a);a.click();a.remove();$("saved").textContent="Draft preserved. Submit the prefilled form on GitHub to sync.";
+};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText("# "+(draft().title||"Feedback")+"\n\n"+report());$("saved").textContent="✓ Copied. Draft still saved locally."}catch{$("saved").textContent="Clipboard unavailable. Use Export .md."}};
+$("export").onclick=()=>{const content="# "+(draft().title||"Feedback")+"\n\n"+report(),blob=new Blob([content],{type:"text/markdown;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="atlas-feedback-"+new Date().toISOString().slice(0,10)+".md";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);$("saved").textContent="✓ Download initiated. Local draft remains available."};
+$("clear").onclick=()=>{if(!confirm("Clear only the unsent local draft? GitHub issues will remain intact."))return;$("title").value="";$("details").value="";save()};
+render();refresh();
+</script></body></html>
