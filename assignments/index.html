@@ -39,7 +39,7 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-family:Georgia,serif;font-weight:400;letter-s
 .topic{display:flex;align-items:center;gap:8px;padding:11px;border:1px solid #adc9dc22;background:#a9d4e809;border-radius:9px;min-width:0}.topic.hidden{display:none}
 .topic strong{font-size:12px;font-weight:550;margin-right:auto}.topic small{color:var(--muted);font-size:10px;min-width:47px;text-align:right}
 .topic input{accent-color:#9dcdbd;width:16px;height:16px;margin:0}.topic label{display:flex;align-items:center;gap:9px;min-width:0;cursor:pointer}
-.topic.select{background:#aedddc14;border-color:#8cd6b03e}
+.topic.select{background:#aedddc14;border-color:#8cd6b03e}.topic label{flex:1}.review-btn{border:1px solid var(--line);background:transparent;border-radius:7px;padding:4px 7px;font-size:10px;white-space:nowrap;color:var(--muted)}.review-btn.done{border-color:#83ccb17b;color:var(--ok);background:#83ccb112}
 .search{min-width:155px;max-width:225px;background:#092039;border:1px solid var(--line);border-radius:9px;padding:9px 12px;color:var(--ink)}
 .summary{display:flex;align-items:center;gap:15px;margin-top:13px;color:var(--muted);font-size:12px;flex-wrap:wrap}
 .case-list{display:grid;gap:12px;margin-top:16px}.case{padding-bottom:11px;border-bottom:1px solid var(--line)}.case:last-child{border:0;padding:0}.case strong{color:var(--ink);display:block}.case span{display:block;font-size:12px;color:var(--soft)}
@@ -83,7 +83,7 @@ footer{padding:18px 24px;text-align:center;border-top:1px solid var(--line);colo
 <div class="mini-links"><span class="chip">Lecture: Network Security</span><span class="chip">13 listed topics</span><span class="chip">Choose 8</span><span class="chip">4 incident groups</span></div>
 <div class="topics-top"><div><strong>Topic selection</strong><div class="muted small">Selections are saved only in this browser.</div></div><input class="search" id="filter" type="search" aria-label="Filter topics" placeholder="Find a topic…" autocomplete="off"></div>
 <div class="progress" aria-label="Number of selected topics"><span id="progressBar"></span></div>
-<div class="summary"><span id="count" aria-live="polite">0 / 8 topics selected</span><button class="button ghost" type="button" id="suggest">Apply suggested 8</button><button class="button ghost" type="button" id="clear">Clear selection</button></div>
+<div class="summary"><span id="count" aria-live="polite">0 / 8 topics selected</span><span id="reviewCount" aria-live="polite">0 topics reviewed</span><button class="button ghost" type="button" id="suggest">Apply suggested 8</button><button class="button ghost" type="button" id="clear">Clear selection</button></div>
 <div id="topics" aria-label="Assignment topics"></div>
 </div>
 <aside class="surface">
@@ -108,10 +108,11 @@ const topics=[
 ["DNS","Protocol · Services"],["NAT","Mechanism · Network"],["TCP scanning","Technique · Transport"],["SYN flooding","Attack · Transport"],["TCP hijacking","Attack · Transport"]
 ];
 const recommended=["ARP poisoning","MAC spoofing","IP spoofing","DHCP","BGP","DNS","SYN flooding","TCP hijacking"];
-const key="security-engineering-assignment04-topic-selection-v1";
+const key="security-engineering-assignment04-topic-selection-v1",reviewKey="security-engineering-assignment04-reviewed-v1";
+let reviewed=[];try{const saved=JSON.parse(localStorage.getItem(reviewKey)||"[]");if(Array.isArray(saved))reviewed=saved.filter(x=>topics.some(t=>t[0]===x));}catch{}
 let selected=[];try{const stored=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(stored))selected=stored.filter(x=>topics.some(t=>t[0]===x));}catch{}
 const list=document.getElementById("topics"),filter=document.getElementById("filter");
-function save(){try{localStorage.setItem(key,JSON.stringify(selected));}catch{}}
+function save(){try{localStorage.setItem(key,JSON.stringify(selected));localStorage.setItem(reviewKey,JSON.stringify(reviewed));}catch{}}
 function render(){
  const query=filter.value.toLowerCase().trim();list.replaceChildren();
  topics.forEach(([name,kind])=>{
@@ -120,9 +121,11 @@ function render(){
   input.addEventListener("change",()=>{if(input.checked&&!selected.includes(name))selected.push(name);if(!input.checked)selected=selected.filter(x=>x!==name);save();render()});
   const strong=document.createElement("strong");strong.textContent=name;label.append(input,strong);
   const small=document.createElement("small");small.textContent=kind;
-  article.append(label,small);list.append(article);
+  const review=document.createElement("button");review.type="button";review.className="review-btn"+(reviewed.includes(name)?" done":"");review.textContent=reviewed.includes(name)?"✓ Reviewed":"Mark reviewed";review.setAttribute("aria-label","Toggle reviewed status for "+name);review.onclick=()=>{reviewed=reviewed.includes(name)?reviewed.filter(x=>x!==name):[...reviewed,name];save();render()};
+  article.append(label,small,review);list.append(article);
  });
  const count=selected.length;document.getElementById("count").textContent=count+" / 8 topics selected"+(count>8?" · Please choose only eight":"");
+ document.getElementById("reviewCount").textContent=reviewed.length+" / 13 topics reviewed";
  document.getElementById("progressBar").style.width=Math.min(100,100*count/8)+"%";
 }
 filter.addEventListener("input",render);document.getElementById("suggest").addEventListener("click",()=>{selected=[...recommended];save();render()});document.getElementById("clear").addEventListener("click",()=>{selected=[];save();render()});render();
