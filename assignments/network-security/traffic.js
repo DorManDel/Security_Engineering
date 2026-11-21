@@ -136,6 +136,15 @@ if(topology){
   row.append(a,track,b);exchangeBoard.append(row);
   exchangeCaption.textContent=msg[3];exchangeIndex.textContent=(beat+1)+" / "+scene.messages.length;
   E("prevExchangeMessage").disabled=beat===0;E("nextExchangeMessage").disabled=beat===scene.messages.length-1;
+  // The packet also moves across the relevant part of the physical network path.
+  const oldDot=topology.querySelector(".route-particle");if(oldDot)oldDot.remove();
+  const bounds={wifi:[10,33],dhcp:[10,54],arp:[10,54],dns:[10,78],nat:[53,78],cache:[10,22],tcp:[10,91],tls:[10,91],http:[10,91]};
+  const range=bounds[selected.id]||[10,91],from=reverse?range[1]:range[0],to=reverse?range[0]:range[1];
+  const packet=document.createElement("span");packet.className="route-particle";
+  packet.style.setProperty("--from",from+"%");packet.style.setProperty("--to",to+"%");packet.setAttribute("aria-hidden","true");
+  topology.append(packet);
+  const low=Math.min(from,to),high=Math.max(from,to);
+  Array.from(topology.querySelectorAll(".diagram-node")).forEach((n,i)=>{const pct=10+i*21;n.classList.toggle("in-path",pct>=low-2&&pct<=high+2)});
   showRisk();
  }
  function resetVisual(){beat=0;paintBeat()}
