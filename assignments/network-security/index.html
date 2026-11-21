@@ -287,7 +287,7 @@ const base=[
 {id:"http",short:"HTTP",layer:"Application",node:"server",title:"Request the webpage",desc:"The browser sends an HTTP request and receives a response. HTTPS protects this application exchange in transit when TLS is correctly used.",service:"serviceNat",fields:[["Method","GET"],["Path","/"],["Host","example.test"]],sample:"GET / HTTP/1.1\nHost: example.test\n\n← 200 OK"}
 ];
 function buildSteps(){let warm=$("networkState").value==="warm";let url=$("address").value.trim();let tls=!url.toLowerCase().startsWith("http://");
- steps=base.filter(x=>(!warm||!["wifi","dhcp","arp"].includes(x.id))&&(tls||x.id!=="tls")).map(x=>Object.assign({},x));
+ steps=base.filter(x=>(!warm||!["wifi","dhcp","arp","dns"].includes(x.id))&&(tls||x.id!=="tls")).map(x=>Object.assign({},x));
  if(warm)steps.unshift({id:"cache",short:"Cache",layer:"Client",node:"device",title:"Reuse existing network settings",desc:"The device is already connected. Its gateway and DNS result may be cached; no new DHCP or ARP exchange is required in this example.",service:"",fields:[["Network","Already connected"],["DNS","Cached"],["Local next hop","Known"]],sample:"Cache hit: example.test\nIP 203.0.113.42 (illustrative)"});
  let tcp=steps.find(x=>x.id==="tcp");if(tcp&& !tls){tcp.fields[2][1]="55000 → 80";tcp.sample="SYN → SYN-ACK → ACK\nDestination TCP 80"}
  let http=steps.find(x=>x.id==="http");if(http){http.desc=tls?"An HTTP request is sent inside the encrypted TLS channel. A network observer sees encrypted application data, not a readable HTTP GET.":"Without TLS, the HTTP request is readable to an on-path observer and can potentially be altered.";http.sample=tls?"TLS application data [encrypted]\n(HTTP request inside)":"GET / HTTP/1.1\nHost: example.test\n\n← 200 OK"}
