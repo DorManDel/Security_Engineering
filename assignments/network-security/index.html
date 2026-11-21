@@ -95,6 +95,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 .feedback-link{font-size:12px;color:var(--accent);text-decoration:none;padding:8px 10px;border-radius:8px;white-space:nowrap}.feedback-link:hover{background:#abcde817;color:#fff}
 @media(max-width:760px){.feedback-link{font-size:11px;padding:5px}}
 </style>
+<link rel="stylesheet" href="./enhancements.css">
 </head>
 <body>
 <div class="shell">
@@ -155,7 +156,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 <div class="packet-head"><span class="micro" id="eventCounter">Step 00</span><span class="chip muted small" id="layerLabel">Layer —</span></div>
 <div class="event-title" id="eventTitle">Ready to connect.</div>
 <p class="event-desc" id="eventDesc">Select Connect to see how a browser reaches a website. All traffic shown is simulated.</p>
-<button class="secondary" id="searchDemoButton">Explore look-alike search demo ↗</button>
+<button class="secondary" id="searchDemoButton">Open original notGoogle lab ↗</button>
 </div>
 <div class="panel">
 <div class="packet-head"><span class="micro">Packet Inspector</span><button class="tiny-button" id="showPacket" title="Switch details">Details ▤</button></div>
@@ -222,7 +223,7 @@ Protocol: TCP</code></div>
 </div>
 </section>
 </main>
-<footer class="footer"><span>Security Engineering · Assignment 04 <span class="muted">/ Illustrative simulation</span></span><div class="pager"><button class="arrow-btn" id="previousSlide" aria-label="Previous slide">‹</button><span id="pageNumber">01 / 04</span><button class="arrow-btn" id="nextSlide" aria-label="Next slide">›</button></div><span class="muted">← → navigate · N notes</span></footer>
+<footer class="footer"><span>Security Engineering · Assignment 04 <span class="muted">/ Simulation &amp; studies</span></span><div class="pager"><button class="arrow-btn" id="previousSlide" aria-label="Previous slide">‹</button><span id="pageNumber">01 / 04</span><button class="arrow-btn" id="nextSlide" aria-label="Next slide">›</button></div><span class="muted">← → navigate · N notes</span></footer>
 </div>
 
 <div class="modal" id="demoModal" hidden role="presentation">
@@ -245,7 +246,7 @@ function slideTo(i){
  if(i<0||i>=slides.length)return;pauseEvents();activeSlide=i;
  slides.forEach((s,n)=>{s.classList.toggle("active",n===i);s.setAttribute("aria-hidden",n!==i?"true":"false")});
  document.querySelectorAll("[data-slide]").forEach(b=>{let on=Number(b.dataset.slide)===i;b.classList.toggle("active",on);b.setAttribute("aria-current",on?"step":"false")});
- $("pageNumber").textContent=String(i+1).padStart(2,"0")+" / 04";$("previousSlide").disabled=i===0;$("nextSlide").disabled=i===slides.length-1;
+ $("pageNumber").textContent=String(i+1).padStart(2,"0")+" / "+String(slides.length).padStart(2,"0");$("previousSlide").disabled=i===0;$("nextSlide").disabled=i===slides.length-1;
  if(location.hash!=="#"+slides[i].id)history.replaceState(null,"","#"+slides[i].id);
 }
 document.querySelectorAll("[data-slide]").forEach(b=>b.onclick=()=>slideTo(Number(b.dataset.slide)));
@@ -354,4 +355,6 @@ function showCase(){const x=components[component];$("caseTitle").textContent=x.c
 $("relatedCase").onclick=showCase;$("openCase").onclick=showCase;$("openInspector").onclick=()=>slideTo(1);
 const target=(location.hash||"").slice(1),start=slides.findIndex(x=>x.id===target);slideTo(start>=0?start:0);resetEvents();updateGoal();renderComponent("device");
 </script>
+<script src="./traffic.js"></script>
+<script src="./curriculum.js"></script>
 </body></html>
