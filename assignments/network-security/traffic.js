@@ -143,10 +143,11 @@ if(topology){
  buildSteps=function(){
   nativeBuildSteps();
   const beforeTcp=steps.findIndex(s=>s.id==="tcp");
+  const destinationPort=(E("address").value.trim().toLowerCase().startsWith("http://")?"80":"443");
   if(beforeTcp>=0)steps.splice(beforeTcp,0,{
    id:"nat",short:"Route / NAT",layer:"Network",node:"router",title:"Route through the gateway",
    desc:"The gateway forwards toward the target and may translate the private source IP and port. This is an illustrative home-network PAT mapping, not a mandatory Internet-wide step.",
-   service:"serviceNat",fields:[["Private source","192.168.1.24:55000"],["Translated source","203.0.113.10:62001"],["Target","203.0.113.42:443"]],sample:"LAN → gateway:\n192.168.1.24:55000\n\nWAN after NAT/PAT:\n203.0.113.10:62001"
+   service:"serviceNat",fields:[["Private source","192.168.1.24:55000"],["Translated source","203.0.113.10:62001"],["Target","203.0.113.42:"+destinationPort]],sample:"LAN → gateway:\n192.168.1.24:55000\n\nWAN after NAT/PAT:\n203.0.113.10:62001"
   });
  };
  const nativePause=pauseEvents;
