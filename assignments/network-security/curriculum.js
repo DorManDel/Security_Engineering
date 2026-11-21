@@ -131,7 +131,7 @@ if(oldDemo){
  const fake=oldDemo.querySelector(".search-demo");if(fake)fake.remove();
  const address=el("demoAddress");if(address)address.textContent="Security_Engineering / assignments / network-security / notgoogle /";
  const reveal=el("revealButton");if(reveal)reveal.remove();
- const obsolete=el("demoReveal");if(obsolete)obsolete.remove();
+ const obsolete=el("demoReveal");if(obsolete){obsolete.hidden=true;obsolete.textContent="The original notGoogle educational demo is available at a local assignment path and in its source repository. It uses an explicit reveal mechanism and demo-only data."; }
  const h=el("demoTitle");if(h)h.textContent="Explore the original notGoogle lab.";
  const intro=oldDemo.querySelector(".dialog > p");if(intro)intro.textContent="A standalone copy of the user's notGoogle demonstration is now included in this assignment. Open it in a new tab, try the familiar search UI and use its built-in reveal. No credential collection is needed for this lesson.";
  const bar=oldDemo.querySelector(".inline-controls");
