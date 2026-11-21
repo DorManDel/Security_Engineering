@@ -149,3 +149,30 @@
 .extras-link:hover{color:var(--ink)}
 @media(max-width:800px){.extras-link{padding:5px 6px;font-size:10px}.section-nav .tab{padding-left:6px;padding-right:6px}}
 @media(prefers-reduced-motion:reduce){.traffic-packet,.exchange-row.is-current .packet-runner,.slide.active .slide-head,.component-lab-step.current{animation:none!important;transition:none!important}.exchange-row.is-current .packet-runner{opacity:1;left:50%}}
+
+/* A visible packet travels along the actual network topology on each exchange beat. */
+#journey .diagram{isolation:isolate}
+.route-particle{position:absolute;left:var(--from,5%);top:49%;width:11px;height:7px;border-radius:3px;background:var(--gold);box-shadow:0 0 9px #e9cf8a7b;pointer-events:none;z-index:5;transform:translate(-50%,-50%);animation:route-travel 1.05s cubic-bezier(.18,.42,.73,.9) both}
+@keyframes route-travel{0%{left:var(--from);opacity:0}12%{opacity:1}85%{opacity:1}100%{left:var(--to);opacity:0}}
+#journey .diagram-node.in-path{border-color:#a9d4e86d}
+#journey .diagram-node.current{border-color:#a9d4e8ad}
+
+/* Purposeful forward/backward scene staging: controls remain available immediately. */
+.stage[data-direction=forward] .slide.active{animation:atlas-scene-forward .3s ease-out}
+.stage[data-direction=backward] .slide.active{animation:atlas-scene-backward .3s ease-out}
+@keyframes atlas-scene-forward{from{opacity:.5;transform:translateX(8px)}to{opacity:1;transform:none}}
+@keyframes atlas-scene-backward{from{opacity:.5;transform:translateX(-8px)}to{opacity:1;transform:none}}
+#journey.active .browser{animation:scene-reveal .33s ease-out both}
+#journey.active .journey-primary>.panel:first-of-type{animation:scene-reveal .35s .08s ease-out both}
+#journey.active .journey-primary>.panel:last-of-type{animation:scene-reveal .35s .14s ease-out both}
+#goals.active .cia-card{animation:scene-reveal .33s ease-out both}
+#goals.active .cia-card:nth-child(2){animation-delay:.065s}
+#goals.active .cia-card:nth-child(3){animation-delay:.13s}
+#map.active .network-map{animation:scene-reveal .34s ease-out both}
+#protocols.active .topic-option{animation:scene-reveal .3s ease-out both}
+#protocols.active .topic-option:nth-child(2n){animation-delay:.05s}
+#cases.active .case-card{animation:scene-reveal .3s ease-out both}
+#cases.active .case-card:nth-child(2){animation-delay:.04s}
+#cases.active .case-card:nth-child(3){animation-delay:.08s}
+#cases.active .case-card:nth-child(4){animation-delay:.12s}
+@media(prefers-reduced-motion:reduce){.route-particle,.stage[data-direction] .slide.active,#journey.active .browser,#journey.active .journey-primary>.panel,#goals.active .cia-card,#map.active .network-map,#protocols.active .topic-option,#cases.active .case-card{animation:none!important}.route-particle{left:var(--to);opacity:1}}
