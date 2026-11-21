@@ -1,0 +1,178 @@
+/* Network Atlas refinement. Extends approved Cipher Atlas palette without replacing it. */
+
+/* An uninterrupted orbit around a separately draggable cube. */
+.cube{animation:none!important;transform:rotateX(-18deg) rotateY(25deg)}
+.cube.dragging{animation:none!important}
+.cube-orbit{display:grid;place-items:center;transform-style:preserve-3d;animation:atlas-orbit 29s linear infinite;will-change:transform}
+.cube-orbit.touching{animation-play-state:paused}
+@keyframes atlas-orbit{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+.cube-network{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.traffic-node{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;margin:-4.5px 0 0 -4.5px;background:#a9d4e8;border:1px solid #e2f4ff9c;box-shadow:0 0 7px #a9d4e875;backface-visibility:visible}
+.traffic-node.core{width:14px;height:14px;margin:-7px 0 0 -7px;background:#dfc88d;box-shadow:0 0 12px #dbca9d83}
+.traffic-link{position:absolute;left:50%;top:50%;height:1.5px;background:linear-gradient(90deg,#a9d4e8ba,#87aec773);transform-origin:0 50%;border-radius:9px;opacity:.9;backface-visibility:visible}
+.traffic-packet{position:absolute;left:0;top:-2px;width:6px;height:5px;background:#eedaa3;box-shadow:0 0 8px #e9cf8aaa;border-radius:2px;animation:packet-travel var(--duration,3s) linear var(--delay,0s) infinite}
+@keyframes packet-travel{0%{transform:translateX(0);opacity:0}9%{opacity:1}85%{opacity:1}100%{transform:translateX(var(--distance,100px));opacity:0}}
+.cube-face.front svg{opacity:.18}
+.intro-network-caption{color:var(--muted)}
+@media(prefers-reduced-motion:reduce){.cube-orbit{animation:none!important}.traffic-packet{animation:none!important;opacity:.8;left:50%}}
+
+/* Shared purpose-driven motion, not full-screen glow. */
+.slide.active .slide-head{animation:scene-reveal .32s ease-out both}
+@keyframes scene-reveal{from{opacity:.55;transform:translateY(8px)}to{opacity:1;transform:none}}
+.stage[data-direction=backward] .slide.active .slide-head{animation:scene-back .3s ease-out both}
+@keyframes scene-back{from{opacity:.55;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Step-driven traffic board: a protocol exchange is one or more directed messages. */
+#journey{gap:8px;padding-top:clamp(13px,1.8vh,25px);padding-bottom:10px}
+#journey .slide-head h2{font-size:clamp(29px,3.4vw,44px);margin:4px 0}
+#journey .slide-head p{font-size:clamp(11px,1vw,14px)}
+#journey .journey-layout{gap:12px;grid-template-columns:minmax(0,1.4fr) minmax(255px,.6fr)}
+#journey .journey-primary,#journey .journey-side{gap:8px}
+#journey .browser-top{padding:4px 10px}
+#journey .browser-address{padding:6px 10px}
+#journey .browser-address input{padding:7px 11px}
+#journey .diagram{min-height:77px;gap:5px}
+#journey .diagram-node{min-height:68px;padding:6px 4px;gap:1px}
+#journey .diagram-node span{font-size:17px}
+#journey .diagram-node strong{font-size:11px}
+#journey .diagram-node small{font-size:9px}
+#journey .side-services{gap:4px;font-size:10px}
+#journey .service{padding:2px 6px;font-size:9px}
+#journey .timeline{gap:4px;padding:0}
+#journey .time-step{flex-basis:76px;min-width:76px;padding:6px 7px}
+#journey .time-step b{font-size:10px}
+#journey .time-step span{font-size:8px}
+#journey .journey-side .panel{padding:14px}
+#journey .event-title{font-size:clamp(20px,2vw,25px);margin:6px 0}
+#journey .event-desc{font-size:12px;line-height:1.5;margin:0 0 8px}
+#journey .packet-table{margin-top:6px}
+#journey .packet-sample{padding:8px;margin-top:6px}
+.journey-visual{border:1px solid #adc9dc24;border-radius:10px;padding:9px 10px;background:#07192a85;min-height:122px;display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.journey-visual .visual-header{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.journey-visual .micro{font-size:9px}
+.journey-visual .exchange-title{font-size:10px;color:var(--soft);text-align:right}
+.exchange-actors{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+.exchange-lanes{display:grid;grid-template-columns:1fr;gap:5px;min-height:47px;align-content:center}
+.exchange-row{display:grid;grid-template-columns:minmax(60px,.75fr) minmax(0,2fr) minmax(60px,.75fr);align-items:center;gap:6px;min-height:25px;opacity:.45;transition:opacity .22s,transform .25s}
+.exchange-row.is-current{opacity:1;transform:translateY(-1px)}
+.exchange-end{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exchange-end:last-child{text-align:right}
+.exchange-track{position:relative;height:20px;display:flex;align-items:center;justify-content:center;border-top:1px solid #8aaac646;border-bottom:1px solid #8aaac613;min-width:0}
+.exchange-track::before{content:'';height:1px;position:absolute;left:0;right:0;background:linear-gradient(90deg,#a9d4e87a,#e9cf8a5b)}
+.exchange-row.reverse .exchange-track::before{background:linear-gradient(270deg,#a9d4e87a,#e9cf8a5b)}
+.exchange-label{position:relative;font:10px/1.1 Consolas,monospace;text-align:center;max-width:98%;padding:0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#07192a;color:var(--soft);z-index:1}
+.exchange-row.is-current .exchange-label{color:var(--ink)}
+.packet-runner{position:absolute;left:0;top:6px;width:8px;height:8px;border-radius:3px;background:var(--gold);box-shadow:0 0 9px #e9cf8a79;opacity:0;z-index:2}
+.exchange-row.is-current .packet-runner{animation:exchange-forward .9s cubic-bezier(.2,.4,.6,1) both}
+.exchange-row.is-current.reverse .packet-runner{animation:exchange-backward .9s cubic-bezier(.2,.4,.6,1) both}
+@keyframes exchange-forward{0%{left:0;opacity:0}11%{opacity:1}85%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+@keyframes exchange-backward{0%{left:calc(100% - 8px);opacity:0}11%{opacity:1}85%{opacity:1}100%{left:0;opacity:0}}
+.exchange-footer{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.exchange-footer .inline-controls{gap:4px}
+.exchange-footer .secondary{padding:3px 9px;font-size:10px}
+.exchange-caption{font-size:10px;color:var(--soft);min-width:0;line-height:1.3}
+.exchange-indicator{font:10px Consolas,monospace;color:var(--muted);white-space:nowrap}
+.journey-risk{border-left:2px solid var(--gold);background:#e9cf8a0b;padding:9px 10px;border-radius:6px;margin-top:9px}
+.journey-risk[hidden]{display:none!important}
+.journey-risk strong{font-size:10px;color:var(--gold);display:block;text-transform:uppercase;letter-spacing:.06em}
+.journey-risk p{font-size:11px;color:var(--soft);line-height:1.5;margin:5px 0 0}
+.packet-compact .packet-sample,.packet-compact #packetSample{display:none}
+#riskToggle{border-color:#e9cf8a50;color:var(--gold)}
+@media(min-width:1100px) and (min-height:850px){.journey-visual{min-height:145px}.exchange-lanes{min-height:61px}.exchange-row{min-height:29px}}
+@media(max-width:760px){#journey .journey-layout{grid-template-columns:1fr}#journey .journey-visual{min-height:136px}#journey .journey-side{gap:8px}#journey .diagram-node{min-height:62px}}
+
+/* CIA visual effect: the same layout changes behavior and packet visibility. */
+.cia-simulation{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-height:42px;margin:5px 0 8px}
+.cia-simulation .state-pill{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#a9d4e80a;color:var(--soft);font:11px Consolas,monospace}
+.cia-simulation .state-pill.attention{border-color:#e9cf8a72;background:#e9cf8a15;color:#eedbb0}
+.cia-simulation .state-pill.protected{border-color:#83ccb177;background:#83ccb118;color:#aee3d0}
+.cia-simulation .state-arrow{color:var(--accent)}
+.cia-action{display:inline-flex;align-items:center;gap:8px;margin:6px 0}
+.cia-action button{font-size:11px}
+.cia-animation{animation:scene-reveal .34s ease-out}
+
+/* Animated micro demonstrations on the component map. */
+.component-lab{background:#06192bb0;border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.component-lab-header{display:flex;justify-content:space-between;gap:9px;align-items:center}
+.component-lab-flow{display:flex;align-items:center;gap:4px;min-height:46px}
+.component-lab-step{display:grid;place-items:center;flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:7px 5px;font-size:10px;color:var(--muted);background:#a9d4e808;text-align:center}
+.component-lab-step.current{border-color:#a9d4e883;background:#a9d4e823;color:var(--ink);animation:scene-reveal .28s ease-out}
+.component-lab-arrow{font-size:13px;color:var(--accent)}
+.component-lab-annotation{color:var(--soft);font-size:11px}
+.component-lab .secondary{padding:4px 9px;font-size:10px}
+.component-lab-state{font:10px Consolas,monospace;color:var(--muted)}
+
+/* Eight-topic index and incident overview. */
+.learning-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.88fr);gap:15px;flex:1;min-height:0}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:9px;min-height:0}
+.topic-option{background:#a9d4e80a;border:1px solid var(--line);border-radius:11px;padding:11px 13px;display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}
+.topic-option:hover{background:#a9d4e81c;border-color:#a9d4e862}.topic-option.active{background:#a9d4e825;border-color:#a9d4e8ab}
+.topic-option .topic-n{font:11px Consolas,monospace;color:var(--accent)}
+.topic-option strong{font-size:14px;font-weight:650}
+.topic-option small{font-size:10px;color:var(--muted)}
+.learning-detail{display:flex;flex-direction:column;gap:13px;overflow:auto;min-height:0}
+.learning-detail h3{font:30px Georgia,serif;margin:0}
+.definition-row{border-bottom:1px solid var(--line);padding-bottom:9px}
+.definition-row:last-of-type{border-bottom:0}
+.definition-row b{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.definition-row p{font-size:13px;line-height:1.55;margin:0}
+.risk-text b{color:var(--gold)}
+.detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.phase-strip{display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:wrap;padding:10px;border:1px solid var(--line);border-radius:10px;background:#061a2b}
+.phase-node{border:1px solid #a9d4e849;border-radius:7px;padding:7px 10px;font-size:11px}
+.phase-node.weak{border-color:#e9cf8a91;color:var(--gold)}
+.phase-arrow{color:var(--accent)}
+.case-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;min-height:0;align-content:start}
+.case-card{background:#abcde80b;border:1px solid var(--line);border-radius:13px;padding:17px;display:flex;flex-direction:column;gap:9px;text-align:left}
+.case-card.active{border-color:#a9d4e8a3;background:#a9d4e81c}
+.case-card strong{font:22px Georgia,serif}
+.case-card small{font-size:11px;color:var(--muted)}
+.case-focus{min-height:0;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:14px;flex:1}
+.case-steps{display:grid;gap:10px;align-content:center}
+.case-step{border:1px solid var(--line);background:#a9d4e809;border-radius:11px;padding:13px}
+.case-step b{display:block;color:var(--accent);font-size:10px;letter-spacing:.11em;text-transform:uppercase}
+.case-step p{font-size:12px;margin:5px 0 0}
+.case-step.weak{border-color:#e9cf8a7a;background:#e9cf8a0d}
+.case-focus h3{font:29px Georgia,serif;margin:0 0 10px}
+.case-focus p{font-size:13px;line-height:1.55}
+.case-source{font-size:11px;color:var(--muted);margin-top:auto}
+.external-demo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.external-demo a{border:1px solid #a9d4e875;border-radius:9px;padding:10px 13px;background:#a9d4e814;color:var(--ink);font-size:12px}
+.external-demo a:hover{background:#a9d4e82a}
+#protocols,#cases{gap:clamp(10px,2vh,18px)}
+#protocols .slide-head h2,#cases .slide-head h2{margin:4px 0}
+@media(max-width:990px){.learning-layout{grid-template-columns:1fr}.case-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-focus{grid-template-columns:1fr}}
+@media(max-width:680px){.learning-layout{grid-template-columns:1fr}.topic-grid{gap:6px}.topic-option{padding:9px}.topic-option strong{font-size:12px}.learning-detail{overflow:visible}.case-card{padding:10px}.case-card strong{font-size:18px}.case-focus{gap:8px}}
+
+/* Header access to the existing notGoogle project. */
+.extras-link{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;border:0;background:none;padding:8px 10px;color:var(--gold);font-size:11px}
+.extras-link:hover{color:var(--ink)}
+@media(max-width:800px){.extras-link{padding:5px 6px;font-size:10px}.section-nav .tab{padding-left:6px;padding-right:6px}}
+@media(prefers-reduced-motion:reduce){.traffic-packet,.exchange-row.is-current .packet-runner,.slide.active .slide-head,.component-lab-step.current{animation:none!important;transition:none!important}.exchange-row.is-current .packet-runner{opacity:1;left:50%}}
+
+/* A visible packet travels along the actual network topology on each exchange beat. */
+#journey .diagram{isolation:isolate}
+.route-particle{position:absolute;left:var(--from,5%);top:49%;width:11px;height:7px;border-radius:3px;background:var(--gold);box-shadow:0 0 9px #e9cf8a7b;pointer-events:none;z-index:5;transform:translate(-50%,-50%);animation:route-travel 1.05s cubic-bezier(.18,.42,.73,.9) both}
+@keyframes route-travel{0%{left:var(--from);opacity:0}12%{opacity:1}85%{opacity:1}100%{left:var(--to);opacity:0}}
+#journey .diagram-node.in-path{border-color:#a9d4e86d}
+#journey .diagram-node.current{border-color:#a9d4e8ad}
+
+/* Purposeful forward/backward scene staging: controls remain available immediately. */
+.stage[data-direction=forward] .slide.active{animation:atlas-scene-forward .3s ease-out}
+.stage[data-direction=backward] .slide.active{animation:atlas-scene-backward .3s ease-out}
+@keyframes atlas-scene-forward{from{opacity:.5;transform:translateX(8px)}to{opacity:1;transform:none}}
+@keyframes atlas-scene-backward{from{opacity:.5;transform:translateX(-8px)}to{opacity:1;transform:none}}
+#journey.active .browser{animation:scene-reveal .33s ease-out both}
+#journey.active .journey-primary>.panel:first-of-type{animation:scene-reveal .35s .08s ease-out both}
+#journey.active .journey-primary>.panel:last-of-type{animation:scene-reveal .35s .14s ease-out both}
+#goals.active .cia-card{animation:scene-reveal .33s ease-out both}
+#goals.active .cia-card:nth-child(2){animation-delay:.065s}
+#goals.active .cia-card:nth-child(3){animation-delay:.13s}
+#map.active .network-map{animation:scene-reveal .34s ease-out both}
+#protocols.active .topic-option{animation:scene-reveal .3s ease-out both}
+#protocols.active .topic-option:nth-child(2n){animation-delay:.05s}
+#cases.active .case-card{animation:scene-reveal .3s ease-out both}
+#cases.active .case-card:nth-child(2){animation-delay:.04s}
+#cases.active .case-card:nth-child(3){animation-delay:.08s}
+#cases.active .case-card:nth-child(4){animation-delay:.12s}
+@media(prefers-reduced-motion:reduce){.route-particle,.stage[data-direction] .slide.active,#journey.active .browser,#journey.active .journey-primary>.panel,#goals.active .cia-card,#map.active .network-map,#protocols.active .topic-option,#cases.active .case-card{animation:none!important}.route-particle{left:var(--to);opacity:1}}
