@@ -180,6 +180,8 @@ if(topology){
  };
  // Ensure the new NAT step is inserted and can be inspected after the extension loads.
  resetEvents();
+ // Keep essential packet fields visible without clipping the iPad presenter screen.
+ if(window.innerHeight<900&&packetExpanded)E("showPacket").click();
 }
 
 /* 02: causal, visible consequences rather than just changing headings. */
