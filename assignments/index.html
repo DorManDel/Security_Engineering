@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Course Library | Security Engineering</title>
+<style>
+:root{color-scheme:dark;--bg:#061427;--panel:#102941;--ink:#e5eff9;--soft:#b5c9dc;--muted:#87a5bb;--line:#adc9dc30;--accent:#a9d4e8;--lilac:#c5afe9;--gold:#e9cf8a;--ok:#83ccb1}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 28% 0,#17355280,transparent 44%),radial-gradient(circle at 100% 95%,#29264845,transparent 40%),var(--bg);color:var(--ink);font:15px/1.55 Inter,'Segoe UI',Arial,sans-serif}
+a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:24px;padding:0 clamp(16px,4vw,64px);min-height:62px;background:#091c31eb;border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
+.brand{font:22px Georgia,serif;white-space:nowrap}.brand span{color:var(--accent)}nav{display:flex;gap:24px;margin-left:auto;align-items:center}.navlink{font-size:13px;color:var(--soft)}.navlink.current{color:var(--ink)}.navlink:hover,.text-link:hover{color:var(--accent)}
+main{max-width:1250px;margin:auto;padding:clamp(30px,5vw,68px) 24px 100px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:700}
+h1,h2,h3,p{margin-top:0}h1,h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.035em}h1{font-size:clamp(43px,5.2vw,72px);line-height:1.05;margin:14px 0}h1 em{font-style:normal;color:var(--accent)}h2{font-size:clamp(26px,3vw,38px);margin-bottom:8px}h3{font-size:17px;margin:0 0 8px}p{color:var(--soft)}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:40px;margin-bottom:62px}.hero p{max-width:680px;font-size:17px}.hero aside{border-left:1px solid var(--line);padding:24px 0 24px 30px}.hero-stat{font:42px Georgia,serif;color:var(--accent);margin:4px 0}.muted{color:var(--muted)}.small{font-size:12px}.micro{font-size:10px;letter-spacing:.15em;font-weight:700;text-transform:uppercase;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:20px}.section-head{margin:46px 0 20px}.section-head p{margin:0}
+.deck{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card,.surface{border:1px solid var(--line);border-radius:17px;background:linear-gradient(160deg,#b5d7f20d,#0b1d322a 82%);box-shadow:inset 0 1px #fff1}
+.card{padding:21px;min-height:193px;display:flex;flex-direction:column;gap:10px}
+.card.featured{border-color:#b4d7ed63;background:linear-gradient(150deg,#acd4eb1c,#0b1d3220)}
+.card h3{font:25px Georgia,serif;font-weight:400;margin:0}.card p{font-size:13px;margin:0}
+.card .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:auto}
+.card.featured .tag{color:var(--ok)}.card a,.button{display:inline-flex;align-items:center;justify-content:center;gap:10px;align-self:flex-start;border:1px solid #a9d4e87d;border-radius:9px;background:#a9d4e814;padding:8px 12px;color:var(--ink);font-size:13px;font-weight:650}.card a:hover,.button:hover{background:#a9d4e82a}
+.button.ghost{background:transparent;border-color:var(--line);color:var(--soft)}
+.feature{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,.65fr);gap:16px}
+.surface{padding:26px;min-width:0}.surface>p:last-child{margin-bottom:0}
+.requirements{display:grid;gap:15px;margin:19px 0 22px}
+.requirement{display:flex;gap:13px;align-items:start}
+.num{display:grid;place-items:center;width:30px;height:30px;flex:0 0 30px;border:1px solid var(--line);border-radius:9px;color:var(--accent);font:14px Georgia,serif}
+.requirement strong{display:block;font-size:14px}.requirement p{font-size:13px;margin:4px 0 0}
+.mini-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chip{font-size:11px;color:var(--soft);border:1px solid var(--line);padding:5px 9px;border-radius:99px}
+.topics-top{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap;margin:20px 0 12px}
+.progress{height:5px;border-radius:99px;background:#233b4e;overflow:hidden}.progress>span{display:block;height:100%;background:var(--ok);width:0;transition:width .2s}
+#topics{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.topic{display:flex;align-items:center;gap:8px;padding:11px;border:1px solid #adc9dc22;background:#a9d4e809;border-radius:9px;min-width:0}.topic.hidden{display:none}
+.topic strong{font-size:12px;font-weight:550;margin-right:auto}.topic small{color:var(--muted);font-size:10px;min-width:47px;text-align:right}
+.topic input{accent-color:#9dcdbd;width:16px;height:16px;margin:0}.topic label{display:flex;align-items:center;gap:9px;min-width:0;cursor:pointer}
+.topic.select{background:#aedddc14;border-color:#8cd6b03e}.topic label{flex:1}.review-btn{border:1px solid var(--line);background:transparent;border-radius:7px;padding:4px 7px;font-size:10px;white-space:nowrap;color:var(--muted)}.review-btn.done{border-color:#83ccb17b;color:var(--ok);background:#83ccb112}
+.search{min-width:155px;max-width:225px;background:#092039;border:1px solid var(--line);border-radius:9px;padding:9px 12px;color:var(--ink)}
+.summary{display:flex;align-items:center;gap:15px;margin-top:13px;color:var(--muted);font-size:12px;flex-wrap:wrap}
+.case-list{display:grid;gap:12px;margin-top:16px}.case{padding-bottom:11px;border-bottom:1px solid var(--line)}.case:last-child{border:0;padding:0}.case strong{color:var(--ink);display:block}.case span{display:block;font-size:12px;color:var(--soft)}
+footer{padding:18px 24px;text-align:center;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media(max-width:950px){.deck{grid-template-columns:repeat(2,1fr)}.hero,.feature{grid-template-columns:1fr}.hero aside{border-left:0;border-top:1px solid var(--line);padding:16px 0 0}.hero{gap:20px}}
+@media(max-width:600px){header{gap:12px;padding:10px 16px;flex-wrap:wrap}.brand{font-size:19px}nav{margin-left:0;gap:13px}.navlink{font-size:11px}main{padding:35px 15px 65px}.deck,#topics{grid-template-columns:1fr}.card{min-height:150px}.row{align-items:flex-start;flex-direction:column}.surface{padding:18px}.hero p{font-size:15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="../index.html">⌬ Security <span>Engineering</span></a>
+<nav aria-label="Site navigation"><a class="navlink current" aria-current="page" href="./index.html">Assignments</a><a class="navlink" href="../index.html">Cipher Atlas</a><a class="navlink" href="./network-security/index.html">Network Security ↗</a></nav>
+</header>
+<main>
+<section class="hero" aria-labelledby="pageTitle">
+<div><div class="eyebrow">Security Engineering / Learning Library</div><h1 id="pageTitle">Learn once.<br><em>Revisit anytime.</em></h1><p>One home for assignments, interactive presentations and exam review. Follow each topic from the original task to a visual explanation and a real-world case.</p><a class="button" href="#assignment04">Explore Assignment 04 <span aria-hidden="true">→</span></a></div>
+<aside aria-label="Library overview"><div class="micro">Course index</div><div class="hero-stat">01—04</div><div class="muted">Assignment slots</div><p class="small">Only the verified Assignment 04 requirements are catalogued so far. Earlier assignments can be mapped here without changing the site structure.</p></aside>
+</section>
+
+<section id="library" aria-labelledby="libraryTitle">
+<div class="section-head row"><div><div class="eyebrow">Course catalog</div><h2 id="libraryTitle">Assignments &amp; material</h2><p>Choose an assignment to read its requirements or open the interactive presentation.</p></div></div>
+<div class="deck">
+<article class="card"><div class="micro">Assignment 01</div><h3>Pending indexing</h3><p>The assignment brief has not been catalogued in this library yet.</p><div class="tag">Requirements to verify</div></article>
+<article class="card"><div class="micro">Assignment 02</div><h3>Pending indexing</h3><p>Previous course materials can be attached after their assignment numbers are confirmed.</p><div class="tag">Requirements to verify</div></article>
+<article class="card"><div class="micro">Assignment 03</div><h3>Pending indexing</h3><p>The existing Cipher Atlas remains available as a separate presentation.</p><a href="../index.html">Open Cipher Atlas ↗</a></article>
+<article class="card featured"><div class="micro">Assignment 04 / Network Security</div><h3>The Network Atlas</h3><p>Protocols, trust boundaries, packet inspection and historical attack cases.</p><a href="./network-security/index.html">Launch presentation →</a><div class="tag">Prototype available</div></article>
+</div>
+</section>
+
+<section id="assignment04" aria-labelledby="assignmentTitle">
+<div class="section-head row"><div><div class="eyebrow">Assignment 04 / Verified brief</div><h2 id="assignmentTitle">Network Security</h2><p>Based on the lecture's assignment slide (page 69) and handwritten note to select eight topics.</p></div><a href="./network-security/index.html" class="button">Open interactive lesson →</a></div>
+<div class="feature">
+<div class="surface">
+<div class="micro">What is required?</div>
+<div class="requirements">
+<div class="requirement"><div class="num">1</div><div><strong>Explain the protocols and their weaknesses</strong><p>Choose eight from the 13 listed topics. For each: what it does, its trust assumption, the weakness and what could go wrong.</p></div></div>
+<div class="requirement"><div class="num">2</div><div><strong>Connect the theory to historical incidents</strong><p>Review the attacks discussed in the lesson and explain the conditions that made each possible.</p></div></div>
+<div class="requirement"><div class="num">3</div><div><strong>Use the interactive lab to review</strong><p>The visual journey, protocol inspector and HTTP/HTTPS comparison are supplemental study tools, not extra instructions from the lecturer.</p></div></div>
+</div>
+<div class="mini-links"><span class="chip">Lecture: Network Security</span><span class="chip">13 listed topics</span><span class="chip">Choose 8</span><span class="chip">4 incident groups</span></div>
+<div class="topics-top"><div><strong>Topic selection</strong><div class="muted small">Selections are saved only in this browser.</div></div><input class="search" id="filter" type="search" aria-label="Filter topics" placeholder="Find a topic…" autocomplete="off"></div>
+<div class="progress" aria-label="Number of selected topics"><span id="progressBar"></span></div>
+<div class="summary"><span id="count" aria-live="polite">0 / 8 topics selected</span><span id="reviewCount" aria-live="polite">0 topics reviewed</span><button class="button ghost" type="button" id="suggest">Apply suggested 8</button><button class="button ghost" type="button" id="clear">Clear selection</button></div>
+<div id="topics" aria-label="Assignment topics"></div>
+</div>
+<aside class="surface">
+<div class="micro">Historical cases / from the lecture</div><h3>How did it become possible?</h3><p class="small">These examples are discussed on lecture pages 62–68. The case pages will be expanded as the project develops.</p>
+<div class="case-list">
+<div class="case"><strong>Tunisia · 2011–2012</strong><span>HTTP traffic modification and injected JavaScript.</span></div>
+<div class="case"><strong>Turkey · 2014</strong><span>DNS blocking and rerouting of traffic to public DNS.</span></div>
+<div class="case"><strong>Kazakhstan · 2019</strong><span>Trust anchor installation and HTTPS interception risk.</span></div>
+<div class="case"><strong>Belarus · 2020</strong><span>Internet disruption and deep packet inspection.</span></div>
+</div>
+<a class="button" href="./network-security/index.html#map" style="margin-top:24px">Explore the network map →</a>
+<p class="small" style="margin-top:18px">Technical accuracy note: this page distinguishes protocols from attack techniques and does not treat each of the 13 entries as a protocol.</p>
+</aside>
+</div>
+</section>
+</main>
+<footer>Security Engineering · Assignment Library · GitHub Pages · Local study selections are not synced across devices.</footer>
+<script>
+const topics=[
+["ARP poisoning","Attack · Link"],["MAC flooding","Attack · Link"],["MAC spoofing","Technique · Link"],["IP spoofing","Technique · Network"],
+["SMURF attacks","Attack · Network"],["NTP","Protocol · Services"],["DHCP","Protocol · Services"],["BGP","Protocol · Routing"],
+["DNS","Protocol · Services"],["NAT","Mechanism · Network"],["TCP scanning","Technique · Transport"],["SYN flooding","Attack · Transport"],["TCP hijacking","Attack · Transport"]
+];
+const recommended=["ARP poisoning","MAC spoofing","IP spoofing","DHCP","BGP","DNS","SYN flooding","TCP hijacking"];
+const key="security-engineering-assignment04-topic-selection-v1",reviewKey="security-engineering-assignment04-reviewed-v1";
+let reviewed=[];try{const saved=JSON.parse(localStorage.getItem(reviewKey)||"[]");if(Array.isArray(saved))reviewed=saved.filter(x=>topics.some(t=>t[0]===x));}catch{}
+let selected=[];try{const stored=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(stored))selected=stored.filter(x=>topics.some(t=>t[0]===x));}catch{}
+const list=document.getElementById("topics"),filter=document.getElementById("filter");
+function save(){try{localStorage.setItem(key,JSON.stringify(selected));localStorage.setItem(reviewKey,JSON.stringify(reviewed));}catch{}}
+function render(){
+ const query=filter.value.toLowerCase().trim();list.replaceChildren();
+ topics.forEach(([name,kind])=>{
+  const article=document.createElement("div");article.className="topic"+(selected.includes(name)?" select":"");article.classList.toggle("hidden",!name.toLowerCase().includes(query)&&!kind.toLowerCase().includes(query));
+  const label=document.createElement("label"),input=document.createElement("input");input.type="checkbox";input.checked=selected.includes(name);input.setAttribute("aria-label","Select "+name);
+  input.addEventListener("change",()=>{if(input.checked&&!selected.includes(name))selected.push(name);if(!input.checked)selected=selected.filter(x=>x!==name);save();render()});
+  const strong=document.createElement("strong");strong.textContent=name;label.append(input,strong);
+  const small=document.createElement("small");small.textContent=kind;
+  const review=document.createElement("button");review.type="button";review.className="review-btn"+(reviewed.includes(name)?" done":"");review.textContent=reviewed.includes(name)?"✓ Reviewed":"Mark reviewed";review.setAttribute("aria-label","Toggle reviewed status for "+name);review.onclick=()=>{reviewed=reviewed.includes(name)?reviewed.filter(x=>x!==name):[...reviewed,name];save();render()};
+  article.append(label,small,review);list.append(article);
+ });
+ const count=selected.length;document.getElementById("count").textContent=count+" / 8 topics selected"+(count>8?" · Please choose only eight":"");
+ document.getElementById("reviewCount").textContent=reviewed.length+" / 13 topics reviewed";
+ document.getElementById("progressBar").style.width=Math.min(100,100*count/8)+"%";
+}
+filter.addEventListener("input",render);document.getElementById("suggest").addEventListener("click",()=>{selected=[...recommended];save();render()});document.getElementById("clear").addEventListener("click",()=>{selected=[];save();render()});render();
+</script>
+</body></html>
