@@ -125,14 +125,14 @@ if(topology){
    b.textContent=String(i+1).padStart(2,"0")+" "+m[2];b.style.fontSize="9px";
    b.onclick=()=>{stopPlayback();beat=i;paintBeat()};exchangeSequence.append(b)
   });
-  const msg=scene.messages[beat],reverse=(msg[0]===scene.actors[1]||msg[0]==="Web server"||msg[0]==="Gateway"||msg[0]==="DNS resolver"||msg[0]==="DHCP service");
+  const msg=scene.messages[beat],reverse=(selected.id!=="nat"&&(msg[0]===scene.actors[1]||msg[0]==="Web server"||msg[0]==="Gateway"||msg[0]==="DNS resolver"||msg[0]==="DHCP service"));
   exchangeBoard.replaceChildren();
   const row=document.createElement("div");row.className="exchange-row is-current"+(reverse?" reverse":"");
-  const a=document.createElement("span");a.className="exchange-end";a.textContent=msg[0];
+  const a=document.createElement("span");a.className="exchange-end";a.textContent=reverse?msg[1]:msg[0];
   const track=document.createElement("div");track.className="exchange-track";
   const label=document.createElement("span");label.className="exchange-label";label.textContent=msg[2];
   const dot=document.createElement("span");dot.className="packet-runner";track.append(dot,label);
-  const b=document.createElement("span");b.className="exchange-end";b.textContent=msg[1];
+  const b=document.createElement("span");b.className="exchange-end";b.textContent=reverse?msg[0]:msg[1];
   row.append(a,track,b);exchangeBoard.append(row);
   exchangeCaption.textContent=msg[3];exchangeIndex.textContent=(beat+1)+" / "+scene.messages.length;
   E("prevExchangeMessage").disabled=beat===0;E("nextExchangeMessage").disabled=beat===scene.messages.length-1;
