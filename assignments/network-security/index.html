@@ -91,6 +91,9 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 @media(max-width:760px){.shell{grid-template-rows:52px minmax(0,1fr) 40px}.brand{font-size:14px}.top{gap:5px;padding:0 9px}.section-nav{overflow-x:auto;justify-content:flex-start;scrollbar-width:none}.section-nav::-webkit-scrollbar{display:none}.tab{font-size:10px;padding:9px 7px}.tools .tiny-button{font-size:0;padding:6px}.tools .tiny-button::after{font-size:18px;content:'▤'}.slide{padding:18px 12px;gap:12px}.hero{overflow:auto}.hero-layout,.journey-layout,.cia-layout,.map-layout{grid-template-columns:1fr}.hero-layout{gap:20px}.hero h1{font-size:48px}.cube-scene{width:min(65vw,240px);height:200px}.cube{--side:73px}.hero-rule{margin-top:15px}.diagram{min-height:86px}.diagram-node{min-height:88px;padding:5px 2px}.diagram-node strong{font-size:9px}.diagram-node small{font-size:8px}.diagram-node span{font-size:16px}.diagram-node:after{right:-8px;font-size:13px}.panel{padding:13px}.journey-side{display:grid;grid-template-columns:1fr}.packet-table{font-size:10px}.slide-head h2{font-size:32px}.cia-cards{grid-template-columns:repeat(3,1fr)}.cia-card{padding:9px}.cia-card strong{font-size:11px}.cia-card small{font-size:9px}.cia-card span{font-size:19px;margin-bottom:5px}.compare{grid-template-columns:1fr}.stream{min-height:65px}.stream-node{padding:10px 3px;font-size:9px}.stream-node b{font-size:17px}.network-map{grid-template-columns:repeat(3,1fr)}.map-wide{grid-column:span 1}.map-note{grid-column:1/-1}.footer{padding:0 10px}}
 @media(max-height:650px) and (min-width:760px){.slide{padding-top:16px;padding-bottom:15px;gap:10px}.diagram-node{min-height:83px}.diagram{min-height:91px}.journey-layout,.cia-layout,.map-layout{overflow:auto}.cube-scene{height:210px}.slide-head h2{font-size:32px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.feedback-link{font-size:12px;color:var(--accent);text-decoration:none;padding:8px 10px;border-radius:8px;white-space:nowrap}.feedback-link:hover{background:#abcde817;color:#fff}
+@media(max-width:760px){.feedback-link{font-size:11px;padding:5px}}
 </style>
 </head>
 <body>
@@ -100,7 +103,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 <nav class="section-nav" aria-label="Presentation sections">
 <button class="tab active" data-slide="0">00 · Prologue</button><button class="tab" data-slide="1">01 · Journey</button><button class="tab" data-slide="2">02 · Security Goals</button><button class="tab" data-slide="3">03 · Network Map</button>
 </nav>
-<div class="tools"><button type="button" class="tiny-button" id="notesButton" title="Presenter notes (N)">Notes</button><button type="button" class="tiny-button" id="fullscreenButton" title="Fullscreen">Present</button></div>
+<div class="tools"><a class="feedback-link" href="../feedback/index.html" title="Track issues or submit feedback">Feedback ↗</a><button type="button" class="tiny-button" id="notesButton" title="Presenter notes (N)">Notes</button><button type="button" class="tiny-button" id="fullscreenButton" title="Fullscreen">Present</button></div>
 </header>
 <main class="stage">
 <section class="slide hero active" id="intro" data-index="0" aria-labelledby="introTitle">
