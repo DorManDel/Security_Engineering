@@ -33,7 +33,7 @@ const section=make("div","p2-shell p2-journey");section.innerHTML=[
 '<div class="p2-headbar"><div><span class="p2-counter" id="v2JourneyCount"></span><h3 class="p2-stage" id="v2JourneyTitle"></h3></div><div class="v4-header-controls"><div class="v4-mode" role="group" aria-label="Network state"><button type="button" id="v4Fresh" class="active" aria-pressed="true">New connection</button><button type="button" id="v4Warm" aria-pressed="false">Already connected</button></div><div class="p2-actions"><button class="p2-arrow" id="v2Prev" aria-label="Previous protocol">‹ <span>Previous</span></button><button class="p2-arrow" id="v2Next" aria-label="Next protocol"><span>Next</span> ›</button></div></div></div>',
 '<p class="p2-caption" id="v2JourneyDesc"></p>',
 '<div class="p2-frame">',
-'<div class="p2-address"><label for="v2Url">Browser</label><input class="p2-url" id="v2Url" value="https://example.test/" aria-label="Example website address" spellcheck="false"><div class="v7-browser-actions"><button class="p2-go" id="v2Go">Open site →</button><div class="v7-exchange-controls" role="group" aria-label="Exchange playback"><button type="button" class="p2-mini v7-icon-control" id="v2Replay" aria-label="Replay current exchange" title="Replay current exchange">↻</button><button type="button" class="p2-mini v7-icon-control" id="v7Pause" aria-label="Pause exchange" title="Pause exchange">Ⅱ</button></div></div></div>',
+'<div class="p2-address"><label for="v2Url">Browser</label><input class="p2-url" id="v2Url" value="https://example.test/" aria-label="Example website address" spellcheck="false"><div class="v7-browser-actions"><button class="p2-go" id="v2Go">Open site →</button><div class="v7-exchange-controls" role="group" aria-label="Exchange playback"><button type="button" class="p2-mini v7-icon-control" id="v2Replay" aria-label="Replay current exchange" title="Replay current exchange">↻</button><button type="button" class="p2-mini v7-icon-control" id="v7Pause" aria-label="Pause exchange" title="Pause exchange"><img src="./icons/pause.svg" alt="" aria-hidden="true" class="v9-control-svg"></button></div></div></div>',
 '<nav class="v7-protocol-strip" id="v7ProtocolStrip" aria-label="Journey protocols"></nav>',
 '<div class="p2-network"><div class="p2-route" id="v2Route"></div><div class="p2-services"><span id="v2Dhcp" class="p2-service">DHCP · network setup</span><span id="v2Arp" class="p2-service">ARP · local MAC</span><span id="v2Dns" class="p2-service">DNS · name lookup</span></div><p id="v2Analogy" class="p2-caption" style="text-align:center;max-width:none;font-size:12px;margin:5px 0"></p></div>',
 '<div class="p2-exchange"><div class="p2-stage-status"><span class="p2-exchange-label">What happens on the wire</span></div><div class="p2-msg-list" id="v2Msg" aria-live="polite"></div></div>',
@@ -66,7 +66,13 @@ function buildProtocolStrip(){
 function paintButtons(){
  const btn=$("v7Pause");if(!btn)return;
  const label=exchangeFinished?"Replay exchange":exchangePaused?"Resume exchange":"Pause exchange";
- btn.textContent=exchangeFinished?"↻":exchangePaused?"▶":"Ⅱ";
+ if(exchangeFinished){btn.textContent="↻"}
+ else{
+  const img=make("img","v9-control-svg");
+  img.src="./icons/"+(exchangePaused?"play":"pause")+".svg";
+  img.alt="";img.setAttribute("aria-hidden","true");
+  btn.replaceChildren(img);
+ }
  btn.setAttribute("aria-label",label);btn.title=label;
 }
 function stopTour(){
