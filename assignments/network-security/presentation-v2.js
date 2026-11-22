@@ -65,11 +65,10 @@ function buildProtocolStrip(){
 }
 function paintButtons(){
  const btn=$("v7Pause");if(!btn)return;
- const label=exchangeFinished?"Replay exchange":exchangePaused?"Resume exchange":"Pause exchange";
- if(exchangeFinished){btn.textContent="↻"}
- else{
+ const label=exchangeFinished?"Play exchange":exchangePaused?"Resume exchange":"Pause exchange";
+ {
   const img=make("img","v9-control-svg");
-  img.src="./icons/"+(exchangePaused?"play":"pause")+".svg";
+  img.src="./icons/"+((exchangeFinished||exchangePaused)?"play":"pause")+".svg";
   img.alt="";img.setAttribute("aria-hidden","true");
   btn.replaceChildren(img);
  }
