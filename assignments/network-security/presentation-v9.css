@@ -96,3 +96,5 @@
 #map .v9-lookup-options span{border-bottom:1px solid #a9d4e844;color:var(--muted);font-size:9px;text-align:center;flex:1;padding:3px 2px}
 #map .v9-lookup-options .v9-lookup-cache{animation:v9-highlight 1.4s ease-in-out infinite alternate}
 #map .v9-lookup-options .v9-lookup-dns{animation:v9-highlight 1.4s ease-in-out .8s infinite alternate}
+
+#journey .v9-control-svg{width:15px;height:15px;object-fit:contain;filter:brightness(0) saturate(100%) invert(83%) sepia(11%) saturate(716%) hue-rotate(167deg);pointer-events:none}
