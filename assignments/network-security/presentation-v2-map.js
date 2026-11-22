@@ -41,7 +41,7 @@ scene.innerHTML=[
 
 '<div class="v8-lab" id="v8Lab" aria-label="Illustrative protocol exchange"><div class="v8-lab-heading"><span>VISUAL EXCHANGE</span><span>Illustrative · not live traffic</span></div><div class="v8-lab-channel"><strong id="v8LabLeft"></strong><div class="v8-lab-track"><span class="v8-lab-packet" aria-hidden="true"></span></div><strong id="v8LabRight"></strong></div><div class="v8-lab-payload" id="v8LabPayload"></div><p id="v8LabInfo" class="v8-lab-info"></p></div>',
 '<div class="v5-map-story"><div class="p2-counter">HOW IT WORKS</div><div class="p2-map-steps" id="v2MapSteps"></div><p class="p2-caption" id="v2MapBeat"></p></div>',
-'<div class="v5-map-toolbar"><button class="p2-mini" id="v2MapReplay" type="button">Replay steps ↻</button><div class="p2-map-next"><button id="v2MapPrev" aria-label="Previous component">‹</button><span id="v2MapOrdinal"></span><button id="v2MapNext" aria-label="Next component">›</button></div></div>',
+'<div class="v5-map-toolbar"><div class="v9-map-controls"><button class="p2-mini" id="v2MapReplay" type="button">↻ Replay</button><button class="v9-pause-map" id="v9MapPause" type="button" aria-label="Pause steps" title="Pause steps"></button></div><div class="p2-map-next"><button id="v2MapPrev" aria-label="Previous component">‹</button><span id="v2MapOrdinal"></span><button id="v2MapNext" aria-label="Next component">›</button></div></div>',
 '</aside></div>',
 '<div class="p2-legend"><span>Solid connections show the conceptual forwarding path. Branches indicate supporting services and protocols, not extra mandatory hops.</span></div>'
 ].join("");
@@ -142,18 +142,41 @@ const labFrames={
  ]
 };
 function renderLab(id,step){
- const frames=labFrames[id]||labFrames.device;
- const [left,right,payload,direction,note]=frames[Math.max(0,Math.min(step,frames.length-1))];
  const lab=$("v8Lab");if(!lab)return;
- $("v8LabLeft").textContent=left;$("v8LabRight").textContent=right;
- $("v8LabPayload").textContent=payload;$("v8LabInfo").textContent=note;
- lab.classList.remove("playing","reverse");
- if(direction==="reverse")lab.classList.add("reverse");
- if(!reduce){void lab.offsetWidth;lab.classList.add("playing")}
+ const heading=make("div","v8-lab-heading");heading.append(make("span","","HOW IT REALLY WORKS"),make("span","","Illustrative · step "+(step+1)));
+ lab.replaceChildren(heading,window.networkAtlasScenes.create(id,step,reduce));
 }
 
-let index=-1,beat=0,timer=null;
-const stop=()=>{if(timer)clearInterval(timer);timer=null};
+let index=-1,beat=0,timer=null,paused=false,nextDue=0,remaining=0;
+function stop(){if(timer)clearTimeout(timer);timer=null}
+function schedule(delay){
+ stop();remaining=delay;nextDue=performance.now()+delay;
+ timer=setTimeout(()=>{
+  timer=null;if(paused)return;
+  const sequence=stories[nodes[index][0]].steps;
+  if(beat>=sequence.length-1){paintPause();return}
+  beat++;drawBeat();if(beat<sequence.length-1)schedule(2800);else paintPause();
+ },delay);
+}
+function paintPause(){
+ const btn=$("v9MapPause");if(!btn)return;
+ const playing=!paused&&Boolean(timer);
+ const label=playing?"Pause steps":"Play steps";
+ btn.setAttribute("aria-label",label);btn.title=label;btn.setAttribute("aria-pressed",String(paused));
+ btn.replaceChildren();
+ const img=document.createElement("img");img.src="./icons/"+(playing?"pause":"play")+".svg";img.alt="";
+ btn.append(img);
+}
+function togglePause(){
+ if(reduce)return;
+ const last=stories[nodes[index][0]].steps.length-1;
+ if(!paused&&beat===last&&timer===null){focus(index);return}
+ paused=!paused;
+ if(paused){remaining=Math.max(1,nextDue-performance.now());stop()}
+ else if(beat<last)schedule(Math.max(80,remaining));
+ board.classList.toggle("v9-map-paused",paused);
+ paintPause();
+}
 function drawBeat(){
  const s=stories[nodes[index][0]].steps,container=$("v2MapSteps");container.replaceChildren();
  s.forEach(([label,description],i)=>{
@@ -170,7 +193,7 @@ function drawBeat(){
 }
 const original=renderComponent;
 function focus(i){
- stop();index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
+ stop();paused=false;board.classList.remove("v9-map-paused");index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
  const [id,label]=nodes[index],story=stories[id];
  board.querySelectorAll("[data-component-v2]").forEach(b=>b.classList.toggle("active",b.dataset.componentV2===id));
  $("v2MapCounter").textContent="Interactive explorer · "+id.toUpperCase();
@@ -179,17 +202,19 @@ function focus(i){
  $("v2MapPrev").disabled=index===0;$("v2MapNext").disabled=index===nodes.length-1;
  original(id);drawBeat();
  selectRoute(id);
- if(reduce){beat=story.steps.length-1;drawBeat();return}
- timer=setInterval(()=>{if(beat>=story.steps.length-1){stop();return}beat++;drawBeat()},1750);
+ if(reduce){beat=story.steps.length-1;drawBeat();paintPause();return}
+ if(story.steps.length>1)schedule(2800);
+ paintPause();
 }
 $("v2MapPrev").onclick=()=>focus(index-1);
 $("v2MapNext").onclick=()=>focus(index+1);
 $("v2MapReplay").onclick=()=>focus(Math.max(0,index));
+$("v9MapPause").onclick=togglePause;
 renderComponent=function(id){
  const next=nodes.findIndex(n=>n[0]===id);
  if(next>=0&&next!==index)focus(next);else original(id);
 };
 const before=slideTo;
-slideTo=function(i){if(i!==3)stop();before(i)};
+slideTo=function(i){if(i!==3){stop();board.classList.add("v9-map-paused")}else if(!paused){board.classList.remove("v9-map-paused");if(index>=0&&beat<stories[nodes[index][0]].steps.length-1)schedule(Math.max(100,remaining||2800))}before(i)};
 focus(0);
 })();
