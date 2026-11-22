@@ -3,19 +3,10 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const svg={
- device:'<rect x="4" y="5" width="24" height="17" rx="2"/><path d="M2 26h28M13 26l1-4h4l1 4"/>',
- ap:'<path d="M4 11a20 20 0 0 1 24 0M9 16a12 12 0 0 1 14 0M14 21a5 5 0 0 1 4 0"/><circle cx="16" cy="26" r="2"/>',
- router:'<rect x="4" y="10" width="24" height="14" rx="3"/><path d="M9 17h14M9 6l4 4-4 4M23 28l-4-4 4-4"/><circle cx="10" cy="20" r="1"/>',
- internet:'<circle cx="16" cy="16" r="12"/><path d="M4 16h24M16 4c8 7 8 17 0 24M16 4c-8 7-8 17 0 24"/>',
- server:'<rect x="5" y="5" width="22" height="9" rx="2"/><rect x="5" y="18" width="22" height="9" rx="2"/><path d="M10 10h1M10 23h1M15 10h7M15 23h7"/>',
- dhcp:'<rect x="5" y="4" width="22" height="24" rx="3"/><path d="M11 10h11M11 16h11M11 22h8"/>',
- arp:'<circle cx="7" cy="9" r="3"/><circle cx="25" cy="9" r="3"/><circle cx="16" cy="25" r="3"/><path d="M10 10h12M9 12l5 10M23 12l-5 10"/>',
- dns:'<circle cx="16" cy="16" r="12"/><path d="M4 16h24M16 4c8 6 8 18 0 24M16 4c-8 6-8 18 0 24"/>',
- tcp:'<path d="M4 10h22l-5-5M26 22H6l5 5"/><path d="M26 10l-5 5M6 22l5-5"/>'
-};
+// Existing outline icons from Lucide (vendored locally under icons/, ISC license).
+const iconFiles={device:"monitor",ap:"wifi",router:"router",internet:"globe",server:"server",dhcp:"network",arp:"radio-tower",dns:"book-open",tcp:"arrow-left-right"};
 const make=(tag,cls,content)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=content;return x};
-const icon=name=>'<span class="p2-router-icon" aria-hidden="true"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'+(svg[name]||svg.device)+'</svg></span>';
+const icon=name=>'<span class="p2-router-icon" aria-hidden="true"><img src="./icons/'+(iconFiles[name]||"monitor")+'.svg" alt="" width="32" height="32" draggable="false"></span>';
 window.atlasV2={make,icon,reduce};
 
 /* Opening: a single editorial action, no accidental blue text selection in the 3D scene. */
