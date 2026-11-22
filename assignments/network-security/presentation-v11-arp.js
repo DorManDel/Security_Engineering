@@ -553,7 +553,7 @@ const topicProfiles={
     "https://www.rfc-editor.org/rfc/rfc2131.html"
    ],
    [
-    "Microsoft DHCP basics",
+    "Cisco DHCP snooping",
     "https://www.cisco.com/c/en/us/support/docs/ip/dynamic-host-configuration-protocol-dhcp-dhcpv6/217055-operate-and-troubleshoot-dhcp-snooping.html"
    ]
   ],
@@ -812,7 +812,7 @@ function paint(){
  lab.querySelector(".arp-switch").classList.toggle("verified",mode==="mitigation");
  lab.querySelector(".arp-gateway").classList.toggle("verified",mode!=="attack");
  lab.classList.toggle("arp-blocked",mode==="mitigation"&&step>=1);
- const blocked=mode==="mitigation"&&step>=1;
+ const blocked=mode==="mitigation"&&(selectedTopicKey==="arp"?step>=1:step===1);
  const paths=blocked&&selectedTopicKey==="arp"?["protected"]:frame.paths;
  const badge=lab.querySelector("#arpMechanismBadge");
  if(badge){
