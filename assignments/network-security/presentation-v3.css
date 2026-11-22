@@ -66,3 +66,9 @@
 @media(max-width:760px){#journey .p2-route{min-height:90px}#journey .p2-router{width:66px;min-height:75px}#journey .p2-router .p2-router-icon{width:42px;height:42px}#journey .p2-router-icon img{width:22px;height:22px}#journey .p2-msg strong{font-size:11px}#journey .p2-msg .p2-direction{white-space:normal}#journey .p2-msg small{display:none}#goals .p2-cia-tab{padding:8px 5px;grid-template-columns:18px 1fr;gap:5px}#goals .p2-cia-tab .v3-cia-icon{width:18px;height:18px}}
 @media(max-height:740px) and (min-width:761px){#journey .p2-route{min-height:85px;padding:0}#journey .p2-router{min-height:81px}#journey .p2-router .p2-router-icon{width:45px;height:45px}#journey .p2-network{padding:8px 12px;gap:6px}#journey .p2-exchange{min-height:96px}#journey .p2-msg small{display:none}}
 @media(prefers-reduced-motion:reduce){#goals.active .v3-wire-packet,.traffic-node{animation:none!important}#goals .v3-wire-packet{opacity:1!important;left:49%!important}#journey .p2-route:before{transition:none}}
+
+/* Availability is not a successful completed exchange. Stop each packet along the path. */
+#goals.active .p2-cia[data-current-goal="availability"] .p2-compare-card:first-child .v3-wire-packet{animation-name:v3-http-timeout}
+#goals.active .p2-cia[data-current-goal="availability"] .p2-compare-card:nth-child(2) .v3-wire-packet{animation-name:v3-https-timeout}
+@keyframes v3-http-timeout{0%,2%{left:1%;opacity:0}8%{opacity:1}24%{left:49%;opacity:1}40%{left:64%;opacity:0}100%{left:64%;opacity:0}}
+@keyframes v3-https-timeout{0%,50%{left:1%;opacity:0}55%{opacity:1}72%{left:49%;opacity:1}90%{left:64%;opacity:0}100%{left:64%;opacity:0}}
