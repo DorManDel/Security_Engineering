@@ -115,12 +115,12 @@ function runFullJourney(){
  }
  advance();
 }
-$("v2Prev").onclick=()=>{stopTour();tourFinished=false;position--;render()};
-$("v2Next").onclick=()=>{stopTour();tourFinished=false;position++;render()};
-$("v2Replay").onclick=()=>{stopTour();tourFinished=false;replay()};
+$("v2Prev").onclick=()=>{tourFinished=false;stopTour();position--;render()};
+$("v2Next").onclick=()=>{tourFinished=false;stopTour();position++;render()};
+$("v2Replay").onclick=()=>{tourFinished=false;stopTour();replay()};
 $("v2Go").onclick=runFullJourney;
 function changeNetworkState(value){
- stopTour();tourFinished=false;
+ tourFinished=false;stopTour();
  const selector=$("networkState");selector.value=value;
  resetEvents();position=0;render();
  $("v4JourneyStatus").textContent=value==="warm"
