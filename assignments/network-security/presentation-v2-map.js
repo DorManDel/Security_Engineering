@@ -174,7 +174,8 @@ function togglePause(){
  paused=!paused;
  if(paused){remaining=Math.max(1,nextDue-performance.now());stop()}
  else if(beat<last)schedule(Math.max(80,remaining));
- board.classList.toggle("v9-map-paused",paused);
+ host.classList.toggle("v9-map-paused",paused);
+ if(paused)lineSvg.pauseAnimations?.();else lineSvg.unpauseAnimations?.();
  paintPause();
 }
 function drawBeat(){
@@ -193,7 +194,7 @@ function drawBeat(){
 }
 const original=renderComponent;
 function focus(i){
- stop();paused=false;board.classList.remove("v9-map-paused");index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
+ stop();paused=false;host.classList.remove("v9-map-paused");lineSvg.unpauseAnimations?.();index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
  const [id,label]=nodes[index],story=stories[id];
  board.querySelectorAll("[data-component-v2]").forEach(b=>b.classList.toggle("active",b.dataset.componentV2===id));
  $("v2MapCounter").textContent="Interactive explorer · "+id.toUpperCase();
@@ -215,6 +216,6 @@ renderComponent=function(id){
  if(next>=0&&next!==index)focus(next);else original(id);
 };
 const before=slideTo;
-slideTo=function(i){if(i!==3){stop();board.classList.add("v9-map-paused")}else if(!paused){board.classList.remove("v9-map-paused");if(index>=0&&beat<stories[nodes[index][0]].steps.length-1)schedule(Math.max(100,remaining||2800))}before(i)};
+slideTo=function(i){if(i!==3){stop();host.classList.add("v9-map-paused");lineSvg.pauseAnimations?.()}else if(!paused){host.classList.remove("v9-map-paused");lineSvg.unpauseAnimations?.();if(index>=0&&beat<stories[nodes[index][0]].steps.length-1)schedule(Math.max(100,remaining||2800))}before(i)};
 focus(0);
 })();
