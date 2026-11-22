@@ -1,0 +1,54 @@
+/* Presentation sprint: compact seven-stage Journey and demonstrative network inspector. */
+#journey .p2-address{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px}
+#journey .v7-browser-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end;white-space:nowrap}
+#journey .v7-exchange-controls{display:inline-flex;align-items:center;gap:3px;border-left:1px solid #a9d4e83a;padding-left:9px}
+#journey .v7-icon-control{border:1px solid transparent!important;min-width:32px;width:32px;height:32px;border-radius:7px;display:grid;place-items:center;padding:0!important;font-size:19px!important;color:var(--accent);line-height:1}
+#journey .v7-icon-control:hover{background:#abcde819;border-color:#a9d4e834!important;text-decoration:none}
+#journey .v7-icon-control:focus-visible,#journey .v7-protocol-tab:focus-visible,#journey .v7-map-link:focus-visible{outline:2px solid #e9cf8a;outline-offset:2px}
+#journey .v7-protocol-strip{display:flex;gap:0;align-items:stretch;justify-content:center;width:100%;border-bottom:1px solid #a9d4e82c;padding:0 1px;overflow-x:auto;scrollbar-width:thin}
+#journey .v7-protocol-tab{min-width:68px;flex:1 0 auto;position:relative;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font:600 11px/1.2 Inter,"Segoe UI",sans-serif;padding:11px 7px;white-space:nowrap;transition:color .18s,background .18s}
+#journey .v7-protocol-tab.active{border-bottom-color:#e9cf8a;color:var(--ink);background:linear-gradient(0deg,#a9d4e815,transparent)}
+#journey .v7-protocol-tab:hover:not(.active){color:var(--accent);background:#a9d4e80c}
+#journey .v7-map-link{flex:0 0 auto;min-width:104px;padding:11px 6px;margin-left:8px;background:transparent;border:0;color:var(--accent);font-size:11px;white-space:nowrap}
+#journey .v7-map-link:hover{text-decoration:underline}
+#journey .p2-exchange{margin-top:1px}
+#journey .p2-stage-status .p2-exchange-label{letter-spacing:.1em}
+#journey .p2-journey-footer{padding-top:2px}
+#map .v8-lab{padding:10px 12px;border:1px solid #a9d4e82a;border-radius:9px;background:linear-gradient(120deg,#0b2233a3,#a9d4e806);min-height:128px;overflow:hidden}
+#map .v8-lab-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:9px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+#map .v8-lab-heading span:last-child{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0}
+#map .v8-lab-channel{display:grid;grid-template-columns:minmax(0,1fr) minmax(52px,1.3fr) minmax(0,1fr);align-items:center;gap:7px;margin-top:14px}
+#map .v8-lab-channel strong{font-size:11px;line-height:1.25;color:var(--ink);font-weight:600;text-align:center;overflow-wrap:anywhere}
+#map .v8-lab-track{position:relative;height:2px;background:linear-gradient(90deg,#9fc9dc80,#e9cf8ab5,#9fc9dc80);border-radius:8px}
+#map .v8-lab-packet{position:absolute;width:10px;height:7px;border-radius:2px;background:#e9cf8a;left:0;top:-3px;box-shadow:0 0 12px #e9cf8a80;opacity:0}
+#map .v8-lab.playing:not(.reverse) .v8-lab-packet{animation:v8-packet-out 1.5s ease-in-out infinite}
+#map .v8-lab.playing.reverse .v8-lab-packet{animation:v8-packet-return 1.5s ease-in-out infinite;background:#9ed2e3;box-shadow:0 0 12px #9ed2e380}
+@keyframes v8-packet-out{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 10px);opacity:0}}
+@keyframes v8-packet-return{0%{left:calc(100% - 10px);opacity:0}15%{opacity:1}85%{opacity:1}100%{left:0;opacity:0}}
+#map .v8-lab-payload{color:#e9cf8a;text-align:center;font:11px/1.35 Consolas,monospace;overflow-wrap:anywhere;margin-top:9px}
+#map .v8-lab-info{color:var(--muted);font-size:10px;line-height:1.35;text-align:center;margin:3px 0 0}
+#map .p2-map-focus{gap:9px}
+#map .p2-map-steps{gap:5px;margin-top:8px}
+#map .v5-map-step{padding:5px 7px}
+#map .v5-map-step-copy small{font-size:10px}
+@media(max-height:735px) and (min-width:851px){
+ #map .v8-lab{padding:6px 10px;min-height:95px}
+ #map .v8-lab-channel{margin-top:7px}
+ #map .v8-lab-info{display:none}
+ #map .v8-lab-payload{margin-top:4px}
+ #map .p2-map-focus{gap:6px}
+}
+@media(max-width:760px){
+ #journey .p2-address{grid-template-columns:minmax(0,1fr) auto}
+ #journey .p2-address>label{display:none}
+ #journey .v7-protocol-strip{justify-content:flex-start}
+ #journey .v7-protocol-tab{min-width:65px}
+ #journey .v7-browser-actions{gap:3px}
+ #journey .v7-map-link{min-width:85px}
+ #journey .v7-icon-control{width:28px;min-width:28px}
+ #map .v8-lab-channel{margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ #map .v8-lab-packet{animation:none!important;opacity:1;left:50%}
+ #journey .v7-protocol-tab{transition:none}
+}
