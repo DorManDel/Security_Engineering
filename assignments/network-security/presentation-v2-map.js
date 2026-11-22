@@ -65,6 +65,7 @@ function focus(i){
  $("v2MapOrdinal").textContent=(index+1)+" / "+nodes.length;
  $("v2MapPrev").disabled=index===0;$("v2MapNext").disabled=index===nodes.length-1;
  original(id);drawBeat();
+ const wires=board.querySelectorAll("svg.p2-lines path");wires.forEach((wire,n)=>wire.classList.toggle("focus-route",n===0||({dhcp:1,dns:2,arp:3,tcp:4}[id]===n)));
  if(reduce){beat=story.steps.length-1;drawBeat();return}
  timer=setInterval(()=>{if(beat>=story.steps.length-1){stop();return}beat++;drawBeat()},950);
 }
