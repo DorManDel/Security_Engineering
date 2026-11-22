@@ -16,8 +16,8 @@ footer{margin-top:37px;border-top:1px solid var(--line);padding:18px 0;color:var
 <dialog id="settings"><button class="icon-btn close" id="closeSettings" aria-label="Close settings">✕</button><h2>Display settings</h2><p>Personalize the library. Your choices are stored in this browser.</p><label>Card glow <select id="glow"><option value=".7">Subtle</option><option value="1">Full</option><option value="0">Off</option></select></label><label>Motion <select id="motion"><option value="1">On</option><option value="0">Off</option></select></label><label>Background stars <select id="stars"><option value="on">On</option><option value="off">Off</option></select></label><button class="icon-btn" id="reset">Reset defaults</button></dialog>
 <script>
 const assignments=[
-{id:1,title:'Security Engineering',subtitle:'Small mistakes, massive consequences',type:'POWERPOINT',href:'./presentations/01/',ready:false},
-{id:2,title:'Cryptography & Stream Ciphers',subtitle:'From secret messages to broken encryption',type:'POWERPOINT',href:'./presentations/02/',ready:false},
+{id:1,title:'Security Engineering',subtitle:'Small mistakes, massive consequences',type:'POWERPOINT',href:'./presentations/01/',ready:true},
+{id:2,title:'Cryptography & Stream Ciphers',subtitle:'From secret messages to broken encryption',type:'POWERPOINT',href:'./presentations/02/',ready:true},
 {id:3,title:'Cipher Atlas',subtitle:'Block ciphers, AES, modes and BEAST',type:'INTERACTIVE',href:'./presentations/03/',ready:true},
 {id:4,title:'Network Security',subtitle:'Protocols, trust boundaries and attack scenarios',type:'INTERACTIVE',href:'./assignments/network-security/',ready:true},
 ...Array.from({length:4},(_,i)=>({id:i+5,title:'Future Assignment',subtitle:'Space reserved for upcoming course material',type:'COMING SOON',ready:false,href:'#'}))
