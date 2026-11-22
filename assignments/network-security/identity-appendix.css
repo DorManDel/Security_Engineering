@@ -1,0 +1,19 @@
+/* Optional notGoogle appendix: follow the restrained Atlas design. */
+.identity-slide{padding:22px clamp(18px,4vw,60px);gap:17px}
+.identity-slide .slide-head{max-width:1250px;width:100%;margin:0 auto}
+.identity-stage{width:min(100%,1250px);margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,3vw,50px);flex:1;min-height:0;align-items:center}
+.identity-demo,.identity-explanation{display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0}
+.identity-topline{color:#a9d4e8;font-size:10px;letter-spacing:.14em;font-weight:650}
+.identity-demo h3{font:clamp(29px,3vw,43px) Georgia,serif;margin:0;color:#e8f1fa}
+.identity-demo p,.identity-explanation p{color:#bed1de;line-height:1.6;font-size:14px;margin:0}
+.identity-browser{display:flex;align-items:center;gap:12px;border-bottom:1px solid #a9d4e84a;padding:16px 4px;color:#a9c0d2;max-width:550px}
+.identity-browser-icon{font-size:30px;color:#a9d4e8}
+.identity-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.identity-open,.identity-actions button{font-size:13px;border:0;background:transparent;color:#acd9ec;text-decoration:none;padding:9px 0}
+.identity-open:hover,.identity-actions button:hover{color:#fff}
+.identity-explanation{border-left:1px solid #a9d4e838;padding-left:clamp(15px,2vw,30px);align-self:center}
+.identity-point strong{font-size:15px;color:#e5eff9}
+.identity-point p{font-size:12px;margin-top:5px}
+.identity-lesson{border-left:2px solid #e9cf8a;padding:10px 14px;background:#e9cf8a0d}
+.identity-footer{width:min(100%,1250px);margin:0 auto;color:#819aaf;font-size:11px}
+@media(max-width:750px){.identity-slide{overflow:auto}.identity-stage{grid-template-columns:1fr;min-height:680px}.identity-explanation{border-left:0;border-top:1px solid #a9d4e838;padding:22px 0}.identity-demo,.identity-explanation{gap:11px}}
