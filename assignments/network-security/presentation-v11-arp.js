@@ -122,7 +122,7 @@ const topicProfiles={
    ],
    [
     "Cisco Port Security",
-    "https://www.cisco.com/c/en/us/tech/lan-switching/port-security/index.html"
+    "https://www.cisco.com/c/en/us/td/docs/switches/lan/c9000/lyr2-fwd/cdp-lldp-mac-udld/cdp-lldp-mac-udld-configuration-guide/c-configure-mac.html"
    ]
   ],
   "modes": {
@@ -223,8 +223,7 @@ const topicProfiles={
       "description": "If there is no stronger authentication, the cloned source address may gain access to the protected segment.",
       "tag": "Impersonator → Protected LAN",
       "paths": [
-       "to-switch",
-       "relay"
+       "unauthorized"
       ],
       "fields": [
        "Forwarded frame",
@@ -422,7 +421,7 @@ const topicProfiles={
       "description": "Without source-address filtering, an edge network may forward the datagram toward the server.",
       "tag": "Forged source passes edge router",
       "paths": [
-       "relay"
+       "spoofedOut"
       ],
       "fields": [
        "Forwarded",
@@ -555,7 +554,7 @@ const topicProfiles={
    ],
    [
     "Microsoft DHCP basics",
-    "https://learn.microsoft.com/en-us/windows-server/troubleshoot/dynamic-host-configuration-protocol-basics"
+    "https://www.cisco.com/c/en/us/support/docs/ip/dynamic-host-configuration-protocol-dhcp-dhcpv6/217055-operate-and-troubleshoot-dhcp-snooping.html"
    ]
   ],
   "modes": {
@@ -749,7 +748,7 @@ const topicProfiles={
 };
 let modes=arpModes,selectedTopicKey='arp';
 const $=id=>document.getElementById(id);
-const lab=document.createElement("section");lab.id="arpTopicLab";lab.className="arp-lab";lab.innerHTML="\n<div class=\"arp-intro\">\n <div><span class=\"arp-overline\">01 / 08 · LOCAL NETWORK SECURITY</span><h3>ARP Poisoning</h3>\n <p><strong>ARP</strong> (Address Resolution Protocol) maps a local IPv4 address to a MAC address.\n <strong>Poisoning</strong> means forging that mapping to redirect frames.</p></div>\n <span class=\"arp-illustrative\">Illustrative · No packets transmitted</span>\n</div>\n<div class=\"arp-topbar\">\n <div class=\"arp-modes\" role=\"tablist\" aria-label=\"ARP demonstration mode\">\n  <button type=\"button\" data-arp-mode=\"normal\" role=\"tab\">01 · Normal</button>\n  <button type=\"button\" data-arp-mode=\"attack\" role=\"tab\">02 · Attack</button>\n  <button type=\"button\" data-arp-mode=\"mitigation\" role=\"tab\">03 · Mitigation</button>\n </div>\n <div class=\"arp-playback\" role=\"group\" aria-label=\"ARP animation playback\">\n  <button type=\"button\" id=\"arpPrev\" title=\"Previous message\" aria-label=\"Previous message\">‹</button>\n  <button type=\"button\" id=\"arpPlay\" title=\"Play steps\" aria-label=\"Play steps\"><img src=\"./icons/play.svg\" alt=\"\"></button>\n  <button type=\"button\" id=\"arpReplay\" title=\"Replay mode\" aria-label=\"Replay mode\">↻</button>\n  <button type=\"button\" id=\"arpNext\" title=\"Next message\" aria-label=\"Next message\">›</button>\n </div>\n</div>\n<div class=\"arp-progress\"><span id=\"arpModeTitle\"></span><span id=\"arpStepCount\"></span></div>\n<div class=\"arp-network-scene\" id=\"arpNetworkScene\" role=\"group\" aria-label=\"Local network topology\">\n <svg class=\"arp-topology-svg\" viewBox=\"0 0 940 252\" preserveAspectRatio=\"xMidYMid meet\" aria-hidden=\"true\">\n  <path class=\"arp-link\" d=\"M132 91 L470 91 L808 91\"/>\n  <path class=\"arp-link\" d=\"M470 91 L470 213\"/>\n  <g id=\"arpLivePaths\"></g>\n </svg>\n <div class=\"arp-actor arp-victim\"><img src=\"./icons/monitor.svg\" alt=\"\"><strong>Victim</strong><small>192.168.1.24</small></div>\n <div class=\"arp-actor arp-switch\"><img src=\"./icons/network.svg\" alt=\"\"><strong>LAN switch</strong><small>Local link</small></div>\n <div class=\"arp-actor arp-gateway\"><img src=\"./icons/router.svg\" alt=\"\"><strong>Gateway</strong><small>192.168.1.1</small></div>\n <div class=\"arp-actor arp-attacker\"><img src=\"./icons/monitor.svg\" alt=\"\"><strong>Attacker</strong><small>192.168.1.66</small></div>\n <div id=\"arpSceneTag\" class=\"arp-packet-label\" aria-live=\"polite\"></div>\n</div>\n<div class=\"arp-description\"><strong id=\"arpStepTitle\"></strong><span id=\"arpStepExplanation\"></span></div>\n<div class=\"arp-inspector\">\n <div class=\"arp-inspector-head\"><span>ARP MESSAGE FIELDS</span><span>VICTIM'S ARP CACHE</span></div>\n <div class=\"arp-inspector-fields\">\n  <div><small>Opcode</small><code id=\"arpOpcode\"></code></div>\n  <div><small>Sender IP</small><code id=\"arpSenderIp\"></code></div>\n  <div><small>Sender MAC</small><code id=\"arpSenderMac\"></code></div>\n  <div class=\"arp-cache\"><small>192.168.1.1 →</small><code id=\"arpCachedMac\"></code></div>\n </div>\n <div class=\"arp-change-note\" id=\"arpChangeNote\"></div>\n</div>\n<div class=\"arp-five-questions\" role=\"group\" aria-label=\"Five questions for this topic\">\n <div><b>01 · Purpose</b><span>Local IPv4 → MAC</span></div>\n <div><b>02 · Normal</b><span>Request → Reply → Cache</span></div>\n <div><b>03 · Trust</b><span>Unauthenticated ARP claims</span></div>\n <div><b>04 · Attack & why</b><span>False reply changes mapping</span></div>\n <div><b>05 · Defense</b><span>Validate IP/MAC bindings</span></div>\n</div>\n<div class=\"arp-lab-footer\">\n <span class=\"arp-sources\">Sources: <a href=\"https://www.rfc-editor.org/rfc/rfc826.html\" target=\"_blank\" rel=\"noopener noreferrer\">RFC 826 ↗</a> · <a href=\"https://www.cisco.com/c/en/us/td/docs/switches/lan/c9000/sec-crypto/fhs-sisf/fhs-and-sisf-configuration-guide/dynamic-arp-inspection.html\" target=\"_blank\" rel=\"noopener noreferrer\">Cisco DAI ↗</a></span>\n <div><button type=\"button\" id=\"arpBackMap\">ARP in Network Map ↗</button><button type=\"button\" id=\"arpRelated\">Related case studies ↗</button></div>\n</div>";detail.append(lab);
+const lab=document.createElement("section");lab.id="arpTopicLab";lab.className="arp-lab";lab.innerHTML="\n<div class=\"arp-intro\">\n <div><span class=\"arp-overline\">01 / 08 · LOCAL NETWORK SECURITY</span><h3>ARP Poisoning</h3>\n <p><strong>ARP</strong> (Address Resolution Protocol) maps a local IPv4 address to a MAC address.\n <strong>Poisoning</strong> means forging that mapping to redirect frames.</p></div>\n <span class=\"arp-illustrative\">Illustrative · No packets transmitted</span>\n</div>\n<div class=\"arp-topbar\">\n <div class=\"arp-modes\" role=\"tablist\" aria-label=\"ARP demonstration mode\">\n  <button type=\"button\" data-arp-mode=\"normal\" role=\"tab\">01 · Normal</button>\n  <button type=\"button\" data-arp-mode=\"attack\" role=\"tab\">02 · Attack</button>\n  <button type=\"button\" data-arp-mode=\"mitigation\" role=\"tab\">03 · Mitigation</button>\n </div>\n <div class=\"arp-playback\" role=\"group\" aria-label=\"ARP animation playback\">\n  <button type=\"button\" id=\"arpPrev\" title=\"Previous message\" aria-label=\"Previous message\">‹</button>\n  <button type=\"button\" id=\"arpPlay\" title=\"Play steps\" aria-label=\"Play steps\"><img src=\"./icons/play.svg\" alt=\"\"><span>Play</span></button>\n  <button type=\"button\" id=\"arpReplay\" title=\"Replay mode\" aria-label=\"Replay mode\">↻ <span>Replay</span></button>\n  <button type=\"button\" id=\"arpNext\" title=\"Next message\" aria-label=\"Next message\">›</button>\n </div>\n</div>\n<div class=\"arp-progress\"><span id=\"arpModeTitle\"></span><span id=\"arpStepCount\"></span></div>\n<div class=\"arp-network-scene\" id=\"arpNetworkScene\" role=\"group\" aria-label=\"Local network topology\">\n <svg class=\"arp-topology-svg\" viewBox=\"0 0 940 252\" preserveAspectRatio=\"xMidYMid meet\" aria-hidden=\"true\">\n  <path class=\"arp-link\" d=\"M132 91 L470 91 L808 91\"/>\n  <path class=\"arp-link\" d=\"M470 91 L470 213\"/>\n  <g id=\"arpLivePaths\"></g>\n </svg>\n <div class=\"arp-actor arp-victim\"><img src=\"./icons/monitor.svg\" alt=\"\"><strong>Victim</strong><small>192.168.1.24</small></div>\n <div class=\"arp-actor arp-switch\"><img src=\"./icons/network.svg\" alt=\"\"><strong>LAN switch</strong><small>Local link</small></div>\n <div class=\"arp-actor arp-gateway\"><img src=\"./icons/router.svg\" alt=\"\"><strong>Gateway</strong><small>192.168.1.1</small></div>\n <div class=\"arp-actor arp-attacker\"><img src=\"./icons/monitor.svg\" alt=\"\"><strong>Attacker</strong><small>192.168.1.66</small></div>\n <div id=\"arpSceneTag\" class=\"arp-packet-label\" aria-live=\"polite\"></div>\n</div>\n<div class=\"arp-description\"><strong id=\"arpStepTitle\"></strong><span id=\"arpStepExplanation\"></span></div>\n<div class=\"arp-inspector\">\n <div class=\"arp-inspector-head\"><span>ARP MESSAGE FIELDS</span><span>VICTIM'S ARP CACHE</span></div>\n <div class=\"arp-inspector-fields\">\n  <div><small>Opcode</small><code id=\"arpOpcode\"></code></div>\n  <div><small>Sender IP</small><code id=\"arpSenderIp\"></code></div>\n  <div><small>Sender MAC</small><code id=\"arpSenderMac\"></code></div>\n  <div class=\"arp-cache\"><small>192.168.1.1 →</small><code id=\"arpCachedMac\"></code></div>\n </div>\n <div class=\"arp-change-note\" id=\"arpChangeNote\"></div>\n</div>\n<div class=\"arp-five-questions\" role=\"group\" aria-label=\"Five questions for this topic\">\n <div><b>01 · Purpose</b><span>Local IPv4 → MAC</span></div>\n <div><b>02 · Normal</b><span>Request → Reply → Cache</span></div>\n <div><b>03 · Trust</b><span>Unauthenticated ARP claims</span></div>\n <div><b>04 · Attack & why</b><span>False reply changes mapping</span></div>\n <div><b>05 · Defense</b><span>Validate IP/MAC bindings</span></div>\n</div>\n<div class=\"arp-lab-footer\">\n <span class=\"arp-sources\">Sources: <a href=\"https://www.rfc-editor.org/rfc/rfc826.html\" target=\"_blank\" rel=\"noopener noreferrer\">RFC 826 ↗</a> · <a href=\"https://www.cisco.com/c/en/us/td/docs/switches/lan/c9000/sec-crypto/fhs-sisf/fhs-and-sisf-configuration-guide/dynamic-arp-inspection.html\" target=\"_blank\" rel=\"noopener noreferrer\">Cisco DAI ↗</a></span>\n <div><button type=\"button\" id=\"arpBackMap\">ARP in Network Map ↗</button><button type=\"button\" id=\"arpRelated\">Related case studies ↗</button></div>\n</div>";detail.append(lab);
 const pathPresets={
  broadcast:[["M132 91 L470 91 L808 91","gold"]],
  "gateway-reply":[["M808 91 L470 91 L132 91","gold"]],
@@ -757,6 +756,8 @@ const pathPresets={
  forged:[["M470 213 L470 91 L132 91","red"]],
  misdirected:[["M132 91 L470 91 L470 213","red"]],
  relay:[["M470 213 L470 91 L808 91","gold"]],
+ unauthorized:[["M470 213 L470 91 L808 91","red"]],
+ spoofedOut:[["M470 213 L470 91 L808 91","red"]],
  "to-switch":[["M470 213 L470 91","red"]]
 };
 const ns="http://www.w3.org/2000/svg";
@@ -800,6 +801,7 @@ function paint(){
   frame.note;
  $("arpPrev").disabled=step===0;$("arpNext").disabled=step===data.steps.length-1;
  const play=$("arpPlay");play.querySelector("img").src="./icons/"+(timer===null?"play":"pause")+".svg";
+ play.querySelector("span").textContent=timer===null?"Play":"Pause";
  play.setAttribute("aria-label",timer===null?"Play selected animation":"Pause selected animation");
  play.title=timer===null?"Play selected animation":"Pause selected animation";
  lab.querySelector(".arp-attacker").classList.toggle("danger",mode==="attack");
@@ -861,6 +863,7 @@ function sync(){
  if(detail.classList.contains("arp-focused")!==enabled)detail.classList.toggle("arp-focused",enabled);
  if(enabled&&selectedTopicKey!==next){stop();mode="normal";step=0;applyProfile(next);paint()}
  if(!root.classList.contains("active")){stop();const svg=lab.querySelector(".arp-topology-svg");svg?.pauseAnimations?.()}
+ else if(enabled)paint();
 }
 
 const observer=new MutationObserver(sync);
