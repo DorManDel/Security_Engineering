@@ -1,0 +1,12 @@
+/* Conceptual flow, two separate directions, highlighted selection. */
+#map .p2-topology svg.p2-lines{pointer-events:auto;overflow:visible}
+#map .net-flow-line{fill:none;stroke:#8bacbc;stroke-width:1.5;stroke-opacity:.25;stroke-dasharray:4 9;transition:stroke .2s,stroke-opacity .2s}
+#map .net-flow-line.return{stroke:#8cbfb8}
+#map .net-flow-line.selected{stroke:#e9cf8a;stroke-opacity:.94;stroke-width:2.3}
+#map .net-flow-line.return.selected{stroke:#afd5e8}
+#map .net-flow-dot{fill:#a9d4e8;opacity:.29;pointer-events:none;filter:drop-shadow(0 0 3px #a9d4e877)}
+#map .net-flow-dot.selected{fill:#e9cf8a;opacity:1;filter:drop-shadow(0 0 5px #e9cf8a)}
+#map .net-flow-hit{fill:none;stroke:transparent;stroke-width:18;pointer-events:stroke;cursor:pointer}
+#map .net-flow-hit:focus-visible{stroke:#e9cf8a24;outline:none}
+#map .p2-map-node{z-index:2}
+#map .p2-map-note{z-index:3;pointer-events:none;max-width:68%}
