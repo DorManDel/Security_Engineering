@@ -40,12 +40,12 @@ function restart(){if(!active)return;totalBeforePause=0;startedAt=performance.no
 pause.addEventListener("click",toggle);
 reset.addEventListener("click",restart);
 document.addEventListener("fullscreenchange",()=>{if(document.fullscreenElement)start();else stop()});
-document.addEventListener("keydown",event=>{
+window.addEventListener("keydown",event=>{
  if(!active||event.altKey||event.ctrlKey||event.metaKey||event.repeat)return;
  const t=event.target;
  if(t?.closest?.("input,textarea,select,[contenteditable=true],[role=textbox]"))return;
  if(event.code==="Space"){event.preventDefault();toggle()}
- else if(event.key?.toLowerCase()==="r"){event.preventDefault();restart()}
-});
+ else if(event.code==="KeyR"||event.key?.toLowerCase()==="r"){event.preventDefault();restart()}
+},true);
 window.addEventListener("pagehide",()=>{if(active)stop()});
 })();
