@@ -96,6 +96,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 @media(max-width:760px){.feedback-link{font-size:11px;padding:5px}}
 </style>
 <link rel="stylesheet" href="./enhancements.css">
+<link rel="stylesheet" href="./presentation-v2.css">
 </head>
 <body>
 <div class="shell">
@@ -114,8 +115,8 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 <h1 id="introTitle">Network<br><span class="light">Security Atlas.</span></h1>
 <div class="subline">Every packet has a path. Every path has a weakness.</div>
 <p class="lede">Explore how networks communicate, where trust breaks, and how real incidents reveal the assumptions built into our protocols.</p>
-<div class="inline-controls"><button class="primary" id="enterButton">Enter the network <span aria-hidden="true">→</span></button><a class="secondary" href="../index.html">Assignment overview ↗</a></div>
-<div class="hero-rule"><span>Understand</span><span>·</span><span>Inspect</span><span>·</span><span>Demonstrate</span><span>·</span><span>Review</span></div>
+<div class="inline-controls"><button class="primary" id="enterButton">Enter the network <span aria-hidden="true">→</span></button></div>
+
 </div>
 <div>
 <div class="cube-scene" id="cubeScene" aria-label="Draggable three-dimensional network cube">
@@ -352,4 +353,7 @@ const target=(location.hash||"").slice(1),start=slides.findIndex(x=>x.id===targe
 </script>
 <script src="./traffic.js"></script>
 <script src="./curriculum.js"></script>
+<script src="./presentation-v2.js"></script>
+<script src="./presentation-v2-cia.js"></script>
+<script src="./presentation-v2-map.js"></script>
 </body></html>
