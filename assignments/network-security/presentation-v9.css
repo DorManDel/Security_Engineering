@@ -12,8 +12,8 @@
 #map .v9-pause-map{width:28px;height:27px;display:grid;place-items:center;border:1px solid #a9d4e835;background:#a9d4e806;border-radius:7px;padding:4px;cursor:pointer}
 #map .v9-pause-map img{width:15px;height:15px;filter:brightness(0) saturate(100%) invert(83%) sepia(9%) saturate(840%) hue-rotate(164deg)}
 #map .v9-pause-map:hover,#map .v9-pause-map:focus-visible{border-color:#e9cf8a;background:#a9d4e81b}
-#map .v9-map-paused .v9-visual *,#map .v9-map-paused .v9-visual,
-#map .v9-map-paused svg.p2-lines path{animation-play-state:paused!important}
+#map.v9-map-paused .v9-visual *,#map.v9-map-paused .v9-visual,
+#map.v9-map-paused svg.p2-lines path{animation-play-state:paused!important}
 #map .v8-lab{padding:9px 12px 11px;min-height:170px;display:flex;flex-direction:column;gap:6px}
 #map .v8-lab-heading{flex:0 0 auto}
 #map .v9-visual{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:5px;min-width:0}
