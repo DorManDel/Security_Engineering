@@ -44,10 +44,6 @@ addSlide("cases","05 · Real Cases","From protocols to incidents.","Four histori
  "<div class='case-focus'><div class='panel' style='display:flex;flex-direction:column;gap:12px'><div id='caseCategory' class='micro'>Historical incident</div><h3 id='caseHeading'></h3><p id='caseSummary'></p><div class='external-demo'><button class='secondary' id='caseMap'>Find the component →</button><a href='./notgoogle/index.html' target='_blank' rel='noopener noreferrer'>Open notGoogle site ↗</a><a href='https://github.com/DorManDel/notGoogle' target='_blank' rel='noopener noreferrer'>Original repository ↗</a></div><p class='case-source' id='caseSource'></p></div>"+
  "<div class='panel case-steps'><div class='micro'>Before → manipulation → consequence</div><div class='case-step' id='caseNormal'><b>Normal operation</b><p></p></div><div class='case-step weak' id='caseAttack'><b>What changed</b><p></p></div><div class='case-step' id='caseResult'><b>Consequence</b><p></p></div><div class='small muted' id='caseLesson'></div><div class='inline-controls'><button class='secondary' id='caseStep'>▷ Play story</button><button class='secondary' id='caseReset'>Reset</button></div></div></div>"
 );
-cueText.push(
- ["נעבור על שמונת הנושאים שבחרנו מתוך הרשימה שהציג המרצה. לכל אחד נראה פעולה רגילה, הנחת אמון, חולשה, שימוש לרעה והגנות. חשוב להבדיל בין פרוטוקול כמו DHCP לבין מתקפה כמו SYN Flooding.", "לא נסמן נושא כסגור רק בגלל שראינו הדגמה; נרצה לוודא שאנחנו יכולים להסביר אותו במילים שלנו."],
- ["כעת נעבור למקרים מההרצאה: תוניסיה, טורקיה, קזחסטן ובלארוס. לכל אחד נראה את המצב הרגיל, מה השתנה בתשתית או ביחסי האמון, ומה קרה למשתמש.", "לצד המקרים יש קישור לאתר notGoogle המקורי שלנו. נדגים כיצד ממשק מוכר אינו מוכיח את זהות השרת, ומדוע DNS ו-TLS הם חלק חשוב מסיפור האמון ברשת."]
-);
 const oldSlideTo=slideTo;
 slideTo=function(i){oldSlideTo(i);if(i>=0&&i<slides.length)el("pageNumber").textContent=String(i+1).padStart(2,"0")+" / "+String(slides.length).padStart(2,"0")};
 
