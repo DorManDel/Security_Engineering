@@ -6,7 +6,7 @@ A course presentation library. **Security Engineering** is the product/site iden
 ## Layout and design
 - Navy / cyan palette, Georgia editorial headings, glass surfaces, subtle starfield.
 - Header: clickable **Security Engineering** brand -> homepage, Assignments (homepage), Settings.
-- Responsive grid, **data-driven for 8+ presentations**, simple search, no gigantic hero.
+- Responsive grid with **only published assignments visible** (currently 01–04); future items can be added without redesign. Simple search, no gigantic hero.
 - Cards: restrained border shimmer, cursor spotlight, light elevation. Contain effects inside card bounds.
 - Optional motion and background settings saved locally; respect reduced motion.
 - No promotional narrative, selected-topic widgets, attack-case footers, Network Security section, or feedback blocks on homepage.
@@ -21,7 +21,7 @@ A course presentation library. **Security Engineering** is the product/site iden
 
 ## Presentation Viewer contract
 - Always show Home, deck title, Open PDF, Download PDF (when loaded), Fullscreen.
-- Browser PDF viewer supports native slide navigation and zoom.
+- Browser PDF viewer supports native slide navigation and zoom. All cards are fully clickable and do not display separate action buttons or temporary availability labels.
 - Viewer automatically loads `slides.pdf` in each presentation folder **when present**, or lets visitor choose a PDF from their device.
 - PPTX originals and media are not equivalent to PDF; PDF discards timing/transitions/videos.
 - Keep PPTX archives and separate video/GIF media when publishing. Do not claim a PDF retains animation.
