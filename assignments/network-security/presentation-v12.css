@@ -1,0 +1,91 @@
+/* Network Atlas V12 — unified full-screen presentation for all selected topics and real cases.
+   The same typography and container dimensions are applied across sections 04 and 05. */
+#protocols,#cases{padding:clamp(12px,2vh,24px) clamp(14px,3vw,50px);gap:8px;overflow:hidden}
+#protocols>.slide-head{display:none!important}
+#protocols>.learning-layout,#cases>.case-grid,#cases>.case-focus,#cases>.slide-head{width:100%;max-width:1440px;margin-left:auto;margin-right:auto}
+#protocols>.learning-layout{height:100%;min-height:0;grid-template-columns:minmax(185px,218px) minmax(0,1fr);gap:12px}
+#protocols .learning-layout>.panel:first-child{padding:10px!important;min-height:0;overflow:hidden;background:#a9d4e806;border-color:#a9d4e825}
+#protocols .learning-layout>.panel:first-child>p{display:none}
+#protocols .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;margin-top:9px!important}
+#protocols .topic-option{min-height:clamp(66px,9vh,88px);padding:7px 8px!important;gap:2px!important;border-radius:9px}
+#protocols .topic-option strong{font-size:11px!important;line-height:1.18!important}
+#protocols .topic-option small{font-size:9px!important;line-height:1.13!important}
+#protocols .topic-option .v6-topic-icon{width:18px!important;height:18px!important;right:6px!important;top:6px!important}
+#protocols .learning-detail{font-family:Inter,'Segoe UI',Arial,sans-serif!important;overflow:hidden!important;padding:clamp(9px,1.3vw,16px)!important;min-height:0;gap:clamp(5px,.8vh,9px)}
+#protocols .learning-detail>h3{font-family:Georgia,serif!important;font-weight:400;font-size:clamp(25px,2.25vw,35px)!important;line-height:1.12;margin:0!important}
+#protocols .learning-detail>.micro{font-family:Inter,'Segoe UI',Arial,sans-serif}
+#protocols .learning-detail .v6-questions{gap:5px}
+#protocols .learning-detail .v6-question{font-size:10px;line-height:1.15}
+#protocols .learning-detail .v6-teaching-scene{min-height:130px;height:clamp(138px,22vh,200px);flex-shrink:0;padding:5px 8px}
+#protocols .learning-detail .definition-row{padding-bottom:4px}
+#protocols .learning-detail .definition-row b{font-size:10px;margin-bottom:2px}
+#protocols .learning-detail .definition-row p{font-size:11px;line-height:1.32}
+#protocols .learning-detail .detail-actions{margin-top:0}
+#protocols.arp-mode>.learning-layout{grid-template-columns:minmax(185px,218px) minmax(0,1fr)}
+#protocols.arp-mode .arp-focused{overflow:hidden!important}
+#protocols .arp-intro h3{font-family:Georgia,serif}
+#protocols .arp-lab{gap:clamp(4px,.7vh,7px)}
+#protocols .arp-intro p{font-family:Inter,'Segoe UI',Arial,sans-serif;font-size:11px;line-height:1.35}
+#protocols .arp-topology-svg{overflow:visible}
+#protocols .arp-lab[data-mode=normal] .arp-attacker{opacity:.42;filter:saturate(.55)}
+#protocols .arp-lab[data-mode=normal] .arp-link:nth-child(2){opacity:.23;stroke-dasharray:3 12}
+#protocols .arp-lab[data-mode=attack] .arp-active-path.red{stroke:#ef9299}
+#protocols .arp-lab[data-mode=mitigation] .arp-switch{border-color:#83ccb1a6}
+#protocols .arp-moving-dot{stroke-width:1px}
+#protocols .arp-playback{gap:7px}
+#protocols .arp-playback button{height:31px;width:31px}
+#protocols .arp-playback #arpPlay{background:#a9d4e817;border-radius:7px}
+#protocols .arp-playback #arpReplay{font-size:20px}
+#protocols .arp-five-questions{font-family:Inter,'Segoe UI',Arial,sans-serif}
+#cases>.slide-head{flex:0 0 auto}
+#cases>.slide-head h2{font:400 clamp(27px,2.4vw,35px)/1.1 Georgia,serif!important;letter-spacing:-.025em!important}
+#cases>.slide-head p{font-family:Inter,'Segoe UI',Arial,sans-serif;font-size:12px!important}
+#cases>.case-grid{grid-template-columns:repeat(4,minmax(0,1fr));flex:0 0 auto;gap:8px;min-height:0}
+#cases .case-card{padding:9px 12px;gap:4px;min-height:78px}
+#cases .case-card strong{font:400 clamp(18px,1.6vw,22px)/1.12 Georgia,serif}
+#cases .case-card small{font-size:10px;line-height:1.25}
+#cases>.case-focus{min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:11px;flex:1}
+#cases .case-focus>.panel{padding:clamp(10px,1.2vw,16px)!important;overflow:hidden}
+#cases .case-focus h3{font:400 clamp(24px,2.3vw,32px)/1.12 Georgia,serif;margin:0 0 7px}
+#cases .case-focus p{font-size:12px;line-height:1.4}
+#cases .case-steps{gap:7px;align-content:center}
+#cases .case-step{padding:8px 11px;border-radius:9px}
+#cases .case-step b{font-size:9px}
+#cases .case-step p{font-size:11px;margin:3px 0 0;line-height:1.4}
+#cases .case-source{font-size:10px}
+#cases .case-focus .external-demo{gap:6px;margin-top:4px}
+#cases .case-focus .external-demo a{font-size:10px;padding:6px 8px}
+@media(max-height:780px) and (min-width:851px){
+ #protocols,#cases{padding-top:8px;padding-bottom:8px;gap:5px}
+ #protocols .topic-option{min-height:62px}
+ #protocols .arp-intro h3{font-size:25px}
+ #protocols .arp-intro p{font-size:10px}
+ #protocols .arp-lab{grid-template-rows:auto auto auto minmax(105px,1fr) auto auto auto auto}
+ #protocols .arp-network-scene{min-height:105px}
+ #protocols .arp-actor{min-height:47px}
+ #protocols .arp-actor img{height:17px;width:17px}
+ #protocols .arp-description strong{font-size:10px}
+ #protocols .arp-description span{font-size:10px}
+ #protocols .arp-inspector{padding:5px 7px}
+ #protocols .arp-five-questions{gap:3px}
+ #protocols .learning-detail .v6-teaching-scene{height:136px;min-height:115px}
+ #cases .case-card{min-height:65px;padding:7px 10px}
+ #cases .case-focus>.panel{padding:10px!important}
+ #cases .case-step{padding:5px 8px}
+}
+@media(max-width:850px){
+ #protocols,#cases{overflow:auto}
+ #protocols>.learning-layout,#protocols.arp-mode>.learning-layout{height:auto;display:flex;flex-direction:column}
+ #protocols .topic-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #protocols .learning-layout>.panel:first-child{overflow:visible}
+ #protocols .learning-detail{overflow:visible!important;min-height:560px}
+ #protocols .arp-focused{overflow:visible!important}
+ #cases>.case-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #cases>.case-focus{grid-template-columns:1fr;flex:0 0 auto}
+ #cases .case-focus>.panel{overflow:visible}
+}
+@media(max-width:520px){
+ #protocols .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #protocols .arp-inspector-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #protocols .arp-five-questions{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
