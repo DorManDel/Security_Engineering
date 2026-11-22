@@ -58,6 +58,10 @@ function buildProtocolStrip(){
   b.onclick=()=>{tourFinished=false;stopTour();position=i;render()};
   protocolStrip.append(b);
  });
+ const map=make("button","v7-map-link","Explore map ↗");map.type="button";
+ map.title="Explore these components in the Network Map";
+ map.onclick=()=>{tourFinished=false;stopTour();slideTo(3)};
+ protocolStrip.append(map);
 }
 function paintButtons(){
  const btn=$("v7Pause");if(!btn)return;
@@ -143,7 +147,7 @@ function render(){
  $("v2JourneyCount").textContent=String(position+1).padStart(2,"0")+" / "+String(order.length).padStart(2,"0");
  $("v2JourneyTitle").textContent=cfg.title;$("v2JourneyDesc").textContent=cfg.text;$("v2Analogy").textContent=cfg.analogy;
  $("v2Prev").disabled=position===0;$("v2Next").disabled=position===order.length-1;
- if(protocolStrip.children.length!==order.length)buildProtocolStrip();
+ if(protocolStrip.querySelectorAll("[data-journey-step]").length!==order.length)buildProtocolStrip();
  Array.from(protocolStrip.children).forEach((b,i)=>{const isCurrent=i===position;b.classList.toggle("active",isCurrent);b.setAttribute("aria-current",isCurrent?"step":"false")});
  const warm=$("networkState").value==="warm";
  for(const [id,checked] of [["v4Fresh",!warm],["v4Warm",warm]]){
