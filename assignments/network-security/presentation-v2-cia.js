@@ -43,7 +43,7 @@ scene.innerHTML=[
 host.append(scene);
 let selected="confidentiality";
 function draw(){
- const c=cases[selected];
+ const c=cases[selected];scene.dataset.currentGoal=selected;
  $("v2CiaTitle").textContent=c.question;
  $("v2CiaDesc").textContent=c.desc;
  $("v2CiaResult").textContent=c.outcome;
