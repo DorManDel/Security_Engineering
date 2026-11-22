@@ -765,9 +765,9 @@ const pathPresets={
 };
 const ns="http://www.w3.org/2000/svg";
 const reduce=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
-let mode="normal",step=0,timer=null,cycles=0,wasArp=false,activeTopic=null;
+let mode="normal",step=0,timer=null,cycles=0,frozen=false,wasArp=false,activeTopic=null;
 const MAX_LOOPS=5,STEP_INTERVAL_MS=1450;
-function stop(){if(timer!==null){clearInterval(timer);timer=null}}
+function stop(keepFrame=false){if(timer!==null){clearInterval(timer);timer=null}if(!keepFrame)frozen=false}
 function drawPaths(keys){
  const group=$("arpLivePaths");group.replaceChildren();
  for(const key of keys)for(const [d,color] of pathPresets[key]||[]){
@@ -866,21 +866,45 @@ function applyProfile(key){
 
 function setMode(name){if(!modes[name])return;stop();mode=name;step=0;cycles=0;startAutoplay()}
 function next(){if(step===modes[mode].steps.length-1){stop();paint();return}step++;paint()}
-function startAutoplay(){
- stop();cycles=0;
- if(reduce){paint();return}
+function scheduleLoop(){
  timer=setInterval(()=>{
   if(!root.classList.contains("active")){stop();paint();return}
   if(step<modes[mode].steps.length-1){step++}
   else if(cycles<MAX_LOOPS-1){cycles++;step=0}
-  else {stop();paint();return}
-  if(cycles===MAX_LOOPS-1&&step===modes[mode].steps.length-1){stop()}
+  else{stop();paint();return}
+  if(cycles===MAX_LOOPS-1&&step===modes[mode].steps.length-1)stop();
   paint();
  },STEP_INTERVAL_MS);
+}
+function updatePlaybackButton(running){
+ const play=$("arpPlay");
+ play.querySelector("img").src="./icons/"+(running?"pause":"play")+".svg";
+ play.querySelector("span").textContent=running?"Pause":"Play";
+ play.setAttribute("aria-label",running?"Pause selected animation":"Play selected animation");
+ play.title=running?"Pause selected animation":"Play selected animation";
+}
+function startAutoplay(){
+ stop();cycles=0;frozen=false;
+ if(reduce){paint();return}
+ scheduleLoop();
  paint();
 }
 function togglePlay(){
- if(timer!==null){stop();paint();return}
+ if(timer!==null){
+  // Freeze the current SVG motion in place, rather than redrawing a stray packet.
+  stop(true);frozen=true;
+  lab.querySelector(".arp-topology-svg")?.pauseAnimations?.();
+  updatePlaybackButton(false);
+  $("arpStepCount").textContent=(step+1)+" / "+modes[mode].steps.length+" · paused";
+  return;
+ }
+ if(frozen){
+  frozen=false;
+  if(!reduce){scheduleLoop();lab.querySelector(".arp-topology-svg")?.unpauseAnimations?.()}
+  updatePlaybackButton(!reduce);
+  $("arpStepCount").textContent=(step+1)+" / "+modes[mode].steps.length+" · loop "+(cycles+1)+"/"+MAX_LOOPS;
+  return;
+ }
  if(step===modes[mode].steps.length-1)step=0;
  startAutoplay();
 }
