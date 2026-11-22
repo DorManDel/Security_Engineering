@@ -27,10 +27,14 @@ scene.innerHTML=[
 '<div class="p2-topology" id="v2MapCanvas">',
 '<div class="p2-map-note">Choose a component to see it in action</div>',
 '<svg class="p2-lines" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">',
-'<path d="M100 270 L280 270 L460 270 L660 270 L860 270"/>',
-'<path class="branch" d="M460 270 Q460 190 450 85"/>',
-'<path class="branch" d="M460 270 Q580 120 680 85"/>',
-'<path class="branch" d="M280 270 L280 425"/><path class="branch" d="M860 270 L850 425"/>',
+'<path data-path="device-ap" d="M100 270 L280 270"/>',
+'<path data-path="ap-router" d="M280 270 L460 270"/>',
+'<path data-path="router-internet" d="M460 270 L660 270"/>',
+'<path data-path="internet-server" d="M660 270 L860 270"/>',
+'<path class="branch" data-path="router-dhcp" d="M460 270 Q460 190 450 85"/>',
+'<path class="branch" data-path="router-dns" d="M460 270 Q580 120 680 85"/>',
+'<path class="branch" data-path="ap-arp" d="M280 270 L280 425"/>',
+'<path class="branch" data-path="server-tcp" d="M860 270 L850 425"/>',
 '</svg></div>',
 '<aside class="p2-map-focus" aria-live="polite">',
 '<div class="v5-map-description"><div class="p2-counter" id="v2MapCounter"></div><h3 id="v2MapName"></h3><p id="v2MapDesc"></p></div>',
@@ -45,6 +49,47 @@ nodes.forEach(([id,name,x,y,art],i)=>{
  const b=make("button","p2-map-node");b.type="button";b.dataset.componentV2=id;b.style.left=x+"%";b.style.top=y+"%";b.innerHTML=icon(art);b.append(make("strong","",name));
  b.setAttribute("aria-label","Inspect "+name);b.onclick=()=>focus(i);board.append(b);
 });
+const routeFor={
+ device:[],ap:["device-ap"],router:["device-ap","ap-router"],internet:["device-ap","ap-router","router-internet"],
+ server:["device-ap","ap-router","router-internet","internet-server"],
+ dhcp:["device-ap","ap-router","router-dhcp"],
+ dns:["device-ap","ap-router","router-dns"],
+ arp:["device-ap","ap-arp"],
+ tcp:["device-ap","ap-router","router-internet","internet-server","server-tcp"]
+};
+const ns="http://www.w3.org/2000/svg";
+const lineSvg=board.querySelector("svg.p2-lines");
+let trafficLayer=document.createElementNS(ns,"g");trafficLayer.setAttribute("class","v6-traffic-layer");
+lineSvg.append(trafficLayer);
+let focusPathId="";
+function addTraffic(path,delay=0){
+ // Two independent packets travel in opposite directions, along the selected path.
+ const d=path.getAttribute("d"),length=path.getTotalLength();
+ for(const backward of [false,true]){
+  const dot=document.createElementNS(ns,"rect");
+  dot.setAttribute("width","8");dot.setAttribute("height","6");dot.setAttribute("rx","2");
+  dot.setAttribute("x","-4");dot.setAttribute("y","-3");
+  dot.setAttribute("class","v6-map-packet"+(backward?" returning":" outgoing"));
+  const motion=document.createElementNS(ns,"animateMotion");
+  motion.setAttribute("dur","3.6s");motion.setAttribute("repeatCount","indefinite");
+  motion.setAttribute("keyTimes","0;1");motion.setAttribute("keyPoints",backward?"1;0":"0;1");
+  motion.setAttribute("calcMode","linear");motion.setAttribute("path",d);
+  motion.setAttribute("begin",(delay+(backward?1.2:0))+"s");
+  dot.append(motion);trafficLayer.append(dot);
+ }
+}
+function selectRoute(id){
+ const active=new Set(routeFor[id]||[]);
+ const paths=Array.from(lineSvg.querySelectorAll("path[data-path]"));
+ trafficLayer.replaceChildren();
+ paths.forEach((path,n)=>{
+  const selected=active.has(path.dataset.path);
+  path.classList.toggle("focus-route",selected);
+  path.classList.toggle("v6-path-muted",!selected);
+  if(selected)addTraffic(path,n*.16);
+ });
+}
+
 let index=-1,beat=0,timer=null;
 const stop=()=>{if(timer)clearInterval(timer);timer=null};
 function drawBeat(){
@@ -70,7 +115,7 @@ function focus(i){
  $("v2MapOrdinal").textContent=(index+1)+" / "+nodes.length;
  $("v2MapPrev").disabled=index===0;$("v2MapNext").disabled=index===nodes.length-1;
  original(id);drawBeat();
- const wires=board.querySelectorAll("svg.p2-lines path");wires.forEach((wire,n)=>wire.classList.toggle("focus-route",n===0||({dhcp:1,dns:2,arp:3,tcp:4}[id]===n)));
+ selectRoute(id);
  if(reduce){beat=story.steps.length-1;drawBeat();return}
  timer=setInterval(()=>{if(beat>=story.steps.length-1){stop();return}beat++;drawBeat()},1750);
 }
