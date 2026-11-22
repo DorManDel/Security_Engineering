@@ -42,7 +42,7 @@ scene.innerHTML=[
 host.append(scene);
 const board=$("v2MapCanvas");
 nodes.forEach(([id,name,x,y,art],i)=>{
- const b=make("button","p2-map-node");b.type="button";b.dataset.componentV2=id;b.style.setProperty("--x",x);b.style.setProperty("--y",y);b.innerHTML=icon(art);b.append(make("strong","",name));
+ const b=make("button","p2-map-node");b.type="button";b.dataset.componentV2=id;b.style.left=x+"%";b.style.top=y+"%";b.innerHTML=icon(art);b.append(make("strong","",name));
  b.setAttribute("aria-label","Inspect "+name);b.onclick=()=>focus(i);board.append(b);
 });
 let index=-1,beat=0,timer=null;
