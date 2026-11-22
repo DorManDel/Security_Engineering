@@ -43,7 +43,7 @@ document.addEventListener("fullscreenchange",()=>{if(document.fullscreenElement)
 window.addEventListener("keydown",event=>{
  if(!active||event.altKey||event.ctrlKey||event.metaKey||event.repeat)return;
  const t=event.target;
- if(t?.closest?.("input,textarea,select,[contenteditable=true],[role=textbox]"))return;
+ if(t?.closest?.("input,textarea,select,[contenteditable=true],[role=textbox],.arp-playback"))return;
  if(event.code==="Space"){event.preventDefault();toggle()}
  else if(event.code==="KeyR"||event.key?.toLowerCase()==="r"){event.preventDefault();restart()}
 },true);
