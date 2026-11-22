@@ -38,6 +38,8 @@ scene.innerHTML=[
 '</svg></div>',
 '<aside class="p2-map-focus" aria-live="polite">',
 '<div class="v5-map-description"><div class="p2-counter" id="v2MapCounter"></div><h3 id="v2MapName"></h3><p id="v2MapDesc"></p></div>',
+
+'<div class="v8-lab" id="v8Lab" aria-label="Illustrative protocol exchange"><div class="v8-lab-heading"><span>VISUAL EXCHANGE</span><span>Illustrative · not live traffic</span></div><div class="v8-lab-channel"><strong id="v8LabLeft"></strong><div class="v8-lab-track"><span class="v8-lab-packet" aria-hidden="true"></span></div><strong id="v8LabRight"></strong></div><div class="v8-lab-payload" id="v8LabPayload"></div><p id="v8LabInfo" class="v8-lab-info"></p></div>',
 '<div class="v5-map-story"><div class="p2-counter">HOW IT WORKS</div><div class="p2-map-steps" id="v2MapSteps"></div><p class="p2-caption" id="v2MapBeat"></p></div>',
 '<div class="v5-map-toolbar"><button class="p2-mini" id="v2MapReplay" type="button">Replay steps ↻</button><div class="p2-map-next"><button id="v2MapPrev" aria-label="Previous component">‹</button><span id="v2MapOrdinal"></span><button id="v2MapNext" aria-label="Next component">›</button></div></div>',
 '</aside></div>',
@@ -90,6 +92,66 @@ function selectRoute(id){
  });
 }
 
+// Small mechanism-specific teaching scenes. Each frame corresponds to one explanation step.
+const labFrames={
+ device:[
+  ["Browser","Website name","https://example.test/","forward","A URL identifies a site by name, not an IP address."],
+  ["Browser","DNS / cache","A? example.test","forward","A cached answer can avoid a new DNS query."],
+  ["Device","Gateway","To 203.0.113.42","forward","The next-hop decision is made locally before sending frames."]
+ ],
+ ap:[
+  ["Device","Wi-Fi AP","Associate / authenticate","forward","Wi-Fi link establishment occurs before ordinary frame forwarding."],
+  ["Device","Wi-Fi AP","Link ready","reverse","The local wireless link is ready to carry frames."],
+  ["Wi-Fi AP","Local network","802.11 ↔ Ethernet frame","forward","The access point bridges local traffic; it does not necessarily run DHCP."]
+ ],
+ router:[
+  ["Router","Route table","Dst: 203.0.113.42","forward","A destination-prefix lookup determines which route applies."],
+  ["Route table","ISP next hop","Forward via WAN","forward","The selected next hop leads toward the destination network."],
+  ["Private LAN","Public WAN","192.168.1.24:55000 → 203.0.113.10:62001","forward","Example source NAT/PAT mapping; IP routing and translation are different operations."]
+ ],
+ internet:[
+  ["AS 64500","AS 64501","BGP: prefix reachable","forward","Autonomous systems exchange reachability advertisements."],
+  ["Router","Route table","Best next hop selected","reverse","Routes are evaluated using local routing policy."],
+  ["AS 64501","AS 64502","Forward destination IP","forward","Routers forward packets hop by hop across networks."]
+ ],
+ server:[
+  ["Browser","Server","TCP connection","forward","Transport connection is established first in this example."],
+  ["Server","Browser","TLS certificate","reverse","The server presents a certificate; the browser validates its identity."],
+  ["Server","Browser","HTTP 200 OK","reverse","The server returns protected content over the established channel."]
+ ],
+ dhcp:[
+  ["Client","DHCP service","Discover","forward","A client broadcasts to locate a DHCP server on the local network."],
+  ["DHCP service","Client","Offer","reverse","A DHCP server offers configuration, usually including a lease."],
+  ["Client","DHCP service","Request","forward","The client requests the offered configuration."],
+  ["DHCP service","Client","ACK","reverse","The server confirms the lease and network options."]
+ ],
+ dns:[
+  ["Browser","DNS resolver","A? example.test","forward","The client asks the configured resolver for an address record."],
+  ["Resolver","DNS cache / authorities","Lookup record","forward","A cached record may be used, or the resolver may query other servers."],
+  ["DNS resolver","Browser","203.0.113.42","reverse","The answer returns an example IPv4 address, not a path through the DNS server."]
+ ],
+ arp:[
+  ["Device","Local IPv4 link","Who has 192.168.1.1?","forward","ARP Request is a broadcast within the local link."],
+  ["Gateway","Device","MAC 02:00:00:00:00:01","reverse","A local IPv4 neighbor responds with a MAC address."],
+  ["Device","Gateway","Frame to gateway MAC","forward","The next frame can be addressed to the local gateway's MAC."]
+ ],
+ tcp:[
+  ["Client","Server","SYN","forward","The client requests a new TCP connection."],
+  ["Server","Client","SYN-ACK","reverse","The server acknowledges the client's SYN and sends its own."],
+  ["Client","Server","ACK","forward","The final acknowledgment completes the three-way handshake."]
+ ]
+};
+function renderLab(id,step){
+ const frames=labFrames[id]||labFrames.device;
+ const [left,right,payload,direction,note]=frames[Math.max(0,Math.min(step,frames.length-1))];
+ const lab=$("v8Lab");if(!lab)return;
+ $("v8LabLeft").textContent=left;$("v8LabRight").textContent=right;
+ $("v8LabPayload").textContent=payload;$("v8LabInfo").textContent=note;
+ lab.classList.remove("playing","reverse");
+ if(direction==="reverse")lab.classList.add("reverse");
+ if(!reduce){void lab.offsetWidth;lab.classList.add("playing")}
+}
+
 let index=-1,beat=0,timer=null;
 const stop=()=>{if(timer)clearInterval(timer);timer=null};
 function drawBeat(){
@@ -104,6 +166,7 @@ function drawBeat(){
   item.append(copy);container.append(item);
  });
  $("v2MapBeat").textContent="Step "+(beat+1)+" of "+s.length+" · "+s[beat][0];
+ renderLab(nodes[index][0],beat);
 }
 const original=renderComponent;
 function focus(i){
