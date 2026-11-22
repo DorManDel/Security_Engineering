@@ -61,6 +61,15 @@ function visual(spec,step,reduce){
   browser.append(make("span","v9-browser-caption","Browser / address bar"));
   const typed=make("div","v9-typed",spec.payload),caret=make("span","v9-caret","");
   browser.append(typed,caret);center.append(browser);
+ }else if(spec.mode==="lookup"){
+  const lookup=make("div","v9-lookup");
+  lookup.append(make("span","v9-lookup-actor",spec.from||"Client"));
+  const middle=make("div","v9-lookup-center");
+  middle.append(make("span","v9-scan",spec.payload));
+  const branch=make("div","v9-lookup-options");
+  branch.append(make("span","v9-lookup-cache","Check cache"),make("span","v9-lookup-dns","Query DNS if needed"));
+  middle.append(branch);
+  lookup.append(middle,make("span","v9-lookup-actor",spec.to||"Resolver"));center.append(lookup);
  }else if(spec.mode==="route"){
   const table=make("div","v9-routing-table");
   table.append(make("div","v9-routing-header","Destination: "+spec.payload));
