@@ -103,7 +103,8 @@ $("arpBackMap").addEventListener("click",()=>document.getElementById("topicMap")
 $("arpRelated").addEventListener("click",()=>document.getElementById("topicCases")?.click());
 function sync(){
  const isArp=cards.querySelector(".topic-option.active")?.dataset.topic==="0";
- root.classList.toggle("arp-mode",isArp);detail.classList.toggle("arp-focused",isArp);
+ if(root.classList.contains("arp-mode")!==isArp)root.classList.toggle("arp-mode",isArp);
+ if(detail.classList.contains("arp-focused")!==isArp)detail.classList.toggle("arp-focused",isArp);
  if(wasArp!==isArp){stop();mode="normal";step=0;paint()}
  wasArp=isArp;
  if(!root.classList.contains("active"))stop();
