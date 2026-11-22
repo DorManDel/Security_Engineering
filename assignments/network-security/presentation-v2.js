@@ -33,9 +33,10 @@ const section=make("div","p2-shell p2-journey");section.innerHTML=[
 '<div class="p2-headbar"><div><span class="p2-counter" id="v2JourneyCount"></span><h3 class="p2-stage" id="v2JourneyTitle"></h3></div><div class="v4-header-controls"><div class="v4-mode" role="group" aria-label="Network state"><button type="button" id="v4Fresh" class="active" aria-pressed="true">New connection</button><button type="button" id="v4Warm" aria-pressed="false">Already connected</button></div><div class="p2-actions"><button class="p2-arrow" id="v2Prev" aria-label="Previous protocol">‹ <span>Previous</span></button><button class="p2-arrow" id="v2Next" aria-label="Next protocol"><span>Next</span> ›</button></div></div></div>',
 '<p class="p2-caption" id="v2JourneyDesc"></p>',
 '<div class="p2-frame">',
-'<div class="p2-address"><label for="v2Url">Browser</label><input class="p2-url" id="v2Url" value="https://example.test/" aria-label="Example website address" spellcheck="false"><button class="p2-go" id="v2Go">Open site →</button></div>',
+'<div class="p2-address"><label for="v2Url">Browser</label><input class="p2-url" id="v2Url" value="https://example.test/" aria-label="Example website address" spellcheck="false"><div class="v7-browser-actions"><button class="p2-go" id="v2Go">Open site →</button><div class="v7-exchange-controls" role="group" aria-label="Exchange playback"><button type="button" class="p2-mini v7-icon-control" id="v2Replay" aria-label="Replay current exchange" title="Replay current exchange">↻</button><button type="button" class="p2-mini v7-icon-control" id="v7Pause" aria-label="Pause exchange" title="Pause exchange">Ⅱ</button></div></div></div>',
+'<nav class="v7-protocol-strip" id="v7ProtocolStrip" aria-label="Journey protocols"></nav>',
 '<div class="p2-network"><div class="p2-route" id="v2Route"></div><div class="p2-services"><span id="v2Dhcp" class="p2-service">DHCP · network setup</span><span id="v2Arp" class="p2-service">ARP · local MAC</span><span id="v2Dns" class="p2-service">DNS · name lookup</span></div><p id="v2Analogy" class="p2-caption" style="text-align:center;max-width:none;font-size:12px;margin:5px 0"></p></div>',
-'<div class="p2-exchange"><div class="p2-stage-status"><span class="p2-exchange-label">What happens on the wire</span><button class="p2-mini" id="v2Replay">Replay exchange ↻</button></div><div class="p2-msg-list" id="v2Msg" aria-live="polite"></div></div>',
+'<div class="p2-exchange"><div class="p2-stage-status"><span class="p2-exchange-label">What happens on the wire</span></div><div class="p2-msg-list" id="v2Msg" aria-live="polite"></div></div>',
 '</div>',
 '<div class="p2-journey-footer"><span class="p2-sideword" id="v4JourneyStatus" role="status" aria-live="polite">Next / Previous: one concept. Open site: complete walkthrough.</span></div>'
 ].join("");
@@ -43,10 +44,46 @@ host.append(section);
 const route=$("v2Route");
 nodes.forEach(([id,title,sub])=>{const div=make("div","p2-router");div.id="v2Node-"+id;div.innerHTML=icon(id);div.append(make("strong","",title),make("small","",sub));route.append(div)});
 let position=0;const timers=[];
-let tourTimer=null,touring=false,tourFinished=false;
-function stopTour(){if(tourTimer)clearTimeout(tourTimer);tourTimer=null;touring=false;const go=$("v2Go");if(go)go.textContent=tourFinished?"Replay journey ↻":"Open site →";}
-const cancel=()=>{while(timers.length)clearTimeout(timers.pop());route.querySelectorAll(".p2-packet").forEach(x=>x.remove())};
+let tourTimer=null,touring=false,tourFinished=false,tourContinuation=null,tourNextDue=0,tourRemaining=0;
+let exchangeTimer=null,exchangeNextDue=0,exchangeRemaining=0,exchangePaused=false,exchangeFinished=false,exchangeCursor=0,messageRows=[];
 const ids=()=>steps.filter(s=>s.id!=="wifi").map(s=>s.id);
+const protocolNames={dhcp:"DHCP",arp:"ARP",dns:"DNS",nat:"Routing / NAT",tcp:"TCP",tls:"TLS",http:"HTTP",cache:"Cache"};
+const protocolStrip=$("v7ProtocolStrip");
+function buildProtocolStrip(){
+ protocolStrip.replaceChildren();
+ ids().forEach((id,i)=>{
+  const b=make("button","v7-protocol-tab",protocolNames[id]||id.toUpperCase());
+  b.type="button";b.dataset.journeyStep=String(i);
+  b.setAttribute("aria-label","Jump to "+(protocolNames[id]||id));
+  b.onclick=()=>{tourFinished=false;stopTour();position=i;render()};
+  protocolStrip.append(b);
+ });
+}
+function paintButtons(){
+ const btn=$("v7Pause");if(!btn)return;
+ const label=exchangeFinished?"Replay exchange":exchangePaused?"Resume exchange":"Pause exchange";
+ btn.textContent=exchangeFinished?"↻":exchangePaused?"▶":"Ⅱ";
+ btn.setAttribute("aria-label",label);btn.title=label;
+}
+function stopTour(){
+ if(tourTimer)clearTimeout(tourTimer);tourTimer=null;touring=false;tourContinuation=null;tourRemaining=0;
+ const go=$("v2Go");if(go)go.textContent=tourFinished?"Replay journey ↻":"Open site →";
+}
+function cancel(){
+ while(timers.length)clearTimeout(timers.pop());
+ if(exchangeTimer)clearTimeout(exchangeTimer);exchangeTimer=null;
+ exchangePaused=false;exchangeFinished=false;exchangeCursor=0;exchangeRemaining=0;
+ route.querySelectorAll(".p2-packet").forEach(x=>x.remove());
+ paintButtons();
+}
+function scheduleExchange(delay){
+ exchangeRemaining=delay;exchangeNextDue=Date.now()+delay;
+ exchangeTimer=setTimeout(()=>{exchangeTimer=null;if(!exchangePaused)advanceMessage()},delay);
+}
+function scheduleTour(callback,delay){
+ tourContinuation=callback;tourRemaining=delay;tourNextDue=Date.now()+delay;
+ tourTimer=setTimeout(()=>{tourTimer=null;if(touring&&!exchangePaused)callback()},delay);
+}
 function packet(a,b){
  if(reduce)return;
  // Follow the actual centers of the visible Lucide icons, not hard-coded whole-page percentages.
@@ -57,21 +94,46 @@ function packet(a,b){
  const x=rect=>((rect.left+rect.width/2-bounds.left)/bounds.width*100).toFixed(3)+"%";
  const y=((sr.top+sr.height/2-bounds.top)/bounds.height*100).toFixed(3)+"%";
  const p=make("span","p2-packet");p.style.setProperty("--route-from",x(sr));p.style.setProperty("--route-to",x(dr));p.style.setProperty("--route-y",y);
- route.append(p);timers.push(setTimeout(()=>p.remove(),1000));
+ route.append(p);p.addEventListener("animationend",()=>p.remove(),{once:true});
+}
+function advanceMessage(){
+ const cfg=definitions[ids()[position]];if(!cfg)return;
+ if(exchangeCursor>=messageRows.length){
+  exchangeFinished=true;paintButtons();return;
+ }
+ const index=exchangeCursor++;
+ const [label,source,dest]=cfg.messages[index];
+ messageRows.forEach((el,i)=>{el.classList.toggle("active",i===index);el.classList.toggle("finished",i<index)});
+ let [a,b]=cfg.path;
+ if(["Server","Gateway","DHCP","Resolver","Cache"].includes(source))[a,b]=[b,a];
+ if(source==="Device"&&dest==="Local LAN")b=1;
+ packet(a,b);
+ if(exchangeCursor<messageRows.length)scheduleExchange(850);
+ else scheduleExchange(850); // Keep the final animation visible before marking playback finished.
+ paintButtons();
 }
 function replay(){
- cancel();const cfg=definitions[ids()[position]];if(!cfg)return;
+ cancel();
+ const cfg=definitions[ids()[position]];if(!cfg)return;
  const list=$("v2Msg");list.replaceChildren();list.style.setProperty("--msg-count",cfg.messages.length);
- cfg.messages.forEach(([label,source,dest,note],index)=>{
-  const el=make("div","p2-msg");el.append(make("strong","",label),make("span","p2-direction",source+" → "+dest),make("small","",note));list.append(el);
-  const animate=()=>{
-   Array.from(list.children).forEach((v,i)=>{v.classList.toggle("active",i===index);v.classList.toggle("finished",i<index)});
-   let [a,b]=cfg.path;if(["Server","Gateway","DHCP","Resolver","Cache"].includes(source))[a,b]=[b,a];
-   if(source==="Device"&&dest==="Local LAN")b=1;
-   packet(a,b);
-  };
-  if(reduce)animate();else timers.push(setTimeout(animate,180+850*index));
+ messageRows=cfg.messages.map(([label,source,dest,note])=>{
+  const el=make("div","p2-msg");el.append(make("strong","",label),make("span","p2-direction",source+" → "+dest),make("small","",note));list.append(el);return el;
  });
+ if(reduce){while(exchangeCursor<messageRows.length)advanceMessage();exchangeFinished=true;paintButtons()}
+ else scheduleExchange(180);
+}
+function toggleExchangePause(){
+ if(exchangeFinished){replay();return}
+ exchangePaused=!exchangePaused;
+ if(exchangePaused){
+  if(exchangeTimer){exchangeRemaining=Math.max(0,exchangeNextDue-Date.now());clearTimeout(exchangeTimer);exchangeTimer=null}
+  if(tourTimer){tourRemaining=Math.max(0,tourNextDue-Date.now());clearTimeout(tourTimer);tourTimer=null}
+ }else{
+  if(!exchangeFinished)scheduleExchange(Math.max(25,exchangeRemaining));
+  if(touring&&tourContinuation&&!tourTimer)scheduleTour(tourContinuation,Math.max(25,tourRemaining));
+ }
+ route.querySelectorAll(".p2-packet").forEach(p=>p.style.animationPlayState=exchangePaused?"paused":"running");
+ paintButtons();
 }
 function render(){
  cancel();const order=ids();position=Math.max(0,Math.min(position,order.length-1));
@@ -81,6 +143,8 @@ function render(){
  $("v2JourneyCount").textContent=String(position+1).padStart(2,"0")+" / "+String(order.length).padStart(2,"0");
  $("v2JourneyTitle").textContent=cfg.title;$("v2JourneyDesc").textContent=cfg.text;$("v2Analogy").textContent=cfg.analogy;
  $("v2Prev").disabled=position===0;$("v2Next").disabled=position===order.length-1;
+ if(protocolStrip.children.length!==order.length)buildProtocolStrip();
+ Array.from(protocolStrip.children).forEach((b,i)=>{const isCurrent=i===position;b.classList.toggle("active",isCurrent);b.setAttribute("aria-current",isCurrent?"step":"false")});
  const warm=$("networkState").value==="warm";
  for(const [id,checked] of [["v4Fresh",!warm],["v4Warm",warm]]){
   $(id).classList.toggle("active",checked);$(id).setAttribute("aria-pressed",String(checked));
@@ -102,10 +166,10 @@ function runFullJourney(){
   if(!touring)return;
   const current=definitions[ids()[position]];
   const duration=reduce?420:Math.max(1800,180+850*(current.messages.length-1)+1150);
-  tourTimer=setTimeout(()=>{
+  scheduleTour(()=>{
    if(!touring)return;
    if(position>=ids().length-1){
-    tourFinished=true;touring=false;tourTimer=null;
+    tourFinished=true;touring=false;tourTimer=null;tourContinuation=null;
     $("v2Go").textContent="Replay journey ↻";
     $("v4JourneyStatus").textContent="✓ Website response received (illustrative). All required route actors are visible.";
     return;
@@ -118,6 +182,7 @@ function runFullJourney(){
 $("v2Prev").onclick=()=>{tourFinished=false;stopTour();position--;render()};
 $("v2Next").onclick=()=>{tourFinished=false;stopTour();position++;render()};
 $("v2Replay").onclick=()=>{tourFinished=false;stopTour();replay()};
+$("v7Pause").onclick=toggleExchangePause;
 $("v2Go").onclick=runFullJourney;
 function changeNetworkState(value){
  tourFinished=false;stopTour();
