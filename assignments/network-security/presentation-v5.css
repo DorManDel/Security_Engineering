@@ -1,0 +1,73 @@
+/* Slide 01: a small two-way packet path alongside the heading.
+   Slide 03: retain the approved topology and move its explanation into a right-hand teaching panel. */
+
+/* Animated heading motif: subtle, no interaction and no external dependencies. */
+#journey .slide-head h2{display:flex;align-items:center;gap:clamp(15px,2.8vw,40px);flex-wrap:wrap}
+.v5-title-route{position:relative;display:inline-block;flex:0 0 clamp(130px,16vw,224px);height:38px;vertical-align:middle;pointer-events:none}
+.v5-title-lane{position:absolute;left:1%;right:1%;height:1px;background:linear-gradient(90deg,#8eafc52c,#91b9d18d,#8eafc52c);border-radius:2px}
+.v5-title-lane.out{top:11px}.v5-title-lane.back{top:27px;opacity:.67}
+.v5-title-packet{position:absolute;width:8px;height:5px;border-radius:2px;background:#a9d4e8;top:8px;left:2%;box-shadow:0 0 7px #a9d4e861;opacity:0;animation:v5-packet-forward 3.8s linear infinite}
+.v5-title-packet.featured{width:12px;height:7px;top:7px;background:#e9cf8a;box-shadow:0 0 11px #e9cf8a5a;animation-duration:3.8s}
+.v5-title-packet.follow{animation-delay:1.5s;opacity:0;transform:scale(.77)}
+.v5-title-packet.return{top:24px;background:#a9d4e8;animation:v5-packet-return 3.8s linear .6s infinite}
+@keyframes v5-packet-forward{0%{left:1%;opacity:0}8%{opacity:1}87%{opacity:1}100%{left:95%;opacity:0}}
+@keyframes v5-packet-return{0%{left:95%;opacity:0}8%{opacity:.9}87%{opacity:.9}100%{left:1%;opacity:0}}
+
+/* Network Map uses the same restrained central wrapper as Journey. */
+#map .slide-head,#map .p2-shell{width:100%;max-width:1370px;margin-inline:auto}
+#map .p2-map-board{display:grid;grid-template-columns:minmax(0,1.57fr) minmax(350px,.94fr);grid-template-rows:minmax(0,1fr);column-gap:18px;min-height:0;flex:1;align-items:stretch}
+#map .p2-topology{min-width:0;min-height:0;border-color:#a9d4e820}
+#map .p2-map-node{min-width:clamp(68px,6.4vw,104px);padding:7px 6px}
+#map .p2-map-node strong{font-size:10px}
+#map .p2-map-focus{min-width:0;min-height:0;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:clamp(12px,2.1vh,24px);padding:clamp(15px,2vw,26px);border:1px solid #a9d4e82c;background:linear-gradient(155deg,#a9d4e807,#071b2b55);border-radius:14px;overflow:hidden}
+#map .v5-map-description h3{font-size:clamp(25px,2.25vw,32px);margin:7px 0}
+#map .v5-map-description p{font-size:clamp(12px,.92vw,14px);line-height:1.55;color:var(--soft)}
+#map .v5-map-story{min-height:0}
+#map .v5-map-story>.p2-counter{font-size:10px;letter-spacing:.14em}
+#map .p2-map-steps{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:8px;margin-top:12px}
+#map .v5-map-step{display:flex;align-items:start;gap:11px;min-width:0;padding:8px 9px 8px 6px;background:transparent;border:0;border-left:2px solid #91b4cc32;border-radius:0;opacity:.56;transition:opacity .25s,border-color .25s,background .25s}
+#map .v5-map-step.active{opacity:1;background:#a9d4e811;border-left-color:#e9cf8a}
+#map .v5-map-step-number{font:11px/1.5 Consolas,monospace;color:var(--accent);flex:0 0 25px}
+#map .v5-map-step-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+#map .v5-map-step-copy strong{font-size:13px;font-weight:600;color:var(--ink)}
+#map .v5-map-step-copy small{font-size:11px;line-height:1.4;color:var(--soft)}
+#map #v2MapBeat{color:var(--muted);font-size:10px;line-height:1.35;margin:10px 0 0 5px;text-align:left}
+#map .v5-map-toolbar{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:auto;border-top:1px solid #a9d4e821;padding-top:11px}
+#map .p2-map-next{display:flex;align-items:center;gap:10px}
+#map .p2-map-next button{width:29px;height:29px;display:grid;place-items:center;font-size:24px;border-radius:6px}
+#map .p2-map-next button:hover:not(:disabled){background:#a9d4e818}
+#map .p2-map-next span{font-size:11px}
+#map .p2-legend{padding:0 2px;color:var(--muted);font-size:10px}
+@media(max-width:1060px){
+ #map .p2-map-board{grid-template-columns:minmax(0,1.35fr) minmax(300px,.95fr);gap:10px}
+ #map .p2-map-node{min-width:63px}
+ #map .p2-map-node strong{font-size:9px}
+ #map .p2-map-focus{padding:14px;gap:12px}
+ #map .v5-map-step{padding:6px 5px;gap:7px}
+ #map .v5-map-step-copy small{font-size:10px}
+}
+@media(max-width:850px){
+ #map .p2-map-board{display:flex;flex-direction:column;min-height:580px}
+ #map .p2-topology{flex:0 0 300px}
+ #map .p2-map-focus{flex:1;min-height:340px}
+ #map .v5-map-step-copy small{font-size:11px}
+ #map .p2-map-steps{gap:6px}
+}
+@media(max-height:735px) and (min-width:851px){
+ #map .p2-map-focus{padding:11px 15px;gap:7px}
+ #map .v5-map-description h3{font-size:23px;margin:2px 0}
+ #map .v5-map-description p{font-size:11px;line-height:1.36}
+ #map .p2-map-steps{gap:2px;margin-top:6px}
+ #map .v5-map-step{padding:4px 6px}
+ #map .v5-map-step-copy strong{font-size:11px}
+ #map .v5-map-step-copy small{font-size:10px;line-height:1.22}
+ #map #v2MapBeat{margin-top:4px}
+ #map .v5-map-toolbar{padding-top:4px}
+}
+@media(prefers-reduced-motion:reduce){
+ .v5-title-packet{animation:none!important;opacity:.9}
+ .v5-title-packet.featured{left:62%}
+ .v5-title-packet.follow{left:30%;opacity:.5}
+ .v5-title-packet.return{left:24%}
+ #map .v5-map-step{transition:none!important}
+}
