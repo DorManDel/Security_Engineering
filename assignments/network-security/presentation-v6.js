@@ -4,7 +4,7 @@
 const $=id=>document.getElementById(id),root=$("protocols");
 const topics=window.atlasSelectedTopics;
 if(!root||!Array.isArray(topics))return;
-const icons={arp:"network",mac:"wifi",ip:"globe",dhcp:"network",bgp:"globe",dns:"book-open",syn:"activity",hijack:"shield-check"};
+const icons={arp:"network",mac:"id-card",ip:"binary",dhcp:"network",bgp:"route",dns:"book-open",syn:"activity",hijack:"scan-line"};
 const scenes={
  arp:{actors:["Your device","Gateway / Attacker"],icon:["monitor","router"],purpose:"Resolve a neighbor's IPv4 address to a local MAC.",beats:["Device broadcasts: Who has the gateway IP?","Attacker injects a false ARP reply.","Device associates gateway IP with attacker MAC.","Data may be forwarded through the attacker."]},
  mac:{actors:["Network device","Access point"],icon:["monitor","wifi"],purpose:"Link-layer MAC addresses identify interfaces for local frame delivery; some networks also misuse them as an authorization signal.",beats:["A device presents its source MAC.","An attacker changes the source MAC it presents.","A weak MAC-based allowlist may mistake it for an allowed device.","Proper 802.1X authentication is not bypassed by changing a MAC alone."]},

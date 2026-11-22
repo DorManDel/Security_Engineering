@@ -1,0 +1,123 @@
+/* ARP Poisoning · compact one-screen learning module, all core views visible.
+   Only the selected ARP card uses this lab; other seven topics retain prior layout. */
+#protocols.arp-mode{overflow:hidden;padding:clamp(10px,1.7vh,22px) clamp(14px,3.3vw,54px);gap:0}
+#protocols.arp-mode>.slide-head{display:none}
+#protocols.arp-mode>.learning-layout{width:100%;max-width:1440px;height:100%;min-height:0;flex:1;margin:0 auto;grid-template-columns:minmax(210px,250px) minmax(0,1fr);gap:12px}
+#protocols.arp-mode .learning-layout>.panel:first-child{padding:11px;background:transparent;border-color:#a9d4e825;min-height:0;overflow:hidden}
+#protocols.arp-mode .learning-layout>.panel:first-child>p{display:none}
+#protocols.arp-mode .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px!important}
+#protocols.arp-mode .topic-option{min-height:clamp(66px,9vh,85px);padding:8px;border-radius:9px;gap:4px}
+#protocols.arp-mode .topic-option .v6-topic-icon{height:18px;width:18px;right:7px;top:7px}
+#protocols.arp-mode .topic-option strong{font-size:11px;line-height:1.17;max-width:92%;overflow-wrap:break-word}
+#protocols.arp-mode .topic-option small{font-size:9px;line-height:1.1}
+#protocols.arp-mode .topic-option .topic-n{font-size:9px}
+#protocols.arp-mode .learning-detail.arp-focused{min-width:0;min-height:0;overflow:hidden;padding:clamp(10px,1.3vw,16px);background:#a9d4e806;gap:0}
+#protocols .learning-detail.arp-focused>:not(.arp-lab){display:none!important}
+#protocols .arp-lab{height:100%;min-height:0;display:grid;grid-template-rows:auto auto auto minmax(130px,1fr) auto auto auto auto;gap:clamp(5px,.75vh,9px)}
+#protocols .arp-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+#protocols .arp-intro h3{font:400 clamp(23px,2.3vw,35px)/1.03 Georgia,serif;margin:2px 0 5px;letter-spacing:-.03em;color:var(--ink)}
+#protocols .arp-intro p{margin:0;color:var(--soft);font-size:clamp(10px,.9vw,12px);line-height:1.38;max-width:760px}
+#protocols .arp-intro p strong{color:var(--ink)}
+#protocols .arp-overline{color:var(--accent);font-size:9px;font-weight:700;letter-spacing:.13em}
+#protocols .arp-illustrative{font-size:9px;color:var(--muted);white-space:nowrap;padding-top:4px}
+#protocols .arp-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#protocols .arp-modes{display:inline-flex;gap:3px;padding:3px;border:1px solid #a9d4e832;border-radius:9px;background:#a9d4e809}
+#protocols .arp-modes button{border:0;border-radius:6px;padding:7px 13px;color:var(--muted);font-size:11px;background:transparent;white-space:nowrap}
+#protocols .arp-modes button.active{background:#a9d4e829;color:var(--ink)}
+#protocols .arp-modes [data-arp-mode=attack].active{background:#ed9a9a23;color:#ffc1c1}
+#protocols .arp-modes [data-arp-mode=mitigation].active{background:#83ccb122;color:#a9e2cb}
+#protocols .arp-playback{display:flex;align-items:center;gap:5px}
+#protocols .arp-playback button{width:30px;height:29px;display:grid;place-items:center;border:0;background:transparent;color:var(--accent);border-radius:6px;font-size:21px;padding:3px}
+#protocols .arp-playback button:hover:not(:disabled){background:#a9d4e81a}
+#protocols .arp-playback button:disabled{opacity:.27}
+#protocols .arp-playback button img{height:15px;width:15px;filter:brightness(0) saturate(100%) invert(84%) sepia(16%) saturate(450%) hue-rotate(160deg)}
+#protocols .arp-progress{display:flex;justify-content:space-between;gap:10px;color:var(--accent);letter-spacing:.06em;font-size:10px;font-weight:700}
+#protocols .arp-network-scene{min-height:0;position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 44%,#21425a33,transparent 64%);border-top:1px solid #a9d4e824;border-bottom:1px solid #a9d4e824}
+#protocols .arp-topology-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#protocols .arp-link{fill:none;stroke:#8fb8cd60;stroke-width:2;stroke-dasharray:5 8}
+#protocols .arp-active-path{fill:none;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 3px #e9cf8a30)}
+#protocols .arp-active-path.gold{stroke:#e9cf8a}
+#protocols .arp-active-path.red{stroke:#ed9095}
+#protocols .arp-moving-dot{stroke:#061427;stroke-width:1;filter:drop-shadow(0 0 5px #e9cf8a);pointer-events:none}
+#protocols .arp-moving-dot.gold{fill:#ffe5a1}
+#protocols .arp-moving-dot.red{fill:#f2a3a7;filter:drop-shadow(0 0 5px #f2a3a7)}
+#protocols .arp-actor{position:absolute;z-index:1;transform:translate(-50%,-50%);width:clamp(85px,9.5vw,120px);min-height:58px;padding:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:8px;background:#122d40eb;border:1px solid #a9d4e84b;color:var(--ink);text-align:center}
+#protocols .arp-actor img{height:23px;width:23px;filter:brightness(0) saturate(100%) invert(81%) sepia(18%) saturate(443%) hue-rotate(163deg)}
+#protocols .arp-actor strong{font-size:10px;line-height:1.15}
+#protocols .arp-actor small{font-size:9px;line-height:1.12;color:var(--muted)}
+#protocols .arp-victim{left:14%;top:36%}
+#protocols .arp-switch{left:50%;top:36%}
+#protocols .arp-gateway{left:86%;top:36%}
+#protocols .arp-attacker{left:50%;top:84%}
+#protocols .arp-actor.danger{border-color:#ef989bac;box-shadow:0 0 18px #ef989b18}
+#protocols .arp-actor.verified{border-color:#82cbae93}
+#protocols .arp-blocked .arp-switch:after{content:"REJECT ✕";position:absolute;top:calc(100% + 3px);color:#ef989b;font:bold 10px Consolas,monospace;white-space:nowrap}
+#protocols .arp-packet-label{position:absolute;left:10px;bottom:6px;max-width:42%;font:10px/1.25 Consolas,monospace;color:#e9cf8a;text-shadow:0 1px 3px #03111f;z-index:2}
+#protocols .arp-lab[data-mode=attack] .arp-packet-label{color:#ffb7b9}
+#protocols .arp-lab[data-mode=mitigation] .arp-packet-label{color:#a8dec6}
+#protocols .arp-description{display:flex;align-items:baseline;gap:9px;min-height:30px;border-bottom:1px solid #a9d4e823;padding:1px 0 7px}
+#protocols .arp-description strong{font-size:11px;white-space:nowrap;color:var(--ink)}
+#protocols .arp-description span{font-size:10px;line-height:1.38;color:var(--soft)}
+#protocols .arp-inspector{background:#061a2bdc;border:1px solid #a9d4e829;border-radius:8px;padding:8px 11px;min-width:0}
+#protocols .arp-inspector-head{display:flex;justify-content:space-between;align-items:center;gap:5px;color:var(--accent);font-size:9px;letter-spacing:.1em;margin-bottom:5px}
+#protocols .arp-inspector-fields{display:grid;grid-template-columns:.65fr 1fr 1.35fr 1.45fr;gap:8px}
+#protocols .arp-inspector-fields>div{min-width:0;display:flex;flex-direction:column;gap:3px}
+#protocols .arp-inspector-fields small{font-size:9px;color:var(--muted)}
+#protocols .arp-inspector-fields code{color:var(--ink);font:10px/1.25 Consolas,monospace;overflow-wrap:anywhere}
+#protocols .arp-inspector-fields .arp-cache{border-left:1px solid #a9d4e82f;padding-left:11px}
+#protocols .arp-inspector-fields code.arp-bad-value{color:#ffaaaa;font-weight:bold;box-shadow:inset 0 -1px #ef989b66}
+#protocols .arp-inspector-fields code.arp-good-value{color:#a4dfc8}
+#protocols .arp-change-note{font-size:10px;color:var(--muted);line-height:1.3;margin-top:5px;min-height:11px}
+#protocols .arp-lab[data-mode=attack] .arp-change-note{color:#ffb7b9}
+#protocols .arp-five-questions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+#protocols .arp-five-questions>div{border-bottom:2px solid #a9d4e83a;padding:5px 4px;min-width:0;display:flex;flex-direction:column;gap:2px}
+#protocols .arp-five-questions b{font-size:9px;color:var(--accent);letter-spacing:.03em}
+#protocols .arp-five-questions span{font-size:10px;line-height:1.2;color:var(--soft)}
+#protocols .arp-five-questions>div:nth-child(4){border-color:#ef9fa66c}
+#protocols .arp-five-questions>div:nth-child(5){border-color:#83ccb169}
+#protocols .arp-lab-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+#protocols .arp-sources{font-size:10px;color:var(--muted)}
+#protocols .arp-sources a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+#protocols .arp-lab-footer>div{display:flex;gap:8px}
+#protocols .arp-lab-footer button{font-size:10px;color:var(--accent);padding:4px 0;border:0;background:transparent}
+#protocols .arp-lab-footer button:hover{text-decoration:underline}
+#protocols .arp-lab button:focus-visible,#protocols .arp-lab a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media(max-height:800px) and (min-width:850px){
+ #protocols .arp-lab{gap:4px;grid-template-rows:auto auto auto minmax(120px,1fr) auto auto auto auto}
+ #protocols .arp-network-scene{min-height:120px}
+ #protocols .arp-description{padding-bottom:3px}
+ #protocols .arp-inspector{padding:5px 9px}
+ #protocols .arp-intro h3{font-size:24px}
+ #protocols .arp-intro p{font-size:10px}
+ #protocols .arp-five-questions>div{padding:3px 2px}
+ #protocols .arp-actor{min-height:49px}
+ #protocols .arp-actor img{height:17px;width:17px}
+}
+@media(max-width:850px){
+ #protocols.arp-mode{overflow:auto}
+ #protocols.arp-mode>.learning-layout{display:flex;flex-direction:column;height:auto;min-height:0}
+ #protocols.arp-mode .learning-layout>.panel:first-child{flex:0 0 auto;overflow:visible}
+ #protocols.arp-mode .topic-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+ #protocols.arp-mode .topic-option{min-height:65px}
+ #protocols.arp-mode .learning-detail.arp-focused{overflow:visible;min-height:560px;flex:1}
+ #protocols .arp-lab{min-height:560px}
+ #protocols .arp-illustrative{display:none}
+}
+@media(max-width:520px){
+ #protocols .arp-intro h3{font-size:26px}
+ #protocols .arp-intro p{font-size:11px}
+ #protocols .arp-modes button{font-size:10px;padding:7px 8px}
+ #protocols .arp-playback button{width:25px}
+ #protocols .arp-actor{width:80px;padding:4px}
+ #protocols .arp-actor strong{font-size:9px}
+ #protocols .arp-actor small{font-size:8px}
+ #protocols .arp-description{flex-direction:column;gap:3px}
+ #protocols .arp-inspector-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #protocols .arp-five-questions{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #protocols .arp-lab-footer{flex-direction:column;align-items:flex-start}
+ #protocols .arp-packet-label{font-size:9px;max-width:34%}
+}
+@media(prefers-reduced-motion:reduce){
+ #protocols .arp-active-path{filter:none}
+ #protocols .arp-moving-dot{display:none}
+}
