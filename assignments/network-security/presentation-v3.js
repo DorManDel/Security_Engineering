@@ -26,17 +26,26 @@ if(journey){
    "Request the webpage":{icon:"server",text:"HTTP · request and response",max:4,span:"82%"},
    "Reuse remembered settings":{icon:"network",text:"Cached settings · fewer network exchanges",max:2,span:"41%"}
   };
+  const route=$("v2Route");
+  if(route&&!route.querySelector(".v4-wire")){
+   const devices=Array.from(route.querySelectorAll(".p2-router"));
+   devices.slice(1).forEach(node=>{
+    const link=document.createElement("span");link.className="v4-wire";link.setAttribute("aria-hidden","true");
+    route.insertBefore(link,node);
+   });
+  }
   const title=$("v2JourneyTitle");
   function presentStage(){
    const data=concepts[title?.textContent?.trim()]||concepts["Get your network settings"];
    context.dataset.current=data.icon;caption.textContent=data.text;pic.src="./icons/"+data.icon+".svg";
-   const route=$("v2Route");if(!route)return;
-   route.style.setProperty("--route-span",data.span);
+   if(!route)return;
    Array.from(route.querySelectorAll(".p2-router")).forEach((node,i)=>{
     const future=i>data.max;
     node.classList.toggle("is-future",future);
     node.setAttribute("aria-hidden",String(future));
    });
+   // Inter-node connections are independent elements. They never cross the glyphs.
+   Array.from(route.querySelectorAll(".v4-wire")).forEach((link,i)=>{link.hidden=i>=data.max});
   }
   if(title){new MutationObserver(presentStage).observe(title,{childList:true,characterData:true,subtree:true})}
   presentStage();
