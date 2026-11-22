@@ -160,7 +160,7 @@ function schedule(delay){
 }
 function paintPause(){
  const btn=$("v9MapPause");if(!btn)return;
- const playing=!paused&&Boolean(timer);
+ const playing=!paused;
  const label=playing?"Pause steps":"Play steps";
  btn.setAttribute("aria-label",label);btn.title=label;btn.setAttribute("aria-pressed",String(paused));
  btn.replaceChildren();
@@ -170,7 +170,6 @@ function paintPause(){
 function togglePause(){
  if(reduce)return;
  const last=stories[nodes[index][0]].steps.length-1;
- if(!paused&&beat===last&&timer===null){focus(index);return}
  paused=!paused;
  if(paused){remaining=Math.max(1,nextDue-performance.now());stop()}
  else if(beat<last)schedule(Math.max(80,remaining));
