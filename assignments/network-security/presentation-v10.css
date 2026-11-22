@@ -1,0 +1,63 @@
+/* Network Atlas sprint: consistent Play state, clear TCP/DHCP ladders and an AS-level routing graph. */
+#map .v10-ladder-lab,#map .v10-as-lab{gap:5px;padding:8px 10px 9px}
+#map .v10-ladder-lab .v9-animation,#map .v10-as-lab .v9-animation{min-height:160px;width:100%}
+#map .v10-ladder-lab .v9-visual,#map .v10-as-lab .v9-visual{justify-content:center;gap:4px}
+#map .v10-ladder-svg{display:block;width:100%;height:186px;overflow:visible}
+#map .v10-ladder-lab .v9-animation{min-height:190px}
+#map .v10-ladder-lifeline{stroke:#a9d4e85b;stroke-width:1.8;stroke-dasharray:5 6}
+#map .v10-ladder-actor{fill:#a9d4e8;font:600 14px/1.2 "Segoe UI",sans-serif}
+#map .v10-ladder-arrow{fill:none;stroke-width:2.5;transition:opacity .2s ease}
+#map .v10-ladder-arrow.selected{stroke:#e9cf8a;stroke-width:4;filter:drop-shadow(0 0 3px #e9cf8a50)}
+#map .v10-ladder-arrow.previous{stroke:#a2c9db;opacity:.68}
+#map .v10-ladder-arrow.future{stroke:#86a5b9;stroke-width:1.6;opacity:.3}
+#map .v10-ladder-tip.selected{fill:#e9cf8a}
+#map .v10-ladder-tip.previous{fill:#a2c9db;opacity:.68}
+#map .v10-ladder-tip.future{fill:#86a5b9;opacity:.3}
+#map .v10-ladder-msg{font:600 13px/1.2 Consolas,monospace;paint-order:stroke;stroke:#091b2e;stroke-width:4px;stroke-linejoin:round}
+#map .v10-ladder-msg.selected{fill:#ffdfa1}
+#map .v10-ladder-msg.previous{fill:#a9d4e8;opacity:.7}
+#map .v10-ladder-msg.future{fill:#a9d4e8;opacity:.36}
+#map .v10-ladder-index{fill:#8eb2c9;font:11px Consolas,monospace}
+#map .v10-tracked-packet{filter:drop-shadow(0 0 6px #e9cf8a8e)}
+#map .v10-as-lab .v9-animation{min-height:205px}
+#map .v10-as-visual{width:100%;display:flex;flex-direction:column;align-items:center;gap:0}
+#map .v10-as-graph{width:100%;max-width:555px;height:192px;display:block;overflow:visible}
+#map .v10-as-edge{fill:none;stroke-width:2;stroke-linecap:round}
+#map .v10-as-edge.alternate{stroke:#a9d4e8;opacity:.25;stroke-dasharray:4 5}
+#map .v10-as-edge.chosen{stroke:#e9cf8a;stroke-width:3;opacity:.96}
+#map .v10-as-edge.chosen.planning{stroke:#85c9e2;stroke-width:2.6;stroke-dasharray:5 4;opacity:.9}
+#map .v10-as-node{stroke-width:2;fill:#112d40}
+#map .v10-as-node.chosen{stroke:#e9cf8a;fill:#274152}
+#map .v10-as-node.alternate{stroke:#9ebed2;opacity:.65}
+#map .v10-as-label{fill:#a9d4e8;font:11px/1 Consolas,monospace;paint-order:stroke;stroke:#061b2b;stroke-width:3px;stroke-linejoin:round}
+#map .v10-as-legend{font:10px/1.25 "Segoe UI",sans-serif;color:#b7d5e8;text-align:center}
+#map .v10-as-lab .v9-scene-description{margin-top:3px}
+#map .v10-ladder-lab .v8-lab-heading,#map .v10-as-lab .v8-lab-heading{margin-bottom:2px}
+#map .v10-ladder-lab .v9-visual-heading,#map .v10-as-lab .v9-visual-heading{text-align:center}
+/* Treat the routing explorer as the largest teaching illustration while preserving the Atlas wrapper. */
+#map .v10-as-lab{min-height:270px}
+#map .v10-ladder-lab{min-height:253px}
+@media(max-height:775px) and (min-width:851px){
+ #map .v10-as-lab{min-height:206px;padding:5px 8px}
+ #map .v10-ladder-lab{min-height:198px;padding:5px 8px}
+ #map .v10-as-graph{height:148px}
+ #map .v10-ladder-svg{height:142px}
+ #map .v10-as-lab .v9-animation,#map .v10-ladder-lab .v9-animation{min-height:140px}
+ #map .v10-as-lab .v9-scene-description,#map .v10-ladder-lab .v9-scene-description{display:none}
+ #map .p2-map-steps{gap:3px}
+ #map .v5-map-step{padding:4px 6px}
+}
+@media(max-width:850px){
+ #map .v10-as-lab{min-height:235px}
+ #map .v10-ladder-lab{min-height:218px}
+ #map .v10-as-graph{height:170px}
+ #map .v10-ladder-svg{height:158px}
+}
+@media(max-width:440px){
+ #map .v10-as-lab{min-height:206px}
+ #map .v10-ladder-lab{min-height:202px}
+ #map .v10-as-graph{height:145px}
+ #map .v10-ladder-svg{height:134px}
+ #map .v10-as-label{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){#map .v10-ladder-arrow{transition:none!important}}
