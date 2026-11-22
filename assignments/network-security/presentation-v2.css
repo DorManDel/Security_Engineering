@@ -122,3 +122,14 @@
 @media(max-width:760px){#journey,#goals,#map{padding:16px 12px;overflow:auto}.p2-shell{min-height:480px}.p2-frame{min-height:320px}.p2-compare-card{grid-template-columns:1fr 1fr}.p2-compare-card .p2-protocol{grid-column:1/-1;font-size:21px}.p2-cia-grid{min-height:390px}.p2-cia-tab{padding:8px}.p2-cia-tab small{font-size:9px}.p2-map-board{min-height:500px}.p2-map-node{min-width:63px;padding:6px}.p2-map-node strong{font-size:9px}.p2-map-focus{grid-template-columns:1fr}.p2-route .p2-router{width:67px;min-height:80px}.p2-route .p2-router small{display:none}.p2-msg-list{gap:3px}.p2-msg{padding:6px 4px}.p2-msg strong{font-size:9px}.p2-msg small{font-size:9px}}
 @media(max-height:720px) and (min-width:761px){#journey,#goals,#map{padding-top:11px;padding-bottom:7px;gap:6px}.p2-router{min-height:65px}.p2-frame{min-height:265px}.p2-network{padding:8px 17px}.p2-exchange{min-height:93px;padding:8px 13px}.p2-msg{padding:6px}.p2-cia-tab{padding:7px}.p2-compare-card{padding:9px 15px}.p2-map-node{min-height:50px}.p2-map-board{grid-template-rows:minmax(180px,1fr) auto}.p2-map-focus{min-height:95px;padding:10px}}
 @media(prefers-reduced-motion:reduce){.p2-packet,.p2-animating .p2-data{animation:none!important}.p2-packet{left:var(--route-to);opacity:1}.p2-msg{transition:none!important}}
+
+/* Meaningful, subdued packet motion in the HTTP/HTTPS comparison. */
+.p2-observer .p2-o-arrow::before{content:'';position:absolute;left:0;top:-3px;width:7px;height:7px;border-radius:2px;background:#b6dce4;box-shadow:0 0 6px #abcde84c;animation:p2-cia-packet 2.1s ease-in-out infinite;z-index:1}
+.p2-compare-card:nth-child(2) .p2-o-arrow::before{background:#95cbb7}
+.p2-compare-card:nth-child(2) .p2-o-arrow:nth-of-type(4)::before{animation-delay:.18s}
+@keyframes p2-cia-packet{0%{left:0;opacity:0}15%{opacity:.95}85%{opacity:.95}100%{left:calc(100% - 7px);opacity:0}}
+.p2-cia[data-current-goal=availability] .p2-o-arrow::before{animation-duration:3.4s}
+.p2-cia[data-current-goal=integrity] .p2-compare-card:first-child .p2-o-arrow::before{background:#e9cf8a}
+.p2-lines path.focus-route{stroke:#b6d9e9;stroke-width:2.7;stroke-dasharray:6 8;animation:p2-map-signal 1.4s linear infinite}
+@keyframes p2-map-signal{to{stroke-dashoffset:-28}}
+@media(prefers-reduced-motion:reduce){.p2-observer .p2-o-arrow::before,.p2-lines path.focus-route{animation:none!important}.p2-observer .p2-o-arrow::before{left:50%;opacity:1}}
