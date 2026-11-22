@@ -87,3 +87,12 @@
 }
 @media(max-width:550px){#map .v8-lab{min-height:155px}#map .v9-transform-before,#map .v9-transform-after{font-size:9px}#map .v9-visual-heading{font-size:11px}}
 @media(prefers-reduced-motion:reduce){#map .v9-visual *,#map .v9-visual{animation:none!important}}
+
+#map .v9-lookup{width:100%;display:grid;grid-template-columns:minmax(65px,.7fr) minmax(115px,1.9fr) minmax(65px,.7fr);align-items:center;gap:5px}
+#map .v9-lookup-actor{font-size:10px;color:var(--accent);text-align:center;overflow-wrap:anywhere}
+#map .v9-lookup-center{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px}
+#map .v9-lookup-center .v9-scan{font:10px/1.4 Consolas,monospace;color:#e9cf8a;max-width:100%;overflow-wrap:anywhere;text-align:center}
+#map .v9-lookup-options{display:flex;justify-content:space-between;gap:5px;width:100%}
+#map .v9-lookup-options span{border-bottom:1px solid #a9d4e844;color:var(--muted);font-size:9px;text-align:center;flex:1;padding:3px 2px}
+#map .v9-lookup-options .v9-lookup-cache{animation:v9-highlight 1.4s ease-in-out infinite alternate}
+#map .v9-lookup-options .v9-lookup-dns{animation:v9-highlight 1.4s ease-in-out .8s infinite alternate}
