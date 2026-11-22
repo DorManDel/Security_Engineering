@@ -96,7 +96,6 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 @media(max-width:760px){.feedback-link{font-size:11px;padding:5px}}
 </style>
 <link rel="stylesheet" href="./enhancements.css">
-<link rel="stylesheet" href="./prompter.css">
 </head>
 <body>
 <div class="shell">
@@ -105,7 +104,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 <nav class="section-nav" aria-label="Presentation sections">
 <button class="tab active" data-slide="0">00 · Prologue</button><button class="tab" data-slide="1">01 · Journey</button><button class="tab" data-slide="2">02 · Security Goals</button><button class="tab" data-slide="3">03 · Network Map</button>
 </nav>
-<div class="tools"><a class="feedback-link" href="../feedback/index.html" title="Track issues or submit feedback">Feedback ↗</a><button type="button" class="tiny-button" id="notesButton" title="Presenter notes (N)">Notes</button><button type="button" class="tiny-button" id="fullscreenButton" title="Fullscreen">Present</button></div>
+<div class="tools"><a class="feedback-link" href="../feedback/index.html" title="Track issues or submit feedback">Feedback ↗</a><button type="button" class="tiny-button" id="notesButton" title="Presenter notes are now kept privately in Google Drive" style="display:none" disabled aria-hidden="true">Notes</button><button type="button" class="tiny-button" id="fullscreenButton" title="Fullscreen">Present</button></div>
 </header>
 <main class="stage">
 <section class="slide hero active" id="intro" data-index="0" aria-labelledby="introTitle">
@@ -238,7 +237,7 @@ Protocol: TCP</code></div>
 </div></div>
 
 <div class="modal" id="caseModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="caseTitle"><button class="close" data-close="caseModal" aria-label="Close dialog">×</button><div class="eyebrow">Historical case · lecture discussion</div><h2 id="caseTitle">Related case</h2><p id="caseBody"></p><div class="inline-controls"><button class="secondary" data-close="caseModal">Return to the map</button><a class="secondary" href="../index.html#assignment04">See assignment requirements ↗</a></div></div></div>
-<div class="notes" id="notesModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="notesTitle"><button class="close" data-close="notesModal" aria-label="Close notes">×</button><div class="eyebrow">Presenter cues / Hebrew</div><h2 id="notesTitle">Speaker notes</h2><div class="notes-body" id="notesBody" lang="he" dir="rtl"></div><p class="small muted">Working draft of the opening script. Grey [ACTION] lines are not spoken; the approved master belongs in Drive.</p></div></div>
+<div class="notes" id="notesModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="notesTitle"><button class="close" data-close="notesModal" aria-label="Close notes">×</button><div class="eyebrow">Presenter cues / Hebrew</div><h2 id="notesTitle">Speaker notes</h2><div class="notes-body" id="notesBody" lang="he" dir="rtl"></div><p class="small muted">The working script is private and stored in Google Drive, outside this public website.</p></div></div>
 <script>
 "use strict";
 const $=id=>document.getElementById(id), slides=Array.from(document.querySelectorAll(".slide"));
@@ -254,12 +253,7 @@ document.querySelectorAll("[data-slide]").forEach(b=>b.onclick=()=>slideTo(Numbe
 $("enterButton").onclick=()=>slideTo(1);$("previousSlide").onclick=()=>slideTo(activeSlide-1);$("nextSlide").onclick=()=>slideTo(activeSlide+1);
 $("fullscreenButton").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.()};
 document.addEventListener("fullscreenchange",()=>$("fullscreenButton").textContent=document.fullscreenElement?"Exit":"Present");
-const cueText=[
-["לפני שנדבר על מתקפות, נבין כיצד האינטרנט מתקשר. כל בקשה עוברת דרך רכיבים ופרוטוקולים שונים, שלכל אחד מהם תפקיד וגם הנחות אמון.","הרעיון: קודם להבין רשת תקינה. אחר כך לזהות היכן התנהגות של רכיב עלולה להשתבש או להשתנות בידי תוקף."],
-["נקליד כתובת בדפדפן ונראה את המסלול. אם התחברנו רק עכשיו ל-Wi-Fi, נקבל בדרך כלל הגדרות באמצעות DHCP. כאשר צריך, ARP מזהה את כתובת ה-MAC של ה-next hop המקומי. DNS מתרגם שם מתחם לכתובת, ואז מתבצע חיבור לאתר.","חשוב להפריד: שרת DNS אינו תחנה שכל חבילה עוברת דרכה; הוא שירות ששואלים. NAT הוא תרגום שמתרחש בנתב, לא צומת נוסף. בדוגמה זו נבחר TCP, TLS ו-HTTP/2 או HTTP/1.1, אך HTTP/3 משתמש ב-QUIC מעל UDP.","נלחץ על Packet Inspector ונראה מה נשאר קבוע ומה משתנה לאורך הדרך. כל הערכים המספריים כאן לצורך המחשה בלבד."],
-["שלושת עקרונות האבטחה הם Confidentiality, Integrity ו-Availability. נציג אותו חיבור בשלושה מצבים: מי רשאי לקרוא, האם אפשר לשנות מידע, והאם השירות זמין.","ב-HTTP רגיל אפשר לקרוא את תוכן הבקשה למי שמצליח לצפות בתעבורה. ב-HTTPS תוכן ה-HTTP מוצפן, אבל מטא-דאטה כגון כתובות IP, פורטים ותבניות תעבורה יכולים עדיין להיות גלויים. TLS גם מספק הגנה על שלמות התוכן, כאשר החיבור מאומת כראוי."],
-["מפת הרשת מאפשרת ללחוץ על רכיבים ופרוטוקולים. נתחיל במחשב, במתג/נקודת הגישה ובנתב, ואז נפתח DHCP, ARP ו-DNS כדי לראות את התפקיד האמיתי של כל אחד.","לאחר שנבין את הזרימה, נעבור לחולשות ולמקרים אמיתיים: טורקיה, תוניסיה, קזחסטן ובלארוס. כל מקרה ממחיש הנחת אמון אחרת."],
-];
+const cueText=[];
 function updateNotes(){const n=cueText[activeSlide]||[];$("notesBody").replaceChildren();n.forEach(t=>{let p=document.createElement("p");p.textContent=t;$("notesBody").append(p)})}
 function openModal(id){lastFocus=document.activeElement;$(id).hidden=false;if(id==="notesModal")updateNotes();$(id).querySelector(".close").focus()}
 function closeModal(id){$(id).hidden=true;lastFocus?.focus?.()}
@@ -270,7 +264,7 @@ document.addEventListener("keydown",e=>{
  if(e.key==="Escape"){["demoModal","caseModal","notesModal"].forEach(id=>{if(!$(id).hidden)closeModal(id)});return}
  if(["INPUT","SELECT","TEXTAREA"].includes(document.activeElement?.tagName))return;
  if(!["demoModal","caseModal","notesModal"].every(id=>$(id).hidden))return;
- if(e.key.toLowerCase()==="n"){openModal("notesModal");return}
+ if(e.key.toLowerCase()==="n"){return}
  if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();slideTo(activeSlide+1)}
  if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();slideTo(activeSlide-1)}
 });
@@ -358,5 +352,4 @@ const target=(location.hash||"").slice(1),start=slides.findIndex(x=>x.id===targe
 </script>
 <script src="./traffic.js"></script>
 <script src="./curriculum.js"></script>
-<script src="./prompter.js"></script>
 </body></html>
