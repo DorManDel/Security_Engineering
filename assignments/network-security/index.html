@@ -96,6 +96,7 @@ button:disabled{opacity:.38;cursor:default}h1,h2,h3,p{margin-top:0}h1,h2{font-fa
 @media(max-width:760px){.feedback-link{font-size:11px;padding:5px}}
 </style>
 <link rel="stylesheet" href="./enhancements.css">
+<link rel="stylesheet" href="./prompter.css">
 </head>
 <body>
 <div class="shell">
@@ -237,7 +238,7 @@ Protocol: TCP</code></div>
 </div></div>
 
 <div class="modal" id="caseModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="caseTitle"><button class="close" data-close="caseModal" aria-label="Close dialog">×</button><div class="eyebrow">Historical case · lecture discussion</div><h2 id="caseTitle">Related case</h2><p id="caseBody"></p><div class="inline-controls"><button class="secondary" data-close="caseModal">Return to the map</button><a class="secondary" href="../index.html#assignment04">See assignment requirements ↗</a></div></div></div>
-<div class="notes" id="notesModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="notesTitle"><button class="close" data-close="notesModal" aria-label="Close notes">×</button><div class="eyebrow">Presenter cues / Hebrew</div><h2 id="notesTitle">Speaker notes</h2><div class="notes-body" id="notesBody" lang="he" dir="rtl"></div><p class="small muted">Concise cues only; the full private speaker script belongs in the Drive working document.</p></div></div>
+<div class="notes" id="notesModal" hidden role="presentation"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="notesTitle"><button class="close" data-close="notesModal" aria-label="Close notes">×</button><div class="eyebrow">Presenter cues / Hebrew</div><h2 id="notesTitle">Speaker notes</h2><div class="notes-body" id="notesBody" lang="he" dir="rtl"></div><p class="small muted">Working draft of the opening script. Grey [ACTION] lines are not spoken; the approved master belongs in Drive.</p></div></div>
 <script>
 "use strict";
 const $=id=>document.getElementById(id), slides=Array.from(document.querySelectorAll(".slide"));
@@ -357,4 +358,5 @@ const target=(location.hash||"").slice(1),start=slides.findIndex(x=>x.id===targe
 </script>
 <script src="./traffic.js"></script>
 <script src="./curriculum.js"></script>
+<script src="./prompter.js"></script>
 </body></html>
