@@ -1,0 +1,43 @@
+/* Small map and topic clarity sprint — retain the approved dark Atlas palette. */
+#map .p2-lines path[data-path]{transition:stroke .2s,opacity .2s,stroke-width .2s}
+#map .p2-lines path.v6-path-muted{opacity:.24}
+#map .p2-lines path.focus-route{opacity:1;stroke:#e5cb87;stroke-width:2.8;stroke-dasharray:6 8;animation:v6-routing-line 1.6s linear infinite}
+@keyframes v6-routing-line{to{stroke-dashoffset:-28}}
+#map .v6-map-packet{stroke:#091b2e;stroke-width:.65;pointer-events:none;filter:drop-shadow(0 0 4px #e5cb8766)}
+#map .v6-map-packet.outgoing{fill:#f4d48a}
+#map .v6-map-packet.returning{fill:#a6d9e9}
+#map .p2-map-node.active{border-color:#e9cf8a!important;box-shadow:0 0 0 1px #e9cf8a38;background:#274051e6!important}
+#map .p2-map-node:focus-visible{outline:2px solid #e9cf8a;outline-offset:3px}
+/* Eight-topic slide: compact choices and one dominant teaching area. */
+#protocols .slide-head,#protocols>.learning-layout{width:100%;max-width:1370px;margin-inline:auto}
+#protocols .learning-layout{grid-template-columns:minmax(0,330px) minmax(0,1fr);gap:15px;min-height:0}
+#protocols .learning-layout>.panel:first-child{padding:15px;border:1px solid #a9d4e828;background:#a9d4e805}
+#protocols .topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+#protocols .topic-option{position:relative;min-height:112px;align-items:flex-start;justify-content:flex-end;padding:10px;gap:3px;border:1px solid #a9d4e82b;background:#a9d4e807}
+#protocols .topic-option.active{background:#a9d4e81a;border-color:#c0dcdfaa}
+#protocols .topic-option .v6-topic-icon{position:absolute;right:10px;top:10px;width:21px;height:21px;filter:brightness(0) saturate(100%) invert(79%) sepia(16%) saturate(502%) hue-rotate(159deg)}
+#protocols .topic-option .topic-n{font-size:10px}
+#protocols .topic-option strong{font-size:12px;line-height:1.18}
+#protocols .topic-option small{font-size:9px;line-height:1.18}
+#protocols .learning-detail{overflow:auto;gap:11px;padding:17px 21px}
+#protocols .learning-detail h3{font-size:clamp(24px,2vw,32px)}
+#protocols .phase-strip{display:none}
+#protocols .v6-teaching-scene{position:relative;isolation:isolate;min-height:160px;display:grid;grid-template-columns:1fr 1.5fr 1fr;align-items:center;gap:6px;background:linear-gradient(135deg,#a9d4e809,transparent);border-bottom:1px solid #a9d4e829;padding:10px 6px}
+#protocols .v6-actor{text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;color:var(--soft)}
+#protocols .v6-actor .v6-actor-icon{width:34px;height:34px;filter:brightness(0) saturate(100%) invert(81%) sepia(10%) saturate(1037%) hue-rotate(167deg)}
+#protocols .v6-actor.rogue .v6-actor-icon{filter:brightness(0) saturate(100%) invert(80%) sepia(20%) saturate(675%) hue-rotate(341deg)}
+#protocols .v6-flow-track{position:relative;height:2px;background:linear-gradient(90deg,#a9d4e88a,#e9cf8a88);margin:0 5px}
+#protocols .v6-flow-track::before{content:'▰';position:absolute;top:-10px;left:0;color:#e9cf8a;font-size:14px;animation:v6-concept-flow 2.2s ease-in-out infinite}
+@keyframes v6-concept-flow{0%{left:0%;opacity:0}12%{opacity:1}85%{opacity:1}100%{left:94%;opacity:0}}
+#protocols .v6-stage-caption{grid-column:1/-1;text-align:center;color:var(--soft);font-size:12px;line-height:1.5;min-height:32px}
+#protocols .v6-questions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+#protocols .v6-question{border-bottom:2px solid #a9d4e83b;padding:6px 2px 8px;text-align:left;color:var(--muted);font-size:10px;background:transparent;border-top:0;border-left:0;border-right:0}
+#protocols .v6-question.selected{color:var(--ink);border-bottom-color:#e9cf8a}
+#protocols .v6-question:focus-visible{outline:2px solid #a9d4e8;outline-offset:3px}
+#protocols .definition-row{padding-bottom:7px}
+#protocols .definition-row b{font-size:10px}
+#protocols .definition-row p{font-size:12px;line-height:1.45}
+#protocols .v6-concept-caption{font-size:11px;color:var(--muted);line-height:1.45}
+@media(max-width:850px){#protocols .learning-layout{grid-template-columns:1fr}#protocols .topic-grid{grid-template-columns:repeat(4,minmax(0,1fr))}#protocols .topic-option{min-height:105px}#protocols .learning-detail{overflow:visible}#protocols .v6-questions{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:530px){#protocols .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#protocols .v6-questions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){#map .p2-lines path.focus-route,#protocols .v6-flow-track::before{animation:none!important}#protocols .v6-flow-track::before{left:48%;opacity:1}}
