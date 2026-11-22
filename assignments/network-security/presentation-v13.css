@@ -1,0 +1,52 @@
+/* Network Atlas V13: clear protocol state, responsive badge and trustworthy block visual. */
+#protocols .arp-mechanism-badge{
+ position:absolute;top:8px;left:12px;z-index:2;pointer-events:none;
+ display:flex;flex-direction:column;gap:3px;
+ background:linear-gradient(125deg,#092033ed,#0c2637a6);
+ border-left:2px solid #9ed1e6a0;border-radius:2px 7px 7px 2px;
+ padding:7px 12px;max-width:62%;min-width:150px;
+ box-shadow:0 4px 18px #06132220;
+}
+#protocols .arp-mechanism-badge small{
+ font:700 9px/1.1 'Segoe UI',Arial,sans-serif;color:#9fc6da;letter-spacing:.06em;
+}
+#protocols .arp-mechanism-badge strong{
+ font:600 11px/1.35 Consolas,'Courier New',monospace;color:#e3f0f5;overflow-wrap:anywhere;
+}
+#protocols .arp-mechanism-badge.danger{border-color:#ef9ca0}
+#protocols .arp-mechanism-badge.danger strong{color:#ffb1b5}
+#protocols .arp-mechanism-badge.protected{border-color:#8acbae}
+#protocols .arp-mechanism-badge.protected strong{color:#abe0c7}
+#protocols .arp-reject-cross{
+ position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);
+ z-index:4;display:flex;align-items:center;gap:5px;pointer-events:none;
+ color:#ffd1d2;background:#451d29d9;border:1px solid #ec8e9b;
+ padding:3px 7px;border-radius:6px;box-shadow:0 0 18px #ed98a17d;
+ font-size:19px;line-height:1;font-weight:700;
+}
+#protocols .arp-reject-cross small{font:700 9px/1.1 'Segoe UI',Arial,sans-serif;letter-spacing:.05em}
+#protocols .arp-reject-cross[hidden]{display:none!important}
+#protocols .arp-block-and-safe .arp-gateway,
+#protocols .arp-block-and-safe .arp-victim{border-color:#80d0ac;box-shadow:0 0 8px #86cbb217}
+#protocols .arp-block-and-safe .arp-link:nth-child(2){stroke:#e58d9854}
+#protocols .arp-block-and-safe .arp-active-path.gold{stroke:#91d8b4;filter:drop-shadow(0 0 4px #91d8b430)}
+#protocols .arp-block-and-safe .arp-moving-dot.gold{fill:#a6e7c2}
+#protocols .arp-moving-dot{pointer-events:none}
+#protocols .arp-playback button:focus-visible{outline:2px solid #f3ce78!important;outline-offset:2px}
+#protocols .arp-progress{font-variant-numeric:tabular-nums}
+#protocols .arp-illustrative{font-size:9px}
+@media(max-height:760px) and (min-width:851px){
+ #protocols .arp-mechanism-badge{padding:4px 8px;max-width:55%}
+ #protocols .arp-mechanism-badge strong{font-size:10px}
+ #protocols .arp-mechanism-badge small{font-size:8px}
+ #protocols .arp-reject-cross{padding:2px 5px;font-size:14px}
+}
+@media(max-width:520px){
+ #protocols .arp-mechanism-badge{min-width:0;max-width:76%;padding:4px 6px;left:6px;top:4px}
+ #protocols .arp-mechanism-badge strong{font-size:9px}
+ #protocols .arp-mechanism-badge small{font-size:8px}
+ #protocols .arp-reject-cross{top:59%;font-size:13px;padding:2px 5px}
+}
+@media(prefers-reduced-motion:reduce){
+ #protocols .arp-moving-dot{display:none!important}
+}
