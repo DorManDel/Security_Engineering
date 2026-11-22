@@ -5,7 +5,8 @@
 const present=document.getElementById("fullscreenButton");
 const footer=document.querySelector(".footer > span:last-child");
 if(!present||!footer)return;
-const originalFooter=footer.textContent;
+const originalFooter=footer.textContent.replace(/\s*·\s*N notes\s*$/,"");
+footer.textContent=originalFooter;
 const wrapper=document.createElement("div");wrapper.className="v9-presenter-wrapper";
 present.parentNode.insertBefore(wrapper,present);wrapper.append(present);
 const tools=document.createElement("div");tools.className="v9-presenter-clock";tools.hidden=true;
