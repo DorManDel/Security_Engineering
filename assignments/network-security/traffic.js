@@ -22,14 +22,22 @@ if(cubeEl&&cubeScene){
    const distance=Math.hypot(dx,dy,dz),angle=Math.atan2(dy,dx)*180/Math.PI,pitch=-Math.asin(dz/distance)*180/Math.PI;
    const line=document.createElement("span");line.className="traffic-link";line.style.width=distance+"px";
    line.style.transform="translate3d("+(a[0]*d)+"px,"+(a[1]*d)+"px,"+(a[2]*d)+"px) rotateZ("+angle+"deg) rotateY("+pitch+"deg)";
-   if(idx%3===0){const packet=document.createElement("span");packet.className="traffic-packet";
-    packet.style.setProperty("--distance",Math.max(0,distance-8)+"px");
-    packet.style.setProperty("--duration",(3+idx%4)+".5s");
-    packet.style.setProperty("--delay",(-idx*.7)+"s");line.append(packet)}
+   if(idx%2===0){
+    // A few coordinated packet streams across the approved 3D graph.
+    // Increasing the number of moving links without turning it into visual noise.
+    const count=idx%4===0?2:1;
+    for(let stream=0;stream<count;stream++){
+     const packet=document.createElement("span");packet.className="traffic-packet";
+     packet.style.setProperty("--distance",Math.max(0,distance-8)+"px");
+     packet.style.setProperty("--duration",(2.1+(idx%4)*.42+stream*.31).toFixed(2)+"s");
+     packet.style.setProperty("--delay",(-idx*.35-stream*1.05).toFixed(2)+"s");
+     line.append(packet);
+    }
+   }
    graph.append(line);
   });
   points.forEach((p,i)=>{const n=document.createElement("span");n.className="traffic-node"+(i===6?" core":"");
-   n.style.transform="translate3d("+(p[0]*d)+"px,"+(p[1]*d)+"px,"+(p[2]*d)+"px)";graph.append(n)});
+   n.style.transform="translate3d("+(p[0]*d)+"px,"+(p[1]*d)+"px,"+(p[2]*d)+"px)";n.style.setProperty("--node-speed",(2.4+(i%4)*.46)+"s");n.style.setProperty("--node-delay",(-i*.35)+"s");graph.append(n)});
  }
  if(window.ResizeObserver)new ResizeObserver(buildGraph).observe(cubeEl);
  else window.addEventListener("resize",buildGraph);
