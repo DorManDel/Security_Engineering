@@ -101,7 +101,7 @@ const labFrames={
  ],
  ap:[
   ["Device","Wi-Fi AP","Associate / authenticate","forward","Wi-Fi link establishment occurs before ordinary frame forwarding."],
-  ["Device","Wi-Fi AP","Link ready","reverse","The local wireless link is ready to carry frames."],
+  ["Device","Wi-Fi AP","Link ready","forward","The local wireless link is ready to carry frames."],
   ["Wi-Fi AP","Local network","802.11 ↔ Ethernet frame","forward","The access point bridges local traffic; it does not necessarily run DHCP."]
  ],
  router:[
@@ -116,28 +116,28 @@ const labFrames={
  ],
  server:[
   ["Browser","Server","TCP connection","forward","Transport connection is established first in this example."],
-  ["Server","Browser","TLS certificate","reverse","The server presents a certificate; the browser validates its identity."],
-  ["Server","Browser","HTTP 200 OK","reverse","The server returns protected content over the established channel."]
+  ["Browser","Server","TLS certificate","reverse","The server presents a certificate; the browser validates its identity."],
+  ["Browser","Server","HTTP 200 OK","reverse","The server returns protected content over the established channel."]
  ],
  dhcp:[
   ["Client","DHCP service","Discover","forward","A client broadcasts to locate a DHCP server on the local network."],
-  ["DHCP service","Client","Offer","reverse","A DHCP server offers configuration, usually including a lease."],
+  ["Client","DHCP service","Offer","reverse","A DHCP server offers configuration, usually including a lease."],
   ["Client","DHCP service","Request","forward","The client requests the offered configuration."],
-  ["DHCP service","Client","ACK","reverse","The server confirms the lease and network options."]
+  ["Client","DHCP service","ACK","reverse","The server confirms the lease and network options."]
  ],
  dns:[
   ["Browser","DNS resolver","A? example.test","forward","The client asks the configured resolver for an address record."],
   ["Resolver","DNS cache / authorities","Lookup record","forward","A cached record may be used, or the resolver may query other servers."],
-  ["DNS resolver","Browser","203.0.113.42","reverse","The answer returns an example IPv4 address, not a path through the DNS server."]
+  ["Browser","DNS resolver","203.0.113.42","reverse","The answer returns an example IPv4 address, not a path through the DNS server."]
  ],
  arp:[
   ["Device","Local IPv4 link","Who has 192.168.1.1?","forward","ARP Request is a broadcast within the local link."],
-  ["Gateway","Device","MAC 02:00:00:00:00:01","reverse","A local IPv4 neighbor responds with a MAC address."],
+  ["Device","Gateway","MAC 02:00:00:00:00:01","reverse","A local IPv4 neighbor responds with a MAC address."],
   ["Device","Gateway","Frame to gateway MAC","forward","The next frame can be addressed to the local gateway's MAC."]
  ],
  tcp:[
   ["Client","Server","SYN","forward","The client requests a new TCP connection."],
-  ["Server","Client","SYN-ACK","reverse","The server acknowledges the client's SYN and sends its own."],
+  ["Client","Server","SYN-ACK","reverse","The server acknowledges the client's SYN and sends its own."],
   ["Client","Server","ACK","forward","The final acknowledgment completes the three-way handshake."]
  ]
 };
