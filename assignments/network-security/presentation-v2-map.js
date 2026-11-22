@@ -143,6 +143,8 @@ const labFrames={
 };
 function renderLab(id,step){
  const lab=$("v8Lab");if(!lab)return;
+ lab.classList.toggle("v10-as-lab",id==="internet");
+ lab.classList.toggle("v10-ladder-lab",id==="tcp"||id==="dhcp");
  const heading=make("div","v8-lab-heading");heading.append(make("span","","HOW IT REALLY WORKS"),make("span","","Illustrative · step "+(step+1)));
  lab.replaceChildren(heading,window.networkAtlasScenes.create(id,step,reduce));
 }
@@ -174,7 +176,7 @@ function togglePause(){
  if(paused){remaining=Math.max(1,nextDue-performance.now());stop()}
  else if(beat<last)schedule(Math.max(80,remaining));
  host.classList.toggle("v9-map-paused",paused);
- if(paused)lineSvg.pauseAnimations?.();else lineSvg.unpauseAnimations?.();
+ host.querySelectorAll("svg").forEach(svg=>{if(paused)svg.pauseAnimations?.();else svg.unpauseAnimations?.()});
  paintPause();
 }
 function drawBeat(){
@@ -193,7 +195,7 @@ function drawBeat(){
 }
 const original=renderComponent;
 function focus(i){
- stop();paused=false;host.classList.remove("v9-map-paused");lineSvg.unpauseAnimations?.();index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
+ stop();paused=false;host.classList.remove("v9-map-paused");host.querySelectorAll("svg").forEach(svg=>svg.unpauseAnimations?.());index=Math.max(0,Math.min(i,nodes.length-1));beat=0;
  const [id,label]=nodes[index],story=stories[id];
  board.querySelectorAll("[data-component-v2]").forEach(b=>b.classList.toggle("active",b.dataset.componentV2===id));
  $("v2MapCounter").textContent="Interactive explorer · "+id.toUpperCase();
@@ -215,6 +217,6 @@ renderComponent=function(id){
  if(next>=0&&next!==index)focus(next);else original(id);
 };
 const before=slideTo;
-slideTo=function(i){if(i!==3){stop();host.classList.add("v9-map-paused");lineSvg.pauseAnimations?.()}else if(!paused){host.classList.remove("v9-map-paused");lineSvg.unpauseAnimations?.();if(index>=0&&beat<stories[nodes[index][0]].steps.length-1)schedule(Math.max(100,remaining||2800))}before(i)};
+slideTo=function(i){if(i!==3){stop();host.classList.add("v9-map-paused");host.querySelectorAll("svg").forEach(svg=>svg.pauseAnimations?.())}else if(!paused){host.classList.remove("v9-map-paused");host.querySelectorAll("svg").forEach(svg=>svg.unpauseAnimations?.());if(index>=0&&beat<stories[nodes[index][0]].steps.length-1)schedule(Math.max(100,remaining||2800))}before(i)};
 focus(0);
 })();
