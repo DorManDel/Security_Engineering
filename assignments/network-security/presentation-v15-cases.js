@@ -96,27 +96,31 @@ function renderTunisia(){
 const sceneSets=[
  null,
  [
-  [["💻","User","DNS query"],["🌐","8.8.8.8","Public resolver"],["📗","Expected DNS","Name resolved"]],
-  [["💻","User","Requested 8.8.8.8"],["⛔","AS9121","Route intercepted"],["⚠️","212.156.253.130","Unexpected responder"]],
-  [["💻","User","DNS request"],["🛡️","Verify DNS","DNSSEC/secure DNS"],["✅","Check route","Resolver reachability"]]
+  [["monitor","User","DNS query"],["globe","8.8.8.8","Public resolver"],["book-open","Expected DNS","Name resolved"]],
+  [["monitor","User","Requested 8.8.8.8"],["scan-line","AS9121","Route intercepted"],["activity","212.156.253.130","Unexpected responder"]],
+  [["monitor","User","DNS request"],["shield-check","Verify DNS","DNSSEC/secure DNS"],["shield-check","Check route","Resolver reachability"]]
  ],
  [
-  [["🌐","Website","TLS certificate"],["📜","Known CA","Trusted issuer"],["🔒","Browser","Certificate valid"]],
-  [["🌐","Website","TLS identity"],["⚠️","Qaznet root","Added to trust store"],["⚠️","Intermediary","May impersonate sites"]],
-  [["🌐","Website","TLS identity"],["🛡️","Trust store","Reject unwanted root"],["✅","Browser","Show warning"]]
+  [["globe","Website","TLS certificate"],["book-open","Known CA","Trusted issuer"],["shield-check","Browser","Certificate valid"]],
+  [["globe","Website","TLS identity"],["activity","Qaznet root","Added to trust store"],["activity","Intermediary","May impersonate sites"]],
+  [["globe","Website","TLS identity"],["shield-check","Trust store","Reject unwanted root"],["shield-check","Browser","Show warning"]]
  ],
  [
-  [["💻","Client","Requests service"],["🌐","ISP","Routes packets"],["🖥️","Server","Reachable"]],
-  [["💻","Client","Request sent"],["⛔","Disruption","Filter or drop"],["⚠️","Server","Unreachable"]],
-  [["📈","Monitor","Detect outage"],["🔀","Alternate path","If available"],["🖥️","Service","May be reachable"]]
+  [["monitor","Client","Requests service"],["globe","ISP","Routes packets"],["server","Server","Reachable"]],
+  [["monitor","Client","Request sent"],["scan-line","Disruption","Filter or drop"],["activity","Server","Unreachable"]],
+  [["activity","Monitor","Detect outage"],["route","Alternate path","If available"],["server","Service","May be reachable"]]
  ]
 ];
 function renderOther(){
  const nodes=sceneSets[current][stage],row=mk("div","case-process");
- nodes.forEach(([emoji,title,description],i)=>{
+ nodes.forEach(([iconName,title,description],i)=>{
   if(i)row.append(mk("div","case-process-link "+(stage===1?"bad":""),"●  ━━━━━  ●"));
   const n=mk("div","case-process-node "+(stage===1&&i>=1?"risk":""));
-  n.append(mk("span","case-process-icon",emoji),mk("strong","",title),mk("small","",description));row.append(n);
+  const icon=mk("img","case-process-icon");
+  icon.src="./icons/"+iconName+".svg";
+  icon.alt="";
+  icon.setAttribute("aria-hidden","true");
+  n.append(icon,mk("strong","",title),mk("small","",description));row.append(n);
  });
  const footer=mk("div","case-process-note",stage===1?"Highlighted: the changed or disrupted trust decision.":"Illustration of the mechanism, not a packet capture.");
  const wrap=mk("div","case-process-wrap");wrap.append(row,footer);return wrap;
