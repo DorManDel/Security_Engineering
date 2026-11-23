@@ -833,9 +833,16 @@ function paint(){
   const title=document.createElement("small");title.textContent=topicSummary[selectedTopicKey][0];
   const line=document.createElement("strong");line.textContent=topicSummary[selectedTopicKey][1];
   badge.append(title,line);
+  if(selectedTopicKey==="ip"&&mode==="mitigation"){
+   const policy=document.createElement("div");policy.className="arp-source-policy";
+   const label=document.createElement("span");label.textContent="Allowed source: 198.51.100.0/24";
+   const result=document.createElement("span");result.textContent="Claimed 192.0.2.24 → "+(step===1?"DROP":"CHECK");
+   policy.append(label,result);badge.append(policy);
+  }
+
   if(selectedTopicKey==="syn"&&mode==="mitigation"){
-   const cookie=document.createElement("span");cookie.className="arp-syn-cookie";cookie.textContent="◌";cookie.setAttribute("aria-hidden","true");
-   cookie.title="SYN cookie — an encoded TCP verification value, not a browser cookie";badge.append(cookie);
+   const cookie=document.createElement("img");cookie.className="arp-syn-cookie";cookie.src="./icons/cookie.svg";cookie.alt="";cookie.setAttribute("aria-hidden","true");
+   cookie.title="SYN cookie — encoded connection verification, not a browser cookie";badge.append(cookie);
   }
   badge.className="arp-mechanism-badge "+(mode==="attack"?"danger":mode==="mitigation"?"protected":"");
  }
