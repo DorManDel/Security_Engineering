@@ -764,6 +764,7 @@ const pathPresets={
  "protected":[["M470 213 L470 127","red"],["M132 91 L470 91 L808 91","gold"]]
 };
 const ns="http://www.w3.org/2000/svg";
+const actorPositions={victim:[132,91],switch:[470,91],gateway:[808,91],attacker:[470,213]};
 const reduce=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches??false;
 let mode="normal",step=0,timer=null,cycles=0,frozen=false,wasArp=false,activeTopic=null;
 const MAX_LOOPS=5,STEP_INTERVAL_MS=1450;
@@ -832,6 +833,10 @@ function paint(){
   const title=document.createElement("small");title.textContent=topicSummary[selectedTopicKey][0];
   const line=document.createElement("strong");line.textContent=topicSummary[selectedTopicKey][1];
   badge.append(title,line);
+  if(selectedTopicKey==="syn"&&mode==="mitigation"){
+   const cookie=document.createElement("span");cookie.className="arp-syn-cookie";cookie.textContent="◌";cookie.setAttribute("aria-hidden","true");
+   cookie.title="SYN cookie — an encoded TCP verification value, not a browser cookie";badge.append(cookie);
+  }
   badge.className="arp-mechanism-badge "+(mode==="attack"?"danger":mode==="mitigation"?"protected":"");
  }
  const symbol=lab.querySelector("#arpBlockedSymbol");
