@@ -15,3 +15,5 @@
  #protocols .arp-source-policy{font-size:8px}
  #protocols .arp-syn-cookie{width:17px;height:17px;top:7px}
 }
+
+#protocols .arp-trailing-bit{opacity:.5;filter:drop-shadow(0 0 2px #a9d4e875)}
