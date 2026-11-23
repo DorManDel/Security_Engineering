@@ -774,10 +774,17 @@ function drawPaths(keys){
  for(const key of keys)for(const [d,color] of pathPresets[key]||[]){
   const line=document.createElementNS(ns,"path");line.setAttribute("d",d);line.setAttribute("class","arp-active-path "+color);group.append(line);
   if(reduce||timer===null)continue;
-  const dot=document.createElementNS(ns,"rect");dot.setAttribute("width","12");dot.setAttribute("height","8");dot.setAttribute("rx","2");dot.setAttribute("x","-6");dot.setAttribute("y","-4");dot.setAttribute("class","arp-moving-dot "+color);
-  const motion=document.createElementNS(ns,"animateMotion");motion.setAttribute("dur","2.3s");
-  motion.setAttribute("repeatCount","indefinite");motion.setAttribute("path",d);
-  dot.append(motion);group.append(dot);
+  // Three tiny data markers follow the same active network wire, like the Network Map.
+  for(let i=0;i<3;i++){
+   const dot=document.createElementNS(ns,"rect");
+   dot.setAttribute("width",i===0?"10":"5");dot.setAttribute("height",i===0?"7":"5");
+   dot.setAttribute("rx","1.5");dot.setAttribute("x",i===0?"-5":"-2.5");dot.setAttribute("y",i===0?"-3.5":"-2.5");
+   dot.setAttribute("class","arp-moving-dot "+color+(i?" arp-trailing-bit":""));
+   const motion=document.createElementNS(ns,"animateMotion");
+   motion.setAttribute("dur","2.3s");motion.setAttribute("begin",(-0.27*i)+"s");
+   motion.setAttribute("repeatCount","indefinite");motion.setAttribute("path",d);
+   dot.append(motion);group.append(dot);
+  }
  }
 }
 function paint(){
