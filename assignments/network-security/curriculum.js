@@ -41,7 +41,7 @@ addSlide("protocols","04 · Eight Topics","Eight selected topics.","Explore the 
 );
 addSlide("cases","05 · Real Cases","From protocols to incidents.","Four historical examples from the lecture, plus the authentic notGoogle educational lab.",
  "<div class='case-grid' id='caseGrid'></div>"+
- "<div class='case-focus'><div class='panel' style='display:flex;flex-direction:column;gap:12px'><div id='caseCategory' class='micro'>Historical incident</div><h3 id='caseHeading'></h3><p id='caseSummary'></p><div class='external-demo'><button class='secondary' id='caseMap'>Find the component →</button><a href='./notgoogle/index.html' target='_blank' rel='noopener noreferrer'>Open notGoogle site ↗</a><a href='https://github.com/DorManDel/notGoogle' target='_blank' rel='noopener noreferrer'>Original repository ↗</a></div><p class='case-source' id='caseSource'></p></div>"+
+ "<div class='case-focus'><div class='panel' style='display:flex;flex-direction:column;gap:12px'><div id='caseCategory' class='micro'>Historical incident</div><h3 id='caseHeading'></h3><p id='caseSummary'></p><div class='external-demo'><button class='secondary' id='caseMap'>Find the component →</button><a href='https://dormandel.github.io/notGoogle/' target='_blank' rel='noopener noreferrer'>Open notGoogle site ↗</a><a href='https://github.com/DorManDel/notGoogle' target='_blank' rel='noopener noreferrer'>Original repository ↗</a></div><p class='case-source' id='caseSource'></p></div>"+
  "<div class='panel case-steps'><div class='micro'>Before → manipulation → consequence</div><div class='case-step' id='caseNormal'><b>Normal operation</b><p></p></div><div class='case-step weak' id='caseAttack'><b>What changed</b><p></p></div><div class='case-step' id='caseResult'><b>Consequence</b><p></p></div><div class='small muted' id='caseLesson'></div><div class='inline-controls'><button class='secondary' id='caseStep'>▷ Play story</button><button class='secondary' id='caseReset'>Reset</button></div></div></div>"
 );
 const oldSlideTo=slideTo;
@@ -117,28 +117,28 @@ selectCase(0);
 
 /* A prominent one-click link opens the user's ACTUAL notGoogle page, not the placeholder. */
 const tools=document.querySelector(".tools"),link=document.createElement("a");
-link.href="./notgoogle/index.html";link.target="_blank";link.rel="noopener noreferrer";link.className="extras-link";
-link.textContent="notGoogle ↗";link.title="Open original educational notGoogle lab in a separate tab";
+link.href="https://dormandel.github.io/notGoogle/";link.target="_blank";link.rel="noopener noreferrer";link.className="extras-link";
+link.textContent="notGoogle ↗";link.title="Open the main notGoogle website in a separate tab";
 tools.insertBefore(link,tools.firstChild);
 
 /* The old made-up Searchly thumbnail is replaced with a direct source-derived entry. */
 const oldDemo=el("demoModal");
 if(oldDemo){
  const fake=oldDemo.querySelector(".search-demo");if(fake)fake.remove();
- const address=el("demoAddress");if(address)address.textContent="Security_Engineering / assignments / network-security / notgoogle /";
+ const address=el("demoAddress");if(address)address.textContent="dormandel.github.io/notGoogle/";
  const reveal=el("revealButton");if(reveal)reveal.remove();
- const obsolete=el("demoReveal");if(obsolete){obsolete.hidden=true;obsolete.textContent="The original notGoogle educational demo is available at a local assignment path and in its source repository. It uses an explicit reveal mechanism and demo-only data."; }
+ const obsolete=el("demoReveal");if(obsolete){obsolete.hidden=true;obsolete.textContent="The main notGoogle educational demo is available at https://dormandel.github.io/notGoogle/ and in its source repository. It includes a clear reveal and uses demo-only data."; }
  const h=el("demoTitle");if(h)h.textContent="Explore the original notGoogle lab.";
  const intro=oldDemo.querySelector(".dialog > p");if(intro)intro.textContent="A standalone copy of the user's notGoogle demonstration is now included in this assignment. Open it in a new tab, try the familiar search UI and use its built-in reveal. No credential collection is needed for this lesson.";
  const bar=oldDemo.querySelector(".inline-controls");
  if(bar){
-  const open=document.createElement("a");open.href="./notgoogle/index.html";open.target="_blank";open.rel="noopener noreferrer";open.className="primary";open.textContent="Open notGoogle demo ↗";
+  const open=document.createElement("a");open.href="https://dormandel.github.io/notGoogle/";open.target="_blank";open.rel="noopener noreferrer";open.className="primary";open.textContent="Open notGoogle demo ↗";
   const original=document.createElement("a");original.href="https://github.com/DorManDel/notGoogle";original.target="_blank";original.rel="noopener noreferrer";original.className="secondary";original.textContent="Source repository ↗";
   bar.prepend(open,original);
  }
 }
 const introControls=el("enterButton")?.parentElement;if(introControls){
- const open=document.createElement("a");open.href="./notgoogle/index.html";open.target="_blank";open.rel="noopener noreferrer";
+ const open=document.createElement("a");open.href="https://dormandel.github.io/notGoogle/";open.target="_blank";open.rel="noopener noreferrer";
  open.className="secondary";open.textContent="notGoogle demo ↗";introControls.append(open)
 }
 const initial=(location.hash||"").slice(1),initialIndex=slides.findIndex(s=>s.id===initial);
