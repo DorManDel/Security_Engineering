@@ -63,7 +63,7 @@ panel.innerHTML=[
  '<div class="case-lab-explain"><div><b id="caseLabStageTitle"></b><p id="caseLabDesc"></p></div><strong id="caseLabStatus"></strong></div>',
  '<div class="case-lab-footer"><span id="caseLabLesson"></span><span id="caseLabSources"></span></div>',
  '<div class="case-lab-end"><span>See what was trusted · See what changed</span>',
- '<a href="./notgoogle/index.html" rel="noopener noreferrer" target="_blank">Final identity bonus: notGoogle ↗</a></div>'
+ '<a href="https://dormandel.github.io/notGoogle/" rel="noopener noreferrer" target="_blank">Final identity bonus: notGoogle ↗</a></div>'
 ].join("");
 root.append(panel);
 const $=id=>document.getElementById(id);
